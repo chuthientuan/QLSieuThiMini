@@ -105,6 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataBaseProcess.cs" />
+    <Compile Include="frmHDN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHDN.Designer.cs">
+      <DependentUpon>frmHDN.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmHome.cs">
       <SubType>Form</SubType>
     </Compile>
