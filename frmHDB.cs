@@ -15,6 +15,7 @@ namespace QLSieuThiMini
     {
         DataBaseProcess db = new DataBaseProcess();
         private int mhd = 1;
+        private DataTable invoiceProducts = new DataTable();
         public frmHDB()
         {
             InitializeComponent();
@@ -52,6 +53,18 @@ namespace QLSieuThiMini
             txtSDT.Text = null;
             txtDiaChi.Text = null;
         }
+        private void productTable()
+        {
+            invoiceProducts.Clear();
+            invoiceProducts.Columns.Clear();
+            invoiceProducts.Columns.Add("Tên sản phẩm", typeof(string));
+            invoiceProducts.Columns.Add("Số lượng", typeof(int));
+            invoiceProducts.Columns.Add("Giá", typeof(decimal));
+            invoiceProducts.Columns.Add("Giảm giá", typeof(int));
+            invoiceProducts.Columns.Add("Thành tiền", typeof(decimal));
+
+            dtMatHang.DataSource = invoiceProducts;
+        }
         private void frmHDB_Load(object sender, EventArgs e)
         {
             readonlyText(true);
@@ -60,14 +73,21 @@ namespace QLSieuThiMini
             txtTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
 
             loadCbbMHD();
+            productTable();
         }
         void loadData()
         {
-            DataTable dtb = db.DataReader("select s.TenSP, c.SLBan, s.DonGiaBan, c.ThanhTien, c.KhuyenMai, h.NgayBan " +
+            DataTable dtb = db.DataReader("select s.TenSP, c.SLBan, s.DonGiaBan, c.KhuyenMai, c.ThanhTien, h.NgayBan " +
                 "from SanPham s inner join ChiTietHDB c on s.MaSP = c.MaSP " +
                 "inner join HoaDonBan h on h.MaHDB = c.MaHDB " +
                 "where h.MaNV = '" + txtMaNV.Text +"' and h.MaHDB = '" + txtMaHD.Text + "'");
             dtMatHang.DataSource = dtb;
+            dtMatHang.Columns[0].HeaderText = "Tên sản phẩm";
+            dtMatHang.Columns[1].HeaderText = "Số lượng";
+            dtMatHang.Columns[2].HeaderText = "Giá";
+            dtMatHang.Columns[3].HeaderText = "Giảm giá";
+            dtMatHang.Columns[4].HeaderText = "Thành Tiền";
+            dtMatHang.Columns[5].HeaderText = "Ngày bán";
         }
         private void loadCbbMHD()
         {
@@ -243,7 +263,33 @@ namespace QLSieuThiMini
 
         private void btnThemSP_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrEmpty(cbMaHang.Text) || !int.TryParse(txtSL.Text, out int quantity) || quantity <= 0)
+            {
+                MessageBox.Show("Số lượng phải lớn hơn 0", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtSL.Focus();
+                return;
+            }
+            decimal price = Convert.ToDecimal(txtDonGia.Text);
+            decimal discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDecimal(txtGiamGia.Text);
+            decimal total = quantity * price * (1 - discount / 100);
 
+            try
+            {
+                DataRow row = invoiceProducts.NewRow();
+                row["Tên sản phẩm"] = txtTenHang.Text;
+                row["Số lượng"] = quantity;
+                row["Giá"] = price;
+                row["Giảm giá"] = discount;
+                row["Thành tiền"] = total;
+
+                invoiceProducts.Rows.Add(row);
+                dtMatHang.DataSource = invoiceProducts;
+                dtMatHang.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
