@@ -140,6 +140,9 @@
     <EmbeddedResource Include="frmHDB.resx">
       <DependentUpon>frmHDB.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmHDN.resx">
+      <DependentUpon>frmHDN.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmHome.resx">
       <DependentUpon>frmHome.cs</DependentUpon>
     </EmbeddedResource>
