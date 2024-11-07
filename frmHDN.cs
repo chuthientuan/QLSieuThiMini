@@ -16,5 +16,10 @@ namespace QLSieuThiMini
         {
             InitializeComponent();
         }
+
+        private void guna2GroupBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
