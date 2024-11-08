@@ -105,6 +105,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataBaseProcess.cs" />
+    <Compile Include="frmHDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHDB.Designer.cs">
+      <DependentUpon>frmHDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmHDN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHDN.Designer.cs">
+      <DependentUpon>frmHDN.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +149,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmHDB.resx">
+      <DependentUpon>frmHDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmHDN.resx">
+      <DependentUpon>frmHDN.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmHome.resx">
       <DependentUpon>frmHome.cs</DependentUpon>
     </EmbeddedResource>
@@ -173,6 +191,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-search1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-addnew1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-cancle1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-save1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-print1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
