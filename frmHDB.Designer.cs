@@ -773,7 +773,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dtMatHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dtMatHang.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtMatHang.ColumnHeadersHeight = 20;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -783,12 +783,12 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dtMatHang.DefaultCellStyle = dataGridViewCellStyle3;
             this.dtMatHang.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            this.dtMatHang.Location = new System.Drawing.Point(12, 207);
+            this.dtMatHang.Location = new System.Drawing.Point(12, 205);
             this.dtMatHang.Name = "dtMatHang";
             this.dtMatHang.RowHeadersVisible = false;
             this.dtMatHang.RowHeadersWidth = 62;
             this.dtMatHang.RowTemplate.Height = 28;
-            this.dtMatHang.Size = new System.Drawing.Size(904, 177);
+            this.dtMatHang.Size = new System.Drawing.Size(904, 176);
             this.dtMatHang.TabIndex = 27;
             this.dtMatHang.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dtMatHang.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -801,8 +801,8 @@
             this.dtMatHang.ThemeStyle.HeaderStyle.BorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.dtMatHang.ThemeStyle.HeaderStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.dtMatHang.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
-            this.dtMatHang.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtMatHang.ThemeStyle.HeaderStyle.Height = 4;
+            this.dtMatHang.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dtMatHang.ThemeStyle.HeaderStyle.Height = 20;
             this.dtMatHang.ThemeStyle.ReadOnly = false;
             this.dtMatHang.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
             this.dtMatHang.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
