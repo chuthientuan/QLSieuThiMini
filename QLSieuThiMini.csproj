@@ -105,17 +105,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataBaseProcess.cs" />
-    <Compile Include="frmHDB.cs">
+    <Compile Include="frmNhanVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmHDB.Designer.cs">
-      <DependentUpon>frmHDB.cs</DependentUpon>
+    <Compile Include="frmNhanVien.Designer.cs">
+      <DependentUpon>frmNhanVien.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmHDN.cs">
+    <Compile Include="frmKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmHDN.Designer.cs">
-      <DependentUpon>frmHDN.cs</DependentUpon>
+    <Compile Include="frmKhachHang.Designer.cs">
+      <DependentUpon>frmKhachHang.cs</DependentUpon>
     </Compile>
     <Compile Include="frmHome.cs">
       <SubType>Form</SubType>
@@ -137,12 +137,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmHDB.resx">
-      <DependentUpon>frmHDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmHDN.resx">
-      <DependentUpon>frmHDN.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmHome.resx">
       <DependentUpon>frmHome.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,9 +156,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="appsettings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -181,21 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ic-addnew.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ic-search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ic-cancle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ic-save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ic-print.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
