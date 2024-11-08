@@ -16,7 +16,7 @@ namespace QLSieuThiMini
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmHDB());
+            Application.Run(new frmHDN());
         }
     }
 }
