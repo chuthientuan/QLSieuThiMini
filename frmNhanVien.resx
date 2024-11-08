@@ -117,20 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="icons8-save-50" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-save-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnsearch.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        H6ejsgAAAABJRU5ErkJggg==
+</value>
   </data>
-  <data name="icons8-reset-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-reset-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon_Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_Search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icons8-add-67" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-add-67.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  <metadata name="errChiTiet.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>34</value>
+  </metadata>
 </root>

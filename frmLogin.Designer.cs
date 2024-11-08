@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
             this.guna2PictureBox1 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.txtLogin = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -57,6 +58,7 @@
             this.txtLogin.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.txtLogin.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.txtLogin.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtLogin.FillColor = System.Drawing.SystemColors.ActiveCaption;
             this.txtLogin.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.txtLogin.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtLogin.ForeColor = System.Drawing.Color.Black;
@@ -77,7 +79,7 @@
             this.guna2HtmlLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel1.Location = new System.Drawing.Point(425, 341);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(91, 22);
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(77, 18);
             this.guna2HtmlLabel1.TabIndex = 2;
             this.guna2HtmlLabel1.Text = "Đăng nhập";
             // 
@@ -87,12 +89,13 @@
             this.guna2HtmlLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2HtmlLabel2.Location = new System.Drawing.Point(425, 445);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(77, 22);
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(65, 18);
             this.guna2HtmlLabel2.TabIndex = 4;
             this.guna2HtmlLabel2.Text = "Mật khẩu";
             // 
             // txtPassword
             // 
+            this.txtPassword.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.txtPassword.BorderColor = System.Drawing.Color.Black;
             this.txtPassword.BorderRadius = 6;
             this.txtPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -113,7 +116,8 @@
             this.txtPassword.PlaceholderText = "Mật khẩu";
             this.txtPassword.SelectedText = "";
             this.txtPassword.Size = new System.Drawing.Size(270, 48);
-            this.txtPassword.TabIndex = 3;
+            this.txtPassword.TabIndex = 10;
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // btnLogin
             // 
@@ -136,13 +140,16 @@
             // frmLogin
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1153, 665);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1113, 762);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.guna2HtmlLabel2);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.guna2HtmlLabel1);
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.guna2PictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

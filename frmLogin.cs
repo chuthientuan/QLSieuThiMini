@@ -19,8 +19,13 @@ namespace QLSieuThiMini
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            frmHome frmHome = new frmHome();
-            frmHome.Show();
+           frmKhachHang khachhang = new frmKhachHang();
+            khachhang.Show();
+        }
+
+        private void txtPassword_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
