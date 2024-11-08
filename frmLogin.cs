@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QLSieuThiMini.Classes;
 
 namespace QLSieuThiMini
 {
     public partial class frmLogin : Form
     {
+        DataBaseProcess dtBase = new DataBaseProcess();
+        public string maNV;
         public frmLogin()
         {
             InitializeComponent();
@@ -19,13 +22,26 @@ namespace QLSieuThiMini
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-           frmKhachHang khachhang = new frmKhachHang();
-            khachhang.Show();
-        }
+            int maNV = int.Parse(txtLogin.Text.Trim());
+            string MatKhau = txtPassword.Text.Trim();
 
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
+            DataTable dtNhanVien = dtBase.DataReader($"Select * from NhanVien where MaNV = '{maNV}' and MatKhau = '{MatKhau}'");
 
+            if (dtNhanVien.Rows.Count > 0)
+            {
+                MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                frmHome frm = new frmHome(maNV);
+                frm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Sai mã nhân viên hoặc mật khẩu. Vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtLogin.Clear();
+                txtPassword.Clear();
+                txtLogin.Focus();
+            }
         }
     }
 }
