@@ -19,6 +19,7 @@ namespace QLSieuThiMini
         public frmHDB()
         {
             InitializeComponent();
+            productTable();
         }
         private void readonlyText(bool hide)
         {
@@ -73,7 +74,6 @@ namespace QLSieuThiMini
             txtTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
 
             loadCbbMHD();
-            productTable();
         }
         void loadData()
         {
@@ -104,6 +104,7 @@ namespace QLSieuThiMini
             enable(true);
             btnHuy.Enabled = false;
             btnIn.Enabled = false;
+            invoiceProducts.Clear();
 
             DataTable dtSp = db.DataReader("select MaSP from SanPham");
             cbMaHang.DataSource = dtSp;
