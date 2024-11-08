@@ -161,6 +161,9 @@
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmNhanVien.resx">
+      <DependentUpon>frmNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmProduct.resx">
       <DependentUpon>frmProduct.cs</DependentUpon>
     </EmbeddedResource>
@@ -206,6 +209,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ic-print1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-menu.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
