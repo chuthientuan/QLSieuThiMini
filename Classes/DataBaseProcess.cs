@@ -12,20 +12,11 @@ namespace QLSieuThiMini.Classes
 {
     internal class DataBaseProcess
     {
-        private string strConnect;
-        private SqlConnection sqlConnect = null;
+        string strConnect = "Data Source=DESKTOP-15605MG\\SQLEXPRESS;" +
+                "DataBase=QuanlySieuthi;User ID=sa;" +
+                "Password=abc123;Integrated Security=false";
+        SqlConnection sqlConnect = null;
 
-        // Constructor để đọc chuỗi kết nối từ appsettings.json
-        public DataBaseProcess()
-        {
-            // Thiết lập cấu hình để đọc từ appsettings.json
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-            IConfigurationRoot configuration = builder.Build();
-            strConnect = configuration.GetConnectionString("DefaultConnection");
-        }
         //Phương thức mở kết nối
         void OpenConnect()
         {
