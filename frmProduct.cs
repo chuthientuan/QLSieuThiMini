@@ -2,30 +2,88 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.SqlServer.Server;
+using QLSieuThiMini.Classes;
 
 namespace QLSieuThiMini
 {
     public partial class frmProduct : Form
     {
-        
+        DataBaseProcess dtBase = new DataBaseProcess();
         public frmProduct()
         {
             InitializeComponent();
+            LoadData();
         }
 
-        //void LoadData()
-        //{
-        //    DataTable dtTT = dtBase.DataReader("Select tblHang.Mahang, Tenhang, tblChitietHDBan.Soluong, Dongiaban, Giamgia, Thanhtien " +
-        //        "from tblHang inner join tblChitietHDBan on tblHang.Mahang = tblChitietHDBan.Mahang " +
-        //        "inner join tblHDBan on tblHDBan.MaHDBan = tblChitietHDBan.MaHDBan where Manhanvien = '" + maNhanVien + "' and tblHDBan.MaHDBan = '" + txtMaHD.Text + "'");
-        //    dgvThongTin.DataSource = dtTT;
-        //    dgvThongTin.BackgroundColor = Color.LightBlue;
-        //}
+        private void LoadData()
+        {
+            DataTable dtSP = dtBase.DataReader("Select TenSP, DonGiaNhap, DonGiaBan, SoLuong, HSD, MaLH from SanPham");
+            dgvSanPham.DataSource = dtSP;
+            dgvSanPham.BackgroundColor = Color.LightBlue;
+        }
+        private void LoadCbbLH()
+        {
+            DataTable dtLoaiHang = dtBase.DataReader("SELECT TenLH FROM LoaiHang");
+            cbbLoaiHang.DataSource = dtLoaiHang;
+            cbbLoaiHang.DisplayMember = "TenLH";
+            cbbLoaiHang.ValueMember = "TenLH";
+
+            cbbLoaiHang.SelectedIndex = -1;
+
+            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDown;
+            cbbLoaiHang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbbLoaiHang.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+        private void dgvSanPham_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                
+            }
+        }
+        
+
+
+
+        private void ThemSanPham(string TenSP, double DGN, double DGB, string anh, DateTime HSD, string Loai)
+        {
+            int MaLoai = int.Parse(Loai);
+            string sqlInsert = "INSERT INTO SanPham (TenSP, DGN, DGB, Anh, HSD, MaLH) " +
+                               $"VALUES ('{TenSP}',{DGN},{DGB},'{anh}','{HSD.ToString("yyyy-MM-dd")}',{MaLoai});";
+            try
+            {
+                dtBase.DataChange(sqlInsert);
+                LoadData();
+
+                MessageBox.Show("Thêm sản phẩm thành công!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi thêm sản phẩm: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void ThemLoaiHang(string TenLH)
+        {
+            string sqlInsert = $"INSERT INTO LoaiHang (TenLH) VALUES ({TenLH});";
+            try
+            {
+                dtBase.DataChange(sqlInsert);
+                LoadData();
+
+                MessageBox.Show("Thêm loại hàng thành công!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi thêm loại hàng: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
     }
 }
