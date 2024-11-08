@@ -18,14 +18,14 @@ namespace QLSieuThiMini
             InitializeComponent();
         }
 
-        void LoadData()
-        {
-            DataTable dtTT = dtBase.DataReader("Select tblHang.Mahang, Tenhang, tblChitietHDBan.Soluong, Dongiaban, Giamgia, Thanhtien " +
-                "from tblHang inner join tblChitietHDBan on tblHang.Mahang = tblChitietHDBan.Mahang " +
-                "inner join tblHDBan on tblHDBan.MaHDBan = tblChitietHDBan.MaHDBan where Manhanvien = '" + maNhanVien + "' and tblHDBan.MaHDBan = '" + txtMaHD.Text + "'");
-            dgvThongTin.DataSource = dtTT;
-            dgvThongTin.BackgroundColor = Color.LightBlue;
-        }
+        //void LoadData()
+        //{
+        //    DataTable dtTT = dtBase.DataReader("Select tblHang.Mahang, Tenhang, tblChitietHDBan.Soluong, Dongiaban, Giamgia, Thanhtien " +
+        //        "from tblHang inner join tblChitietHDBan on tblHang.Mahang = tblChitietHDBan.Mahang " +
+        //        "inner join tblHDBan on tblHDBan.MaHDBan = tblChitietHDBan.MaHDBan where Manhanvien = '" + maNhanVien + "' and tblHDBan.MaHDBan = '" + txtMaHD.Text + "'");
+        //    dgvThongTin.DataSource = dtTT;
+        //    dgvThongTin.BackgroundColor = Color.LightBlue;
+        //}
 
     }
 }
