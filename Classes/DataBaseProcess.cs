@@ -14,7 +14,7 @@ namespace QLSieuThiMini.Classes
     {
         string strConnect = "Data Source=LOU1S\\SQLEXPRESS;" +
                 "DataBase=QuanlySieuthi;User ID=sa;" +
-                "Password=abc123;Integrated Security=true";
+                "Password=abc123;Integrated Security=false";
         SqlConnection sqlConnect = null;
 
         //Phương thức mở kết nối
