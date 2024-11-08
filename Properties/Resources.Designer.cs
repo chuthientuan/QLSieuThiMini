@@ -63,6 +63,56 @@ namespace QLSieuThiMini.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ic_addnew {
+            get {
+                object obj = ResourceManager.GetObject("ic-addnew", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_cancle {
+            get {
+                object obj = ResourceManager.GetObject("ic-cancle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_print {
+            get {
+                object obj = ResourceManager.GetObject("ic-print", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_save {
+            get {
+                object obj = ResourceManager.GetObject("ic-save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_search {
+            get {
+                object obj = ResourceManager.GetObject("ic-search", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icon_Search {
             get {
                 object obj = ResourceManager.GetObject("icon_Search", resourceCulture);
@@ -76,36 +126,6 @@ namespace QLSieuThiMini.Properties {
         internal static System.Drawing.Bitmap icons8_add_67 {
             get {
                 object obj = ResourceManager.GetObject("icons8-add-67", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_delete_100 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-delete-100", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_fix_50 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-fix-50", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icons8_logout_48 {
-            get {
-                object obj = ResourceManager.GetObject("icons8-logout-48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

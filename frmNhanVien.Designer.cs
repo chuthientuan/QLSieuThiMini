@@ -440,7 +440,6 @@
             this.btnThoat.FillColor = System.Drawing.SystemColors.MenuHighlight;
             this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnThoat.ForeColor = System.Drawing.Color.White;
-            this.btnThoat.Image = global::QLSieuThiMini.Properties.Resources.icons8_logout_48;
             this.btnThoat.Location = new System.Drawing.Point(1063, 63);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(162, 45);
@@ -477,7 +476,6 @@
             this.btnXoa.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(28)))), ((int)(((byte)(24)))));
             this.btnXoa.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnXoa.ForeColor = System.Drawing.Color.White;
-            this.btnXoa.Image = global::QLSieuThiMini.Properties.Resources.icons8_delete_100;
             this.btnXoa.Location = new System.Drawing.Point(902, 63);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(145, 45);
@@ -531,7 +529,6 @@
             this.btnSua.FillColor = System.Drawing.Color.Gold;
             this.btnSua.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSua.ForeColor = System.Drawing.Color.White;
-            this.btnSua.Image = global::QLSieuThiMini.Properties.Resources.icons8_fix_50;
             this.btnSua.Location = new System.Drawing.Point(547, 63);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(154, 45);
