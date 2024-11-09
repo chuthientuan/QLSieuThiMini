@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace QLSieuThiMini
 {
@@ -16,6 +17,7 @@ namespace QLSieuThiMini
         DataBaseProcess db = new DataBaseProcess();
         private int mhd = 1;
         private DataTable invoiceProducts = new DataTable();
+        private decimal totalPrice = 0;
         public frmHDB()
         {
             InitializeComponent();
@@ -47,8 +49,6 @@ namespace QLSieuThiMini
             cbMaHD.Text = null;
             txtGiamGia.Text = null;
             txtMaHD.Text = null;
-            txtMaNV.Text = null;
-            txtTenNV.Text = null;
             cbMaKH.Text = null;
             txtTenKH.Text = null;
             txtSDT.Text = null;
@@ -58,7 +58,8 @@ namespace QLSieuThiMini
         {
             invoiceProducts.Clear();
             invoiceProducts.Columns.Clear();
-            invoiceProducts.Columns.Add("Tên sản phẩm", typeof(string));
+            invoiceProducts.Columns.Add("Mã hàng", typeof(int));
+            invoiceProducts.Columns.Add("Tên hàng", typeof(string));
             invoiceProducts.Columns.Add("Số lượng", typeof(int));
             invoiceProducts.Columns.Add("Giá", typeof(decimal));
             invoiceProducts.Columns.Add("Giảm giá", typeof(int));
@@ -66,14 +67,23 @@ namespace QLSieuThiMini
 
             dtMatHang.DataSource = invoiceProducts;
         }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lbTimer.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+        }
         private void frmHDB_Load(object sender, EventArgs e)
         {
             readonlyText(true);
             enable(false);
-            DataTable dtb = db.DataReader("select TenNV from NhanVien where MaNV = '" + txtMaNV.Text + "'");
+            DataTable dtb = db.DataReader("select TenNV from NhanVien where MaNV = 1");
             txtTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
-
+            txtMaNV.Text = "1";
             loadCbbMHD();
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = 1000;
+            timer1.Start();
+
+            dtpNgayBan.Value = DateTime.Now;
         }
         void loadData()
         {
@@ -82,7 +92,7 @@ namespace QLSieuThiMini
                 "inner join HoaDonBan h on h.MaHDB = c.MaHDB " +
                 "where h.MaNV = '" + txtMaNV.Text + "' and h.MaHDB = '" + txtMaHD.Text + "'");
             dtMatHang.DataSource = dtb;
-            dtMatHang.Columns[0].HeaderText = "Tên sản phẩm";
+            dtMatHang.Columns[0].HeaderText = "Tên hàng";
             dtMatHang.Columns[1].HeaderText = "Số lượng";
             dtMatHang.Columns[2].HeaderText = "Giá";
             dtMatHang.Columns[3].HeaderText = "Giảm giá";
@@ -91,7 +101,7 @@ namespace QLSieuThiMini
         }
         private void loadCbbMHD()
         {
-            DataTable dt = db.DataReader("select MaHDB from HoaDonBan where MaNV = '" + txtMaNV + "'");
+            DataTable dt = db.DataReader("select MaHDB from HoaDonBan where MaNV = '" + txtMaNV.Text + "'");
             cbMaHD.DataSource = dt;
             cbMaHD.DisplayMember = "MaHDB";
             cbMaHD.ValueMember = "MaHDB";
@@ -147,11 +157,12 @@ namespace QLSieuThiMini
                 MessageBox.Show("Vui lòng nhập mã hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            string sql = "select * from ChiTietHDB c inner join HoaDonBan h on c.MaHDB = h.MaHDB" +
-                        "inner join KhachHang k on k.MaKH = h.MaKH" +
-                        "inner join SanPham s on s.MaSP = c.MaSP" +
-                        "where c.MaHDB = '" + cbMaHD.Text + "'" +
-                        "and h.MaNV = '" + txtMaNV.Text + "'";
+            string sql = "select * from ChiTietHDB c inner join HoaDonBan h on c.MaHDB = h.MaHDB " +
+             "inner join KhachHang k on k.MaKH = h.MaKH " +
+             "inner join SanPham s on s.MaSP = c.MaSP " +
+             "where c.MaHDB = '" + cbMaHD.Text + "' " +
+             "and h.MaNV = '" + txtMaNV.Text + "'";
+
             DataTable dt = db.DataReader(sql);
 
             if (dt.Rows.Count > 0)
@@ -162,7 +173,13 @@ namespace QLSieuThiMini
                 txtTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
-                loadData();
+                dtMatHang.DataSource = dt;
+                dtMatHang.Columns[0].HeaderText = "Tên hàng";
+                dtMatHang.Columns[1].HeaderText = "Số lượng";
+                dtMatHang.Columns[2].HeaderText = "Giá";
+                dtMatHang.Columns[3].HeaderText = "Giảm giá";
+                dtMatHang.Columns[4].HeaderText = "Thành Tiền";
+                dtMatHang.Columns[5].HeaderText = "Ngày bán";
             }
             else
             {
@@ -268,11 +285,14 @@ namespace QLSieuThiMini
             decimal price = Convert.ToDecimal(txtDonGia.Text);
             decimal discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDecimal(txtGiamGia.Text);
             decimal total = quantity * price * (1 - discount / 100);
-            lbTotalMoney.Text = total.ToString();
+            totalPrice += total;
+            lbTotalMoney.Text = totalPrice.ToString();
+            lbPay.Text = totalPrice.ToString();
             try
             {
                 DataRow row = invoiceProducts.NewRow();
-                row["Tên sản phẩm"] = txtTenHang.Text;
+                row["Mã hàng"] = cbMaHang.Text;
+                row["Tên hàng"] = txtTenHang.Text;
                 row["Số lượng"] = quantity;
                 row["Giá"] = price;
                 row["Giảm giá"] = discount;
@@ -285,6 +305,78 @@ namespace QLSieuThiMini
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi thêm sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private bool checkInformation()
+        {
+            if(string.IsNullOrWhiteSpace(cbMaKH.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mã khách hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbMaKH.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtTenKH.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên khách hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTenKH.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtSDT.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số điện thoại.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSDT.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtDiaChi.Text))
+            {
+                MessageBox.Show("Vui lòng nhập địa chỉ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDiaChi.Focus();
+                return false;
+            }
+            return true;
+        }
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            if(!checkInformation())
+            {
+                return;
+            }
+            try
+            {
+                string sqlCheckKH = "select count(*) from KhachHang where DienThoai = '" + txtSDT.Text + "'";
+                int count = (int)db.ExecuteScalar(sqlCheckKH);
+                if(count == 0 )
+                {
+                    string sqlInsertKH = "insert into KhachHang (MaKH, TenKH, DiaChi, DienThoai) values" +
+                        "('" + cbMaKH.Text + "', '" + txtTenKH.Text + "', '" + txtDiaChi.Text + "', '" + txtSDT.Text + "')";
+                    db.DataChange(sqlInsertKH);
+                }
+                string invoiceSql = "insert into HoaDonBan (MaHDB, MaNV, NgayBan, TongTien, MaKH) values" +
+                    "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + lbTotalMoney.Text + "', '" + cbMaKH.Text + "')";
+                db.DataChange(invoiceSql);
+                foreach(DataRow row in invoiceProducts.Rows)
+                {
+                    int productId = Convert.ToInt32(row["Mã hàng"]);
+                    int quantity = Convert.ToInt32(row["Số lượng"]);
+                    decimal discount = Convert.ToDecimal(row["Giảm giá"]);
+                    decimal total = Convert.ToDecimal(row["Thành tiền"]);
+
+                    string detailSql = "insert into ChiTietHDB (MaHDB, MaSP, SLBan, ThanhTien, KhuyenMai) values" +
+                        "('" + txtMaHD.Text + "', '" + productId + "', '" + quantity + "', '" + total + "', '" + discount + "')";
+                    db.DataChange(detailSql);
+
+                    string updateQuantitySql = "update SanPham set SoLuong = SoLuong - '" + quantity + "' where MaSP = '" + productId + "'";
+                    db.DataChange(updateQuantitySql);
+                }
+                MessageBox.Show("Lưu hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                resetValue();
+                loadCbbMHD();
+                readonlyText(true);
+                enable(false);
+                invoiceProducts.Clear();
+            } catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi lưu hóa đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
