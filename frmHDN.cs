@@ -27,6 +27,7 @@ namespace QLSieuThiMini
             dgvHDN.Columns[2].HeaderText = "Đơn giá nhập";
             dgvHDN.Columns[3].HeaderText = "Số lượng nhập";
             dgvHDN.Columns[4].HeaderText = "Thành tiền";
+
             dgvHDN.BackgroundColor = Color.LightBlue;
         }
         private void LoadCbbMHD()
@@ -37,12 +38,12 @@ namespace QLSieuThiMini
             cbbTKMHD.ValueMember = "MaHDN";
             cbbTKMHD.SelectedIndex = -1;
 
-            //// Đặt DropDownStyle là DropDown để cho phép nhập văn bản
-            //cbbTKMHD.DropDownStyle = ComboBoxStyle.DropDown;
+            // Đặt DropDownStyle là DropDown để cho phép nhập văn bản
+            cbbTKMHD.DropDownStyle = ComboBoxStyle.DropDown;
 
-            //// Thiết lập AutoCompleteMode và AutoCompleteSource
-            //cbbTKMHD.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            //cbbTKMHD.AutoCompleteSource = AutoCompleteSource.ListItems;
+            // Thiết lập AutoCompleteMode và AutoCompleteSource
+            cbbTKMHD.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbbTKMHD.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
         private void timer1_Tick(object sender, EventArgs e)
         { // Cập nhật Label với thời gian hiện tại
@@ -99,6 +100,15 @@ namespace QLSieuThiMini
                 MessageBox.Show("Không có mã hóa đơn'" + cbbTKMHD.Text + "'", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbbTKMHD.Text = txtMHD.Text;
             }
+        }
+
+        private void dgvHDN_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            cbbMaSP.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
+            txtTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
+            txtDonGia.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
+            txtSoLuong.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
+            txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
         }
     }
 }
