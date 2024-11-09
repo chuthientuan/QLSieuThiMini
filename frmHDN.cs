@@ -20,36 +20,28 @@ namespace QLSieuThiMini
         private static string ConvertToText(decimal number)
         {
             if (number == 0) return "Không đồng.";
-
             string[] units = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
             string[] ranks = { "", "nghìn", "triệu", "tỷ" };
-
             string result = "";
             int rank = 0;
-
             while (number > 0)
             {
                 int group = (int)(number % 1000);
                 number /= 1000;
-
                 if (group > 0)
                 {
                     string groupText = ConvertGroupToText(group, units);
                     result = groupText + " " + ranks[rank] + " " + result;
                 }
-
                 rank++;
             }
-
             return result.Trim() + " đồng.";
         }
-
         private static string ConvertGroupToText(int group, string[] units)
         {
             int hundreds = group / 100;
             int tens = (group % 100) / 10;
             int ones = group % 10;
-
             string result = "";
 
             // Xử lý hàng trăm
@@ -79,7 +71,6 @@ namespace QLSieuThiMini
                 if (ones == 5) result += "lăm";
                 else result += units[ones];
             }
-
             return result.Trim();
         }
 
@@ -99,8 +90,6 @@ namespace QLSieuThiMini
             txtThanhTien.Text = string.Empty;
 
             dgvHDN.DataSource = null;
-
-
         }
         //Load dgv
         private void LoadData()
