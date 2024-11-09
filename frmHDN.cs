@@ -15,6 +15,75 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
+
+        //Hiện tiền bằng chữ
+        private static string ConvertToText(decimal number)
+        {
+            if (number == 0) return "Không đồng.";
+
+            string[] units = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+            string[] ranks = { "", "nghìn", "triệu", "tỷ" };
+
+            string result = "";
+            int rank = 0;
+
+            while (number > 0)
+            {
+                int group = (int)(number % 1000);
+                number /= 1000;
+
+                if (group > 0)
+                {
+                    string groupText = ConvertGroupToText(group, units);
+                    result = groupText + " " + ranks[rank] + " " + result;
+                }
+
+                rank++;
+            }
+
+            return result.Trim() + " đồng.";
+        }
+
+        private static string ConvertGroupToText(int group, string[] units)
+        {
+            int hundreds = group / 100;
+            int tens = (group % 100) / 10;
+            int ones = group % 10;
+
+            string result = "";
+
+            // Xử lý hàng trăm
+            if (hundreds > 0)
+            {
+                result += units[hundreds] + " trăm ";
+            }
+
+            // Xử lý hàng chục
+            if (tens > 1)
+            {
+                result += units[tens] + " mươi ";
+                if (ones == 1) result += "mốt";
+                else if (ones == 5) result += "lăm";
+                else if (ones > 0) result += units[ones];
+            }
+            else if (tens == 1)
+            {
+                result += "mười ";
+                if (ones == 5) result += "lăm";
+                else if (ones > 0) result += units[ones];
+            }
+            else if (tens == 0 && ones > 0)
+            {
+                // Chỉ thêm "lẻ" khi hàng trăm khác 0 và hàng chục là 0
+                if (hundreds > 0) result += "lẻ ";
+                if (ones == 5) result += "lăm";
+                else result += units[ones];
+            }
+
+            return result.Trim();
+        }
+
+        //reset dữ liệu
         private void ResetData()
         {
             cbbTKMHD.Text = string.Empty;
@@ -33,6 +102,7 @@ namespace QLSieuThiMini
 
 
         }
+        //Load dgv
         private void LoadData()
         {
             DataTable dt = db.DataReader("SELECT SanPham.MaSP, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
@@ -49,6 +119,7 @@ namespace QLSieuThiMini
 
             dgvHDN.BackgroundColor = Color.LightBlue;
         }
+        //LoadCBB tìm kiếm hóa đơn
         private void LoadCbbMHD()
         {
             DataTable dt = db.DataReader("SELECT MaHDN FROM HoaDonNhap WHERE MaNV = '" + lblMaNV.Text + "'");
@@ -76,9 +147,9 @@ namespace QLSieuThiMini
         private void frmHDN_Load(object sender, EventArgs e)
         {
             //Lấy thông tin nhân viên 
-            DataTable dtNV = db.DataReader("SELECT TenNV FROM NhanVien WHERE MaNV = 1");
+            DataTable dtNV = db.DataReader("SELECT TenNV FROM NhanVien WHERE MaNV = 'NV02'");
             lblTenNV.Text = dtNV.Rows[0]["TenNV"].ToString();
-            lblMaNV.Text = "1";
+            lblMaNV.Text = "NV02";
 
             //Lấy thời gian hiện tại 
             timer1.Interval = 1000; // 1 giây
@@ -134,6 +205,18 @@ namespace QLSieuThiMini
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
             ResetData();
+        }
+
+        private void txtTongTien_TextChanged(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(txtTongTien.Text, out decimal tongTien))
+            {
+                lblTongTienBangChu.Text = ConvertToText(tongTien);
+            }
+            else
+            {
+                lblTongTienBangChu.Text = ""; // Xóa nội dung nếu không phải số hợp lệ
+            }
         }
     }
 }
