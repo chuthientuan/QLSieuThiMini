@@ -12,7 +12,7 @@ namespace QLSieuThiMini.Classes
 {
     internal class DataBaseProcess
     {
-        string strConnect = "Data Source=LOU1S\\SQLEXPRESS;" +
+        string strConnect = "Data Source=DESKTOP-15605MG\\SQLEXPRESS;" +
                 "DataBase=QuanlySieuthi;User ID=sa;" +
                 "Password=abc123;Integrated Security=false";
         SqlConnection sqlConnect = null;
@@ -52,6 +52,15 @@ namespace QLSieuThiMini.Classes
             sqlcomma.CommandText = sql;
             sqlcomma.ExecuteNonQuery();
             CloseConnect();
+        }
+        //Phương thức kiểm tra khách hàng
+        public object ExecuteScalar(string sql)
+        {
+            OpenConnect();
+            SqlCommand sqlcomma = new SqlCommand(sql, sqlConnect);
+            object result = sqlcomma.ExecuteScalar();
+            CloseConnect();
+            return result;
         }
     }
 }
