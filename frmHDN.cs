@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,24 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
+        private void ResetData()
+        {
+            cbbTKMHD.Text = string.Empty;
+            txtMHD.Text = string.Empty;
+            dtpNgayNhap.Value = DateTime.Now;
+            cbbMaNCC.Text = string.Empty;
+            txtTenNCC.Text = string.Empty;
+            txtTongTien.Text = string.Empty;
+            cbbMaSP.Text = string.Empty;
+            txtTenSP.Text = string.Empty;
+            txtDonGia.Text = string.Empty;
+            txtSoLuong.Text = string.Empty;
+            txtThanhTien.Text = string.Empty;
+
+            dgvHDN.DataSource = null;
+
+
+        }
         private void LoadData()
         {
             DataTable dt = db.DataReader("SELECT SanPham.MaSP, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
@@ -71,6 +90,7 @@ namespace QLSieuThiMini
             //Load cbb tìm kiếm mã hóa đơn
             LoadCbbMHD();
 
+            LoadData();
         }
 
         private void btnTimKiem_Click(object sender, EventArgs e)
@@ -109,6 +129,11 @@ namespace QLSieuThiMini
             txtDonGia.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
             txtSoLuong.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
             txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
+        }
+
+        private void btnLamMoi_Click(object sender, EventArgs e)
+        {
+            ResetData();
         }
     }
 }
