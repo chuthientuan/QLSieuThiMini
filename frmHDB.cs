@@ -53,6 +53,8 @@ namespace QLSieuThiMini
             txtTenKH.Text = null;
             txtSDT.Text = null;
             txtDiaChi.Text = null;
+            lbTotalMoney.Text = "0";
+            lbPay.Text = "0";
         }
         private void productTable()
         {
@@ -173,13 +175,7 @@ namespace QLSieuThiMini
                 txtTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
-                dtMatHang.DataSource = dt;
-                dtMatHang.Columns[0].HeaderText = "Tên hàng";
-                dtMatHang.Columns[1].HeaderText = "Số lượng";
-                dtMatHang.Columns[2].HeaderText = "Giá";
-                dtMatHang.Columns[3].HeaderText = "Giảm giá";
-                dtMatHang.Columns[4].HeaderText = "Thành Tiền";
-                dtMatHang.Columns[5].HeaderText = "Ngày bán";
+                loadData();
             }
             else
             {
@@ -377,6 +373,18 @@ namespace QLSieuThiMini
             } catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi lưu hóa đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn thoát chương trình không?",
+                                          "Xác nhận",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
             }
         }
     }
