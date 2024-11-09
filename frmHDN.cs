@@ -14,6 +14,21 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
+        private void LoadData()
+        {
+            DataTable dt = db.DataReader("SELECT SanPham.MaSP, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
+                                         "FROM ChiTietHDN INNER JOIN SanPham ON ChiTietHDN.MaSP = SanPham.MaSP " +
+                                         "WHERE MaHDN = '"+ txtMHD.Text +"'");
+            dgvHDN.DataSource = dt;
+
+            //Định dạng dgv
+            dgvHDN.Columns[0].HeaderText = "Mã sản phẩm";
+            dgvHDN.Columns[1].HeaderText = "Tên sản phẩm";
+            dgvHDN.Columns[2].HeaderText = "Đơn giá nhập";
+            dgvHDN.Columns[3].HeaderText = "Số lượng nhập";
+            dgvHDN.Columns[4].HeaderText = "Thành tiền";
+            dgvHDN.BackgroundColor = Color.LightBlue;
+        }
         private void LoadCbbMHD()
         {
             DataTable dt = db.DataReader("SELECT MaHDN FROM HoaDonNhap WHERE MaNV = '" + lblMaNV.Text + "'");
@@ -56,6 +71,34 @@ namespace QLSieuThiMini
             LoadCbbMHD();
 
         }
-        
+
+        private void btnTimKiem_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(cbbTKMHD.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mã hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return; 
+            }
+
+            DataTable dt = db.DataReader("SELECT * " +
+                                         "FROM HoaDonNhap " +
+                                         "INNER JOIN NhaCungCap ON HoaDonNhap.MaNCC = NhaCungCap.MaNCC " +
+                                         "WHERE HoaDonNhap.MaHDN = '"+cbbTKMHD.Text+"' " +
+                                         "AND HoaDonNhap.MaNV = '"+ lblMaNV.Text +"'");
+            if (dt.Rows.Count > 0)
+            {
+                txtMHD.Text = cbbTKMHD.Text;
+                dtpNgayNhap.Value = Convert.ToDateTime(dt.Rows[0]["NgayNhap"]);
+                cbbMaNCC.Text = dt.Rows[0]["MaNCC"].ToString();
+                txtTenNCC.Text = dt.Rows[0]["TenNCC"].ToString();
+                txtTongTien.Text = dt.Rows[0]["TongTien"].ToString();
+                LoadData();
+            }
+            else
+            {
+                MessageBox.Show("Không có mã hóa đơn'" + cbbTKMHD.Text + "'", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTKMHD.Text = txtMHD.Text;
+            }
+        }
     }
 }
