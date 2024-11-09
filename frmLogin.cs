@@ -22,11 +22,11 @@ namespace QLSieuThiMini
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            int maNV = int.Parse(txtLogin.Text.Trim());
+            string TenDangNhap = txtLogin.Text.Trim();
             string MatKhau = txtPassword.Text.Trim();
 
-            DataTable dtNhanVien = dtBase.DataReader($"Select * from NhanVien where MaNV = '{maNV}' and MatKhau = '{MatKhau}'");
-
+            DataTable dtNhanVien = dtBase.DataReader($"Select * from NhanVien where TenDangNhap = '{TenDangNhap}' and MatKhau = '{MatKhau}'");
+            int maNV = int.Parse(dtNhanVien.Rows[0]["MaNV"].ToString());
             if (dtNhanVien.Rows.Count > 0)
             {
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -37,7 +37,7 @@ namespace QLSieuThiMini
             }
             else
             {
-                MessageBox.Show("Sai mã nhân viên hoặc mật khẩu. Vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu. Vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtLogin.Clear();
                 txtPassword.Clear();
                 txtLogin.Focus();
