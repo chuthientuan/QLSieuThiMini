@@ -15,7 +15,19 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
-
+        private void HideData(bool hide)
+        {
+            txtMHD.Enabled = hide;
+            dtpNgayNhap.Enabled = hide;
+            cbbMaNCC.Enabled = hide;
+            txtTenNCC.Enabled = hide;
+            txtTongTien.Enabled = hide;
+            cbbMaSP.Enabled = hide;
+            txtTenSP.Enabled = hide;
+            txtDonGia.Enabled = hide;
+            txtSoLuong.Enabled = hide;
+            txtThanhTien.Enabled = hide;
+        }
         //Hiện tiền bằng chữ
         private static string ConvertToText(decimal number)
         {
@@ -75,7 +87,7 @@ namespace QLSieuThiMini
         }
 
         //reset dữ liệu
-        private void ResetData()
+        private void ResetTTChung()
         {
             cbbTKMHD.Text = string.Empty;
             txtMHD.Text = string.Empty;
@@ -83,13 +95,16 @@ namespace QLSieuThiMini
             cbbMaNCC.Text = string.Empty;
             txtTenNCC.Text = string.Empty;
             txtTongTien.Text = string.Empty;
+            
+            dgvHDN.DataSource = null;
+        }
+        private void ResetTTSP()
+        {
             cbbMaSP.Text = string.Empty;
             txtTenSP.Text = string.Empty;
             txtDonGia.Text = string.Empty;
             txtSoLuong.Text = string.Empty;
             txtThanhTien.Text = string.Empty;
-
-            dgvHDN.DataSource = null;
         }
         //Load dgv
         private void LoadData()
@@ -135,6 +150,7 @@ namespace QLSieuThiMini
 
         private void frmHDN_Load(object sender, EventArgs e)
         {
+            HideData(false);
             //Lấy thông tin nhân viên 
             DataTable dtNV = db.DataReader("SELECT TenNV FROM NhanVien WHERE MaNV = 'NV02'");
             lblTenNV.Text = dtNV.Rows[0]["TenNV"].ToString();
@@ -155,6 +171,7 @@ namespace QLSieuThiMini
 
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
+            ResetTTSP();
             if (String.IsNullOrEmpty(cbbTKMHD.Text))
             {
                 MessageBox.Show("Vui lòng nhập mã hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -193,7 +210,10 @@ namespace QLSieuThiMini
 
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
-            ResetData();
+            HideData(false);
+            ResetTTChung();
+            ResetTTSP();
+            LoadCbbMHD();
         }
 
         private void txtTongTien_TextChanged(object sender, EventArgs e)
