@@ -289,5 +289,32 @@
   <ItemGroup>
     <None Include="Resources\image_check.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-employee-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-employee-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-customer-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-customer-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-product-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-product-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-invoice-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-invoice-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
