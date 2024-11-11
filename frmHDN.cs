@@ -15,6 +15,26 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
+        private void LoadcbbNCC()
+        {
+            DataTable dt = db.DataReader("SELECT MaNCC, TenNCC FROM NhaCungCap");
+            cbbTenNCC.DataSource = dt;
+            cbbTenNCC.ValueMember = "MaNCC";
+            cbbTenNCC.DisplayMember = "TenNCC";
+            cbbTenNCC.SelectedIndex = -1;
+
+            cbbTenNCC.DropDownStyle = ComboBoxStyle.DropDown;
+            cbbTenNCC.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbbTenNCC.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+        private void HidebtnChucNang(bool hide)
+        {
+            btnThemHD.Enabled = hide;
+            btnHuyHD.Enabled = hide;
+            btnLuuHD.Enabled = hide;
+            btnInHD.Enabled = hide;
+            btnThemSP.Enabled = hide;
+        }
         private void HideGrbTimKiem(bool hide)
         {
             cbbTKMHDN.Enabled = hide;
@@ -23,8 +43,7 @@ namespace QLSieuThiMini
         private void HideData(bool hide)
         {
             dtpNgayNhap.Enabled = hide;
-            cbbMaNCC.Enabled = hide;
-            txtTenNCC.Enabled = hide;
+            cbbTenNCC.Enabled = hide;
             cbbMaSP.Enabled = hide;
             txtTenSP.Enabled = hide;
             txtDonGiaNhap.Enabled = hide;
@@ -94,8 +113,7 @@ namespace QLSieuThiMini
             cbbTKMHDN.Text = string.Empty;
             txtMHDN.Text = string.Empty;
             dtpNgayNhap.Value = DateTime.Now;
-            cbbMaNCC.Text = string.Empty;
-            txtTenNCC.Text = string.Empty;
+            cbbTenNCC.Text = string.Empty;
             txtTongTien.Text = string.Empty;
             
             dgvHDN.DataSource = null;
@@ -156,6 +174,9 @@ namespace QLSieuThiMini
             txtTongTien.Enabled = false;
             txtThanhTien.Enabled = false;
 
+            HidebtnChucNang(false);
+            btnThemHD.Enabled = true;
+
             HideData(false);
             //Lấy thông tin nhân viên 
             DataTable dtNV = db.DataReader("SELECT TenNV FROM NhanVien WHERE MaNV = 'NV02'");
@@ -183,7 +204,9 @@ namespace QLSieuThiMini
                 MessageBox.Show("Vui lòng nhập mã hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; 
             }
-
+            HidebtnChucNang(true);
+            btnThemSP.Enabled = false;
+            btnLuuHD.Enabled = false;
             DataTable dt = db.DataReader("SELECT * " +
                                          "FROM HoaDonNhap " +
                                          "INNER JOIN NhaCungCap ON HoaDonNhap.MaNCC = NhaCungCap.MaNCC " +
@@ -193,8 +216,7 @@ namespace QLSieuThiMini
             {
                 txtMHDN.Text = cbbTKMHDN.Text;
                 dtpNgayNhap.Value = Convert.ToDateTime(dt.Rows[0]["NgayNhap"]);
-                cbbMaNCC.Text = dt.Rows[0]["MaNCC"].ToString();
-                txtTenNCC.Text = dt.Rows[0]["TenNCC"].ToString();
+                cbbTenNCC.Text = dt.Rows[0]["TenNCC"].ToString();
                 txtTongTien.Text = dt.Rows[0]["TongTien"].ToString();
                 LoadData();
             }
@@ -222,6 +244,12 @@ namespace QLSieuThiMini
             LoadCbbMHD();
 
             HideGrbTimKiem(true);
+
+            HidebtnChucNang(false);
+            btnThemHD.Enabled = true;
+
+            LoadData();
+
         }
 
         private void txtTongTien_TextChanged(object sender, EventArgs e)
@@ -241,13 +269,24 @@ namespace QLSieuThiMini
             //reset data
             HideData(true);
             ResetTTChung();
+            dtpNgayNhap.Enabled = false;
             ResetTTSP();
             HideGrbTimKiem(false);
+
+            HidebtnChucNang(false);
+
+            btnThemSP.Enabled = true;
+            btnLuuHD.Enabled = true;
+
 
             //Sinh mã hóa đơn nhập
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             txtMHDN.Text = newMaHD;
 
+            LoadData();
+
+            //Load cbbNCC
+            LoadcbbNCC();
 
         }
     }
