@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace QLSieuThiMini
 {
@@ -35,9 +36,10 @@ namespace QLSieuThiMini
             dvgNhanVien.Columns[1].HeaderText = "Tên Nhân Viên";
             dvgNhanVien.Columns[2].HeaderText = "Mật Khẩu ";
             dvgNhanVien.Columns[3].HeaderText = "Chức Danh";
-            dvgNhanVien.Columns[4].HeaderText = "Giới Tính ";
-            dvgNhanVien.Columns[5].HeaderText = "Ngày Sinh";
-            dvgNhanVien.Columns[6].HeaderText = "Điện Thoại";
+            dvgNhanVien.Columns[4].HeaderText = "Ảnh";
+            dvgNhanVien.Columns[5].HeaderText = "Giới Tính ";
+            dvgNhanVien.Columns[6].HeaderText = "Ngày Sinh";
+            dvgNhanVien.Columns[7].HeaderText = "Điện Thoại";
 
             dvgNhanVien.BackgroundColor = Color.LightBlue;
             dtNhanVien.Dispose();//Giải phóng bộ nhớ cho DataTable
@@ -65,9 +67,27 @@ namespace QLSieuThiMini
             txtMaNV.Text = dvgNhanVien.CurrentRow.Cells[0].Value.ToString();
             txtTenNV.Text = dvgNhanVien.CurrentRow.Cells[1].Value.ToString();
             txtMatKhau.Text = dvgNhanVien.CurrentRow.Cells[2].Value.ToString();
-            cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells[4].Value.ToString();
-            dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells[5].Value.ToString();
-            txtSDT.Text = dvgNhanVien.CurrentRow.Cells[6].Value.ToString();
+            string imageName = dvgNhanVien.CurrentRow.Cells[4].Value?.ToString();
+            if (imageName != "")
+            {
+                if (File.Exists(Application.StartupPath + "\\Resources\\" + imageName))
+                {
+                    Anh.Image = Image.FromFile(Application.StartupPath + "\\Resources\\" + imageName);
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy tệp hình ảnh: " + imageName);
+                    Anh.Image = null;
+                }
+            }
+            else
+            {
+                Anh.Image = null;
+            }
+
+            cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells[5].Value.ToString();
+            dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells[6].Value.ToString();
+            txtSDT.Text = dvgNhanVien.CurrentRow.Cells[7].Value.ToString();
             btnTaoMoi.Enabled = false;
             btnLuu.Enabled = false;
             btnNhapLai.Enabled = false;
@@ -82,12 +102,14 @@ namespace QLSieuThiMini
             txtMatKhau.Text = "";
             cbbGioiTinh.Text = "";
             txtSDT.Text = "";
+            Anh.Image = null;
         }
 
         private void btnTaoMoi_Click(object sender, EventArgs e)
         {
             tieude.Text = "THÊM MỚI NHÂN VIÊN ";
             Reset();
+            btnAnh.Enabled = true;
             grbtimkiem.Enabled = false;
             grbchitiet.Enabled = true;
             txtMaNV.Enabled = false;
@@ -99,7 +121,7 @@ namespace QLSieuThiMini
             {
                 string sqlThemKhach = $"SELECT COUNT(*) FROM NhanVien";
                 int count = Convert.ToInt32(dtBase.DataReader(sqlThemKhach).Rows[0][0]) + 1;
-                string maNV = count.ToString("");
+                string maNV = "NV_"+count.ToString("D3");
 
 
                 // Gán mã mới vào txtMaKH
@@ -174,8 +196,8 @@ namespace QLSieuThiMini
                 else
                 {
                     // Lệnh INSERT để thêm khách hàng mới
-                    string query = "INSERT INTO NhanVien ( TenNV, MatKhau, ChucDanh, GioiTinh, NgaySinh, DienThoai) " +
-                    "VALUES ( N'" + txtTenNV.Text + "', N'" + txtMatKhau.Text + "', 1, N'" + cbbGioiTinh.Text + "', N'" + dagNgaySinh.Value.ToString("yyyy-MM-dd") + "', N'" + txtSDT.Text + "')";
+                    string query = "INSERT INTO NhanVien ( MaNV,TenNV, MatKhau, ChucDanh,Anh, GioiTinh, NgaySinh, DienThoai) " +
+                    "VALUES ( N'" + txtMaNV.Text + "',N'" + txtTenNV.Text + "', N'" + txtMatKhau.Text + "', 1, N'" + ImageName + "', N'" + cbbGioiTinh.Text + "', N'" + dagNgaySinh.Value.ToString("yyyy-MM-dd") + "', N'" + txtSDT.Text + "')";
                     dtBase.DataChange(query);
 
 
@@ -193,6 +215,7 @@ namespace QLSieuThiMini
                     btnThoat.Enabled = true;
                     btnsearch.Enabled = true;
                     dvgNhanVien.Enabled = true;
+
                 }
 
             }
@@ -296,6 +319,7 @@ namespace QLSieuThiMini
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
                 btnThoat.Enabled = true;
+                btnAnh.Enabled = false;
                 tieude.Text = "QUẢN LÝ NHÂN VIÊN";
             }
         }
@@ -353,6 +377,35 @@ namespace QLSieuThiMini
 
             // Hiển thị kết quả tìm kiếm
             dvgNhanVien.DataSource = dtBase.DataReader(sql);
+
+        }
+
+        private void btnAnh_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private string ImageName = null;
+        private void btnAnh_Click(object sender, EventArgs e)
+        {
+            // Thiết lập thư mục khởi động cho OpenFileDialog
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = Application.StartupPath + "\\Images\\";
+            openFile.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif"; // Chỉ cho phép chọn ảnh
+            openFile.Title = "Chọn ảnh";
+
+            // Mở hộp thoại và kiểm tra nếu người dùng chọn ảnh
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                // Lấy đường dẫn file ảnh
+                string imagePath = openFile.FileName;
+
+                // Hiển thị ảnh trong PictureBox
+                Anh.Image = Image.FromFile(imagePath);
+
+                ImageName = System.IO.Path.GetFileName(imagePath);
+
+            }
+
 
         }
     }
