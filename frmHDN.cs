@@ -15,6 +15,19 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
+        private void LoadcbbLoaiHang()
+        {
+            DataTable dt = db.DataReader("SELECT MaLH, TenLH FROM LoaiHang");
+            cbbLoaiHang.DataSource = dt;
+            cbbLoaiHang.ValueMember = "MaLH";
+            cbbLoaiHang.DisplayMember = "TenLH";
+            cbbLoaiHang.SelectedIndex = -1;
+
+            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDown;
+            cbbLoaiHang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbbLoaiHang.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+        }
         private void LoadcbbNCC()
         {
             DataTable dt = db.DataReader("SELECT MaNCC, TenNCC FROM NhaCungCap");
@@ -44,8 +57,8 @@ namespace QLSieuThiMini
         {
             dtpNgayNhap.Enabled = hide;
             cbbTenNCC.Enabled = hide;
-            cbbMaSP.Enabled = hide;
-            txtTenSP.Enabled = hide;
+            cbbLoaiHang.Enabled = hide;
+            cbbTenSP.Enabled = hide;
             txtDonGiaNhap.Enabled = hide;
             txtSoLuongNhap.Enabled = hide;
         }
@@ -106,7 +119,6 @@ namespace QLSieuThiMini
             }
             return result.Trim();
         }
-
         //reset dữ liệu
         private void ResetTTChung()
         {
@@ -120,8 +132,8 @@ namespace QLSieuThiMini
         }
         private void ResetTTSP()
         {
-            cbbMaSP.Text = string.Empty;
-            txtTenSP.Text = string.Empty;
+            cbbLoaiHang.Text = string.Empty;
+            cbbTenSP.Text = string.Empty;
             txtDonGiaNhap.Text = string.Empty;
             txtSoLuongNhap.Text = string.Empty;
             txtThanhTien.Text = string.Empty;
@@ -129,13 +141,14 @@ namespace QLSieuThiMini
         //Load dgv
         private void LoadData()
         {
-            DataTable dt = db.DataReader("SELECT SanPham.MaSP, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
+            DataTable dt = db.DataReader("SELECT TenLH, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
                                          "FROM ChiTietHDN INNER JOIN SanPham ON ChiTietHDN.MaSP = SanPham.MaSP " +
+                                         "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
                                          "WHERE MaHDN = '"+ txtMHDN.Text +"'");
             dgvHDN.DataSource = dt;
 
             //Định dạng dgv
-            dgvHDN.Columns[0].HeaderText = "Mã sản phẩm";
+            dgvHDN.Columns[0].HeaderText = "Loại hàng";
             dgvHDN.Columns[1].HeaderText = "Tên sản phẩm";
             dgvHDN.Columns[2].HeaderText = "Đơn giá nhập";
             dgvHDN.Columns[3].HeaderText = "Số lượng nhập";
@@ -167,7 +180,6 @@ namespace QLSieuThiMini
         {
             InitializeComponent();
         }
-
         private void frmHDN_Load(object sender, EventArgs e)
         {
             txtMHDN.Enabled = false;
@@ -195,7 +207,6 @@ namespace QLSieuThiMini
 
             LoadData();
         }
-
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
             ResetTTSP();
@@ -226,16 +237,14 @@ namespace QLSieuThiMini
                 cbbTKMHDN.Text = txtMHDN.Text;
             }
         }
-
         private void dgvHDN_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            cbbMaSP.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
-            txtTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
+            cbbLoaiHang.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
+            cbbTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
             txtDonGiaNhap.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
             txtSoLuongNhap.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
             txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
         }
-
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
             HideData(false);
@@ -251,7 +260,6 @@ namespace QLSieuThiMini
             LoadData();
 
         }
-
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
             if (decimal.TryParse(txtTongTien.Text, out decimal tongTien))
@@ -263,13 +271,13 @@ namespace QLSieuThiMini
                 lblTongTienBangChu.Text = ""; // Xóa nội dung nếu không phải số hợp lệ
             }
         }
-
         private void btnThemHD_Click(object sender, EventArgs e)
         {
             //reset data
-            HideData(true);
+            HideData(false);
             ResetTTChung();
-            dtpNgayNhap.Enabled = false;
+            cbbTenNCC.Enabled = true;
+            cbbLoaiHang.Enabled = true;
             ResetTTSP();
             HideGrbTimKiem(false);
 
@@ -283,11 +291,33 @@ namespace QLSieuThiMini
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             txtMHDN.Text = newMaHD;
 
-            LoadData();
+            LoadData(); //hiển thị bảng trống
 
             //Load cbbNCC
             LoadcbbNCC();
 
+            //Load cbb loại hàng
+            LoadcbbLoaiHang();
+
+        }
+
+        private void cbbLoaiHang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (btnThemHD.Enabled == false)
+            {
+                cbbTenSP.Enabled = true;
+                DataTable dt = db.DataReader("SELECT MaSP, TenSP FROM SanPham " +
+                                             "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
+                                             "WHERE TenLH = N'"+ cbbLoaiHang.Text +"'");
+                cbbTenSP.DataSource = dt;
+                cbbTenSP.ValueMember = "MaSP";
+                cbbTenSP.DisplayMember = "TenSP";
+                cbbTenSP.SelectedIndex = -1;
+
+                cbbTenSP.DropDownStyle = ComboBoxStyle.DropDown;
+                cbbTenSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbTenSP.AutoCompleteSource = AutoCompleteSource.ListItems;
+            }
         }
     }
 }
