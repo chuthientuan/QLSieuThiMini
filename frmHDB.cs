@@ -348,8 +348,10 @@ namespace QLSieuThiMini
                     string sqlGetExistingKH = "select MaKH from KhachHang where DienThoai = '" + txtSDT.Text + "'";
                     customerId = (int)db.ExecuteScalar(sqlGetExistingKH);
                 }
+                DataTable dt = db.DataReader("select MaKH from KhachHang where DienThoai = '" + txtSDT.Text + "'");
+                int maKH = int.Parse(dt.Rows[0]["MaKH"].ToString());
                 string invoiceSql = "insert into HoaDonBan (MaHDB, MaNV, NgayBan, TongTien, MaKH) values" +
-                    "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + lbTotalMoney.Text + "', '" + cbMaKH.Text + "')";
+                    "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + lbTotalMoney.Text + "', '" + maKH + "')";
                 db.DataChange(invoiceSql);
                 foreach(DataRow row in invoiceProducts.Rows)
                 {
@@ -390,7 +392,11 @@ namespace QLSieuThiMini
         }
         private void btnMoi_Click(object sender, EventArgs e)
         {
+            readonlyText(true);
+            loadCbbMHD();
+            enable(false);
             resetValue();
+            loadData();
         }
         private void btnHuy_Click(object sender, EventArgs e)
         {
