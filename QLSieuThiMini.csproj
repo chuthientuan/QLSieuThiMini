@@ -63,6 +63,10 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Extensions.Primitives.8.0.0\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -149,6 +153,42 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\FrmHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmHome.Designer.cs">
+      <DependentUpon>FrmHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_HDB.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_HDB.Designer.cs">
+      <DependentUpon>UC_HDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_HDN.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_HDN.Designer.cs">
+      <DependentUpon>UC_HDN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_KhachHang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_KhachHang.Designer.cs">
+      <DependentUpon>UC_KhachHang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_NhanVien.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_NhanVien.Designer.cs">
+      <DependentUpon>UC_NhanVien.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_SanPham.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_SanPham.Designer.cs">
+      <DependentUpon>UC_SanPham.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="frmHDB.resx">
       <DependentUpon>frmHDB.cs</DependentUpon>
     </EmbeddedResource>
@@ -180,6 +220,24 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\FrmHome.resx">
+      <DependentUpon>FrmHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_HDB.resx">
+      <DependentUpon>UC_HDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_HDN.resx">
+      <DependentUpon>UC_HDN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_KhachHang.resx">
+      <DependentUpon>UC_KhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_NhanVien.resx">
+      <DependentUpon>UC_NhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_SanPham.resx">
+      <DependentUpon>UC_SanPham.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="appsettings.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -227,6 +285,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ic-menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image_check.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-employee-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-employee-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-customer-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-customer-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-product-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-product-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-invoice-white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-invoice-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
