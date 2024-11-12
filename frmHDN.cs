@@ -409,5 +409,34 @@ namespace QLSieuThiMini
                 txtThanhTien.Text = "";
             }
         }
+
+        private void cbbTenNCC_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(cbbTenNCC.Text)) 
+            {
+                DataTable dt = db.DataReader("SELECT COUNT(*) FROM NhaCungCap WHERE TenNCC = N'"+ cbbTenNCC.Text +"'");
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+                if (count == 0)
+                {
+                    // Hiển thị thông báo nếu nhà cung cấp này không có trong hệ thống
+                    DialogResult result = MessageBox.Show("Nhà cung cấp này chưa có trong hệ thống. Bạn có muốn thêm không?",
+                                                          "Xác nhận thêm nhà cung cấp",
+                                                          MessageBoxButtons.YesNo,
+                                                          MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        db.DataReader("INSERT INTO NhaCungCap (TenNCC) VALUES ('"+ cbbTenNCC.Text +"')");
+                        LoadcbbNCC();
+                        MessageBox.Show("Nhà cung cấp đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    }
+                    else
+                    {
+                        // Nếu người dùng chọn "Không", xóa nội dung của ComboBox
+                        cbbTenNCC.Text = string.Empty;
+                    }
+                }
+            }
+        }
     }
 }
