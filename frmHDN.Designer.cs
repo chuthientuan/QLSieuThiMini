@@ -646,6 +646,7 @@
             this.cbbLoaiHang.Size = new System.Drawing.Size(202, 39);
             this.cbbLoaiHang.TabIndex = 14;
             this.cbbLoaiHang.SelectedIndexChanged += new System.EventHandler(this.cbbLoaiHang_SelectedIndexChanged);
+            this.cbbLoaiHang.Leave += new System.EventHandler(this.cbbLoaiHang_Leave);
             // 
             // btnThemSPMoi
             // 
