@@ -10,12 +10,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.SqlServer.Server;
 using QLSieuThiMini.Classes;
+using TheArtOfDevHtmlRenderer.Adapters;
 
 namespace QLSieuThiMini
 {
     public partial class frmProduct : Form
     {
         DataBaseProcess dtBase = new DataBaseProcess();
+        private string ImageName = null;
         public frmProduct()
         {
             InitializeComponent();
@@ -85,5 +87,22 @@ namespace QLSieuThiMini
             }
         }
 
+        private void btnAnh_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFile = new OpenFileDialog();
+            openFile.InitialDirectory = "Resources";
+            openFile.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+            openFile.Title = "Chọn ảnh";
+
+            if (openFile.ShowDialog() == DialogResult.OK)
+            {
+                string imagePath = openFile.FileName;
+
+                pic.Image = Image.FromFile(imagePath);
+
+                ImageName = System.IO.Path.GetFileName(imagePath);
+
+            }
+        }
     }
 }
