@@ -342,7 +342,7 @@ namespace QLSieuThiMini
                 cbbTenSP.Enabled = true;
                 DataTable dt = db.DataReader("SELECT MaSP, TenSP FROM SanPham " +
                                              "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
-                                             "WHERE TenLH = N'"+ cbbLoaiHang.Text +"'");
+                                             "WHERE SanPham.MaLH = '"+ cbbLoaiHang.SelectedValue.ToString() +"'");
                 cbbTenSP.DataSource = dt;
                 cbbTenSP.ValueMember = "MaSP";
                 cbbTenSP.DisplayMember = "TenSP";
@@ -355,10 +355,10 @@ namespace QLSieuThiMini
         }
         private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbbTenSP.SelectedIndex != -1)
+            if(cbbTenSP.SelectedValue != null && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
             {
                 txtSoLuongNhap.Enabled = true;
-                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE TenSP = N'"+ cbbTenSP.Text +"'");
+                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE MaSP = '" + maSP + "'");
                 //txtDonGiaNhap.Text = dt.Rows[0]["DonGiaNhap"].ToString();
                 if (dt.Rows.Count > 0)
                 {
