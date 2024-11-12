@@ -467,5 +467,42 @@ namespace QLSieuThiMini
                 }
             }
         }
+        private bool KiemTraThongTin()
+        {
+            if (string.IsNullOrWhiteSpace(cbbTenNCC.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên nhà cung cấp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTenNCC.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cbbLoaiHang.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên loại hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbLoaiHang.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cbbTenSP.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTenSP.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtSoLuongNhap.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số lượng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSoLuongNhap.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private void btnThemSP_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraThongTin())
+            {
+                return;
+            }
+
+        }
     }
 }

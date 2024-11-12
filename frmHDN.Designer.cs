@@ -683,6 +683,7 @@
             this.btnThemSP.Size = new System.Drawing.Size(180, 45);
             this.btnThemSP.TabIndex = 6;
             this.btnThemSP.Text = "Thêm sản phẩm";
+            this.btnThemSP.Click += new System.EventHandler(this.btnThemSP_Click);
             // 
             // guna2HtmlLabel11
             // 
