@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,6 +16,19 @@ namespace QLSieuThiMini
     public partial class frmHDN : Form
     {
         DataBaseProcess db = new DataBaseProcess();
+        private void LoadcbbLoaiHang()
+        {
+            DataTable dt = db.DataReader("SELECT MaLH, TenLH FROM LoaiHang");
+            cbbLoaiHang.DataSource = dt;
+            cbbLoaiHang.ValueMember = "MaLH";
+            cbbLoaiHang.DisplayMember = "TenLH";
+            cbbLoaiHang.SelectedIndex = -1;
+
+            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDown;
+            cbbLoaiHang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbbLoaiHang.AutoCompleteSource = AutoCompleteSource.ListItems;
+
+        }
         private void LoadcbbNCC()
         {
             DataTable dt = db.DataReader("SELECT MaNCC, TenNCC FROM NhaCungCap");
@@ -44,8 +58,8 @@ namespace QLSieuThiMini
         {
             dtpNgayNhap.Enabled = hide;
             cbbTenNCC.Enabled = hide;
-            cbbMaSP.Enabled = hide;
-            txtTenSP.Enabled = hide;
+            cbbLoaiHang.Enabled = hide;
+            cbbTenSP.Enabled = hide;
             txtDonGiaNhap.Enabled = hide;
             txtSoLuongNhap.Enabled = hide;
         }
@@ -106,7 +120,6 @@ namespace QLSieuThiMini
             }
             return result.Trim();
         }
-
         //reset dữ liệu
         private void ResetTTChung()
         {
@@ -120,8 +133,8 @@ namespace QLSieuThiMini
         }
         private void ResetTTSP()
         {
-            cbbMaSP.Text = string.Empty;
-            txtTenSP.Text = string.Empty;
+            cbbLoaiHang.Text = string.Empty;
+            cbbTenSP.Text = string.Empty;
             txtDonGiaNhap.Text = string.Empty;
             txtSoLuongNhap.Text = string.Empty;
             txtThanhTien.Text = string.Empty;
@@ -129,13 +142,14 @@ namespace QLSieuThiMini
         //Load dgv
         private void LoadData()
         {
-            DataTable dt = db.DataReader("SELECT SanPham.MaSP, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
+            DataTable dt = db.DataReader("SELECT TenLH, TenSP, DonGiaNhap, SLNhap, ThanhTien " +
                                          "FROM ChiTietHDN INNER JOIN SanPham ON ChiTietHDN.MaSP = SanPham.MaSP " +
+                                         "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
                                          "WHERE MaHDN = '"+ txtMHDN.Text +"'");
             dgvHDN.DataSource = dt;
 
             //Định dạng dgv
-            dgvHDN.Columns[0].HeaderText = "Mã sản phẩm";
+            dgvHDN.Columns[0].HeaderText = "Loại hàng";
             dgvHDN.Columns[1].HeaderText = "Tên sản phẩm";
             dgvHDN.Columns[2].HeaderText = "Đơn giá nhập";
             dgvHDN.Columns[3].HeaderText = "Số lượng nhập";
@@ -167,9 +181,9 @@ namespace QLSieuThiMini
         {
             InitializeComponent();
         }
-
         private void frmHDN_Load(object sender, EventArgs e)
         {
+            lblThemHD.Visible = false;
             txtMHDN.Enabled = false;
             txtTongTien.Enabled = false;
             txtThanhTien.Enabled = false;
@@ -195,7 +209,6 @@ namespace QLSieuThiMini
 
             LoadData();
         }
-
         private void btnTimKiem_Click(object sender, EventArgs e)
         {
             ResetTTSP();
@@ -217,7 +230,9 @@ namespace QLSieuThiMini
                 txtMHDN.Text = cbbTKMHDN.Text;
                 dtpNgayNhap.Value = Convert.ToDateTime(dt.Rows[0]["NgayNhap"]);
                 cbbTenNCC.Text = dt.Rows[0]["TenNCC"].ToString();
-                txtTongTien.Text = dt.Rows[0]["TongTien"].ToString();
+                //txtTongTien.Text = dt.Rows[0]["TongTien"].ToString();
+                decimal tongTien = Convert.ToDecimal(dt.Rows[0]["TongTien"]);
+                txtTongTien.Text = tongTien.ToString("N0");
                 LoadData();
             }
             else
@@ -226,18 +241,45 @@ namespace QLSieuThiMini
                 cbbTKMHDN.Text = txtMHDN.Text;
             }
         }
-
         private void dgvHDN_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            cbbMaSP.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
-            txtTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
-            txtDonGiaNhap.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
-            txtSoLuongNhap.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
-            txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
-        }
+            //cbbLoaiHang.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
+            //cbbTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
+            ////txtDonGiaNhap.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
+            //txtDonGiaNhap.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[2].Value).ToString("N0");
+            //txtSoLuongNhap.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
+            ////txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
+            //txtThanhTien.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[4].Value).ToString("N0");
 
+            // Kiểm tra xem ô trong cột Mã Hóa Đơn (hoặc bất kỳ ô nào trong hàng) có giá trị hợp lệ không
+            if (dgvHDN.CurrentRow.Cells[0].Value == DBNull.Value ||
+                dgvHDN.CurrentRow.Cells[1].Value == DBNull.Value ||
+                dgvHDN.CurrentRow.Cells[2].Value == DBNull.Value ||
+                dgvHDN.CurrentRow.Cells[3].Value == DBNull.Value ||
+                dgvHDN.CurrentRow.Cells[4].Value == DBNull.Value)
+            {
+                // Nếu có bất kỳ ô nào trong hàng là DBNull, thì tất cả các ô nhập liệu sẽ được để trống
+                cbbLoaiHang.Text = "";
+                cbbTenSP.Text = "";
+                txtDonGiaNhap.Text = "";
+                txtSoLuongNhap.Text = "";
+                txtThanhTien.Text = "";
+            }
+            else
+            {
+                // Nếu không có giá trị DBNull, gán dữ liệu vào các TextBox
+                cbbLoaiHang.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
+                cbbTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
+                txtDonGiaNhap.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[2].Value).ToString("N0");
+                txtSoLuongNhap.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
+                txtThanhTien.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[4].Value).ToString("N0");
+            }
+        }
         private void btnLamMoi_Click(object sender, EventArgs e)
         {
+            lblThemHD.Visible = false;
+            lblMain.Visible = true;
+
             HideData(false);
             ResetTTChung();
             ResetTTSP();
@@ -251,7 +293,6 @@ namespace QLSieuThiMini
             LoadData();
 
         }
-
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
             if (decimal.TryParse(txtTongTien.Text, out decimal tongTien))
@@ -263,13 +304,21 @@ namespace QLSieuThiMini
                 lblTongTienBangChu.Text = ""; // Xóa nội dung nếu không phải số hợp lệ
             }
         }
-
         private void btnThemHD_Click(object sender, EventArgs e)
         {
+            lblMain.Visible = false;
+            lblThemHD.Visible = true;
+
+            //Load cbbNCC
+            LoadcbbNCC();
+
+            //Load cbb loại hàng
+            LoadcbbLoaiHang();
             //reset data
-            HideData(true);
+            HideData(false);
             ResetTTChung();
-            dtpNgayNhap.Enabled = false;
+            cbbTenNCC.Enabled = true;
+            cbbLoaiHang.Enabled = true;
             ResetTTSP();
             HideGrbTimKiem(false);
 
@@ -283,11 +332,82 @@ namespace QLSieuThiMini
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             txtMHDN.Text = newMaHD;
 
-            LoadData();
+            LoadData(); //hiển thị bảng trống
 
-            //Load cbbNCC
-            LoadcbbNCC();
+        }
+        private void cbbLoaiHang_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (btnThemHD.Enabled == false && cbbLoaiHang.SelectedIndex != -1)
+            {
+                cbbTenSP.Enabled = true;
+                DataTable dt = db.DataReader("SELECT MaSP, TenSP FROM SanPham " +
+                                             "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
+                                             "WHERE TenLH = N'"+ cbbLoaiHang.Text +"'");
+                cbbTenSP.DataSource = dt;
+                cbbTenSP.ValueMember = "MaSP";
+                cbbTenSP.DisplayMember = "TenSP";
+                cbbTenSP.SelectedIndex = -1;
 
+                cbbTenSP.DropDownStyle = ComboBoxStyle.DropDown;
+                cbbTenSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                cbbTenSP.AutoCompleteSource = AutoCompleteSource.ListItems;
+            }
+        }
+        private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cbbTenSP.SelectedIndex != -1)
+            {
+                txtSoLuongNhap.Enabled = true;
+                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE TenSP = N'"+ cbbTenSP.Text +"'");
+                //txtDonGiaNhap.Text = dt.Rows[0]["DonGiaNhap"].ToString();
+                if (dt.Rows.Count > 0)
+                {
+                    // Truy xuất giá trị của cột "DonGiaNhap" từ dòng đầu tiên
+                    decimal donGiaNhap = Convert.ToDecimal(dt.Rows[0]["DonGiaNhap"]);
+
+                    // Gán giá trị vào TextBox với định dạng số
+                    txtDonGiaNhap.Text = donGiaNhap.ToString("N0");
+                }
+                else
+                {
+                    // Nếu không có dữ liệu, có thể hiển thị thông báo hoặc để trống
+                    txtDonGiaNhap.Text = "0"; // Hoặc một giá trị mặc định
+                }
+            }
+            else
+            {
+                txtSoLuongNhap.Enabled = false;
+                txtSoLuongNhap.Text = string.Empty;
+                txtDonGiaNhap.Text = string.Empty;
+            }
+        }
+        private void txtSoLuongNhap_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back) 
+            { 
+                e.Handled = true; 
+            }
+        }
+        private void txtSoLuongNhap_TextChanged(object sender, EventArgs e)
+        {
+            if(txtSoLuongNhap.Text.Length > 1 && txtSoLuongNhap.Text.StartsWith("0"))
+            {
+                txtSoLuongNhap.Text = txtSoLuongNhap.Text.Substring(1);
+                txtSoLuongNhap.SelectionStart = txtSoLuongNhap.Text.Length;
+            }
+            if (int.TryParse(txtSoLuongNhap.Text, out int soLuong) && decimal.TryParse(txtDonGiaNhap.Text, out decimal donGia))
+            {
+                // Tính toán thành tiền
+                decimal thanhTien = soLuong * donGia;
+
+                // Hiển thị kết quả vào txtThanhTien
+                txtThanhTien.Text = thanhTien.ToString("N0"); // Định dạng số nguyên
+            }
+            else
+            {
+                // Nếu không có đủ dữ liệu hợp lệ, đặt giá trị txtThanhTien là "0"
+                txtThanhTien.Text = "";
+            }
         }
     }
 }
