@@ -33,7 +33,7 @@ namespace QLSieuThiMini
         }
         private void enable(bool enable)
         {
-            cbMaHang.Enabled = enable;
+            cbTenSP.Enabled = enable;
             cbMaKH.Enabled = enable;
             btnHuy.Enabled = enable;
             btnLuu.Enabled = enable;
@@ -42,8 +42,7 @@ namespace QLSieuThiMini
         }
         private void resetValue()
         {
-            cbMaHang.Text = null;
-            txtTenHang.Text = null;
+            cbTenSP.Text = null;
             txtDonGia.Text = null;
             txtSL.Text = null;
             cbMaHD.Text = null;
@@ -113,15 +112,17 @@ namespace QLSieuThiMini
             readonlyText(false);
             resetValue();
             enable(true);
+            loadData();
+            cbMaHD.Text = null;
             btnHuy.Enabled = false;
             btnIn.Enabled = false;
             invoiceProducts.Clear();
 
-            DataTable dtSp = db.DataReader("select MaSP from SanPham");
-            cbMaHang.DataSource = dtSp;
-            cbMaHang.DisplayMember = "MaSP";
-            cbMaHang.ValueMember = "MaSP";
-            cbMaHang.SelectedIndex = -1;
+            DataTable dtSp = db.DataReader("select TenSP from SanPham");
+            cbTenSP.DataSource = dtSp;
+            cbTenSP.DisplayMember = "TenSP";
+            cbTenSP.ValueMember = "TenSP";
+            cbTenSP.SelectedIndex = -1;
 
             DataTable dtKh = db.DataReader("select MaKH from KhachHang");
             cbMaKH.DataSource = dtKh;
@@ -244,17 +245,15 @@ namespace QLSieuThiMini
                 e.Handled = true;
             }
         }
-        private void cbMaHang_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbTenSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataTable dt = db.DataReader("select TenSP, DonGiaBan from SanPham where MaSP = '" + cbMaHang.Text + "'");
+            DataTable dt = db.DataReader("select DonGiaBan from SanPham where TenSP = N'" + cbTenSP.Text + "'");
             if (dt.Rows.Count > 0)
             {
-                txtTenHang.Text = dt.Rows[0]["TenSP"].ToString();
                 txtDonGia.Text = dt.Rows[0]["DonGiaBan"].ToString();
             }
             else
             {
-                txtTenHang.Text = string.Empty;
                 txtDonGia.Text = string.Empty;
             }
         }
@@ -271,7 +270,7 @@ namespace QLSieuThiMini
         }
         private void btnThemSP_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(cbMaHang.Text) || !int.TryParse(txtSL.Text, out int quantity) || quantity <= 0)
+            if (string.IsNullOrEmpty(cbTenSP.Text) || !int.TryParse(txtSL.Text, out int quantity) || quantity <= 0)
             {
                 MessageBox.Show("Số lượng phải lớn hơn 0", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtSL.Focus();
@@ -283,11 +282,13 @@ namespace QLSieuThiMini
             totalPrice += total;
             lbTotalMoney.Text = totalPrice.ToString();
             lbPay.Text = totalPrice.ToString();
+            DataTable dt = db.DataReader("select MaSP from SanPham where TenSP = N'" + cbTenSP.Text + "'");
+            int maSP = int.Parse(dt.Rows[0]["MaSP"].ToString());
             try
             {
                 DataRow row = invoiceProducts.NewRow();
-                row["Mã hàng"] = cbMaHang.Text;
-                row["Tên hàng"] = txtTenHang.Text;
+                row["Mã hàng"] = maSP;
+                row["Tên hàng"] = cbTenSP.Text;
                 row["Số lượng"] = quantity;
                 row["Giá"] = price;
                 row["Giảm giá"] = discount;
@@ -396,6 +397,7 @@ namespace QLSieuThiMini
             loadCbbMHD();
             enable(false);
             resetValue();
+            cbTenSP.SelectedIndex = -1;
             loadData();
         }
         private void btnHuy_Click(object sender, EventArgs e)
@@ -437,6 +439,7 @@ namespace QLSieuThiMini
                     MessageBox.Show("Lỗi khi hủy hóa đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            loadData();
         }
         private void btnIn_Click(object sender, EventArgs e)
         {
@@ -497,6 +500,6 @@ namespace QLSieuThiMini
             excelApp.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
         }
-
+        
     }
 }
