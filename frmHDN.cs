@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -327,22 +328,21 @@ namespace QLSieuThiMini
             btnThemSP.Enabled = true;
             btnLuuHD.Enabled = true;
 
-
             //Sinh mã hóa đơn nhập
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             txtMHDN.Text = newMaHD;
 
             LoadData(); //hiển thị bảng trống
-
         }
         private void cbbLoaiHang_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbbTenSP.SelectedIndex = -1;
             if (btnThemHD.Enabled == false && cbbLoaiHang.SelectedIndex != -1)
             {
                 cbbTenSP.Enabled = true;
                 DataTable dt = db.DataReader("SELECT MaSP, TenSP FROM SanPham " +
                                              "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
-                                             "WHERE TenLH = N'"+ cbbLoaiHang.Text +"'");
+                                             "WHERE SanPham.MaLH = '"+ cbbLoaiHang.SelectedValue.ToString() +"'");
                 cbbTenSP.DataSource = dt;
                 cbbTenSP.ValueMember = "MaSP";
                 cbbTenSP.DisplayMember = "TenSP";
@@ -355,10 +355,10 @@ namespace QLSieuThiMini
         }
         private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbbTenSP.SelectedIndex != -1)
+            if(cbbTenSP.SelectedValue != null && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
             {
                 txtSoLuongNhap.Enabled = true;
-                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE TenSP = N'"+ cbbTenSP.Text +"'");
+                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE MaSP = '" + maSP + "'");
                 //txtDonGiaNhap.Text = dt.Rows[0]["DonGiaNhap"].ToString();
                 if (dt.Rows.Count > 0)
                 {
@@ -408,6 +408,101 @@ namespace QLSieuThiMini
                 // Nếu không có đủ dữ liệu hợp lệ, đặt giá trị txtThanhTien là "0"
                 txtThanhTien.Text = "";
             }
+        }
+        private void cbbTenNCC_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(cbbTenNCC.Text)) 
+            {
+                string tenNCC = cbbTenNCC.Text.Trim();
+                DataTable dt = db.DataReader("SELECT COUNT(*) FROM NhaCungCap WHERE TenNCC = N'"+ tenNCC +"'");
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+                if (count == 0)
+                {
+                    // Hiển thị thông báo nếu nhà cung cấp này không có trong hệ thống
+                    DialogResult result = MessageBox.Show("Nhà cung cấp này chưa có trong hệ thống. Bạn có muốn thêm không?",
+                                                          "Xác nhận thêm nhà cung cấp",
+                                                          MessageBoxButtons.YesNo,
+                                                          MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        db.DataReader("INSERT INTO NhaCungCap (TenNCC) VALUES (N'"+ tenNCC +"')");
+                        LoadcbbNCC();
+                        MessageBox.Show("Nhà cung cấp đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        cbbTenNCC.SelectedValue = db.DataReader("SELECT MaNCC FROM NhaCungCap WHERE TenNCC = N'"+ tenNCC + "'").Rows[0]["MaNCC"];
+                    }
+                    else
+                    {
+                        // Nếu người dùng chọn "Không", xóa nội dung của ComboBox
+                        cbbTenNCC.Text = string.Empty;
+                    }
+                }
+            }
+        }
+        private void cbbLoaiHang_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(cbbLoaiHang.Text))
+            {
+                string tenLH = cbbLoaiHang.Text.Trim();
+                DataTable dt = db.DataReader("SELECT COUNT(*) FROM LoaiHang WHERE TenLH = N'" + tenLH + "'");
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+                if (count == 0)
+                {
+                    // Hiển thị thông báo nếu loại hàng này không có trong hệ thống
+                    DialogResult result = MessageBox.Show("Loại hàng này chưa có trong hệ thống. Bạn có muốn thêm không?",
+                                                          "Xác nhận thêm loại hàng",
+                                                          MessageBoxButtons.YesNo,
+                                                          MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        db.DataReader("INSERT INTO LoaiHang (TenLH) VALUES (N'" + tenLH + "')");
+                        LoadcbbLoaiHang();
+                        MessageBox.Show("Loại hàng đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        cbbLoaiHang.SelectedValue = db.DataReader("SELECT MaLH FROM LoaiHang WHERE TenLH = N'" + tenLH + "'").Rows[0]["MaLH"];
+                    }
+                    else
+                    {
+                        // Nếu người dùng chọn "Không", xóa nội dung của ComboBox
+                        cbbLoaiHang.Text = string.Empty;
+                    }
+                }
+            }
+        }
+        private bool KiemTraThongTin()
+        {
+            if (string.IsNullOrWhiteSpace(cbbTenNCC.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên nhà cung cấp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTenNCC.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cbbLoaiHang.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên loại hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbLoaiHang.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cbbTenSP.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTenSP.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtSoLuongNhap.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số lượng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSoLuongNhap.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private void btnThemSP_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraThongTin())
+            {
+                return;
+            }
+
         }
     }
 }
