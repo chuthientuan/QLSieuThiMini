@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace QLSieuThiMini.UI
 {
-    public partial class FrmHome : Form
+    public partial class FrmAdmin : Form
     {
-        public FrmHome()
+        public FrmAdmin()
         {
             InitializeComponent();
         }
@@ -66,8 +66,6 @@ namespace QLSieuThiMini.UI
         private void btnLogout_Click(object sender, EventArgs e)
         {
             this.Close();
-            FrmLogin frmLogin = new FrmLogin();
-            frmLogin.Show();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace QLSieuThiMini
 
            
 
-            Application.Run(new frmNhanVien());
+            Application.Run(new FrmLogin());
 
         }
     }

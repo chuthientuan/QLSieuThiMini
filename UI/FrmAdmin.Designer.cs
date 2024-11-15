@@ -1,6 +1,6 @@
 ﻿namespace QLSieuThiMini.UI
 {
-    partial class FrmHome
+    partial class FrmAdmin
     {
         /// <summary>
         /// Required designer variable.
