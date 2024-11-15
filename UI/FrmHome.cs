@@ -62,5 +62,12 @@ namespace QLSieuThiMini.UI
         {
             ShowUserControl(new UC_SanPham());
         }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            FrmLogin frmLogin = new FrmLogin();
+            frmLogin.Show();
+        }
     }
 }
