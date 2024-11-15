@@ -17,7 +17,7 @@ namespace QLSieuThiMini
         DataBaseProcess db = new DataBaseProcess();
         private int mhd = 1;
         private DataTable invoiceProducts = new DataTable();
-        private decimal totalPrice = 0;
+        private double totalPrice = 0;
         public frmHDB()
         {
             InitializeComponent();
@@ -76,6 +76,7 @@ namespace QLSieuThiMini
         {
             readonlyText(true);
             enable(false);
+            btnHuySP.Enabled = false;
             DataTable dtb = db.DataReader("select TenNV from NhanVien where MaNV = N'NV01'");
             txtTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
             txtMaNV.Text = "NV01";
@@ -83,7 +84,6 @@ namespace QLSieuThiMini
             timer1.Tick += new EventHandler(timer1_Tick);
             timer1.Interval = 1000;
             timer1.Start();
-
             dtpNgayBan.Value = DateTime.Now;
         }
         void loadData()
@@ -117,6 +117,7 @@ namespace QLSieuThiMini
             btnHuy.Enabled = false;
             btnIn.Enabled = false;
             invoiceProducts.Clear();
+            dtpNgayBan.Value = DateTime.Now;
 
             DataTable dtSp = db.DataReader("select TenSP from SanPham");
             cbTenSP.DataSource = dtSp;
@@ -151,6 +152,7 @@ namespace QLSieuThiMini
         {
             readonlyText(true);
             enable(false);
+            btnHuySP.Enabled = false;
             btnHuy.Enabled = true;
             btnIn.Enabled = true;
 
@@ -175,6 +177,7 @@ namespace QLSieuThiMini
                 txtTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
+                lbTotalMoney.Text = dt.Rows[0]["TongTien"].ToString();
                 loadData();
             }
             else
@@ -270,15 +273,23 @@ namespace QLSieuThiMini
         }
         private void btnThemSP_Click(object sender, EventArgs e)
         {
+            btnHuySP.Enabled = true;
             if (string.IsNullOrEmpty(cbTenSP.Text) || !int.TryParse(txtSL.Text, out int quantity) || quantity <= 0)
             {
                 MessageBox.Show("Số lượng phải lớn hơn 0", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtSL.Focus();
                 return;
             }
-            decimal price = Convert.ToDecimal(txtDonGia.Text);
-            decimal discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDecimal(txtGiamGia.Text);
-            decimal total = quantity * price * (1 - discount / 100);
+            DataTable dtSP = db.DataReader("select SoLuong from SanPham where TenSP = N'" + cbTenSP.Text + "'");
+            int sl = int.Parse(dtSP.Rows[0]["SoLuong"].ToString());
+            if(sl < quantity)
+            {
+                MessageBox.Show("Số lượng sản phẩm không đủ. Hiện có " + sl + " sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            double price = Convert.ToDouble(txtDonGia.Text);
+            double discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDouble(txtGiamGia.Text);
+            double total = quantity * price * (1 - discount / 100);
             totalPrice += total;
             lbTotalMoney.Text = totalPrice.ToString();
             lbPay.Text = totalPrice.ToString();
@@ -325,9 +336,18 @@ namespace QLSieuThiMini
             }
             return true;
         }
+        private bool checkProduct()
+        {
+            if(invoiceProducts.Rows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if(!checkInformation())
+            if(!checkInformation() || !checkProduct())
             {
                 return;
             }
@@ -379,7 +399,6 @@ namespace QLSieuThiMini
                 MessageBox.Show("Lỗi khi lưu hóa đơn: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnThoat_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn thoát chương trình không?",
@@ -397,6 +416,7 @@ namespace QLSieuThiMini
             loadCbbMHD();
             enable(false);
             resetValue();
+            btnHuySP.Enabled = false;
             cbTenSP.SelectedIndex = -1;
             loadData();
         }
@@ -500,6 +520,30 @@ namespace QLSieuThiMini
             excelApp.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
         }
-        
+        private void btnHuySP_Click(object sender, EventArgs e)
+        {
+            if (dtMatHang.SelectedRows.Count > 0)
+            {
+                DialogResult result = MessageBox.Show("Bạn có muốn hủy các sản phẩm đã chọn?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    for (int i = dtMatHang.SelectedRows.Count - 1; i >= 0; i--)
+                    {
+                        int rowIndex = dtMatHang.SelectedRows[i].Index;
+                        double total = Convert.ToDouble(invoiceProducts.Rows[rowIndex]["Thành Tiền"]);
+                        totalPrice -= total;
+                        invoiceProducts.Rows.RemoveAt(rowIndex);
+                    }
+                    lbTotalMoney.Text = totalPrice.ToString();
+                    lbPay.Text = totalPrice.ToString();
+                    dtMatHang.DataSource = invoiceProducts;
+                    dtMatHang.Refresh();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Chọn ít nhất một sản phẩm để hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }

@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataBaseProcess.cs" />
+    <Compile Include="Classes\Session.cs" />
     <Compile Include="frmHDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +159,12 @@
     </Compile>
     <Compile Include="UI\FrmHome.Designer.cs">
       <DependentUpon>FrmHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UC_HDB.cs">
       <SubType>UserControl</SubType>
@@ -222,6 +229,9 @@
     </Compile>
     <EmbeddedResource Include="UI\FrmHome.resx">
       <DependentUpon>FrmHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UC_HDB.resx">
       <DependentUpon>UC_HDB.cs</DependentUpon>
@@ -315,6 +325,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ic-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-login.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
