@@ -156,6 +156,7 @@ namespace QLSieuThiMini
             dgvHDN.Columns[3].HeaderText = "Số lượng nhập";
             dgvHDN.Columns[4].HeaderText = "Thành tiền";
 
+
             dgvHDN.BackgroundColor = Color.LightBlue;
         }
         //LoadCBB tìm kiếm hóa đơn
@@ -326,7 +327,6 @@ namespace QLSieuThiMini
             HidebtnChucNang(false);
 
             btnThemSP.Enabled = true;
-            btnLuuHD.Enabled = true;
 
             //Sinh mã hóa đơn nhập
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
@@ -502,7 +502,94 @@ namespace QLSieuThiMini
             {
                 return;
             }
+            DataTable dt = (DataTable)dgvHDN.DataSource;
+            string loaiHang = cbbLoaiHang.Text;
+            string tenSP = cbbTenSP.Text;
+            decimal donGiaNhap = Convert.ToDecimal(txtDonGiaNhap.Text);
+            int soLuongNhap = Convert.ToInt32(txtSoLuongNhap.Text);
+            decimal thanhTien = Convert.ToDecimal(txtThanhTien.Text);
 
+            // Biến kiểm tra sản phẩm đã tồn tại
+            bool daTonTai = false;
+
+            // Duyệt qua các dòng trong DataTable
+            foreach (DataRow row in dt.Rows)
+            {
+                // Kiểm tra nếu trùng loại hàng và tên sản phẩm
+                if (row["TenLH"].ToString() == loaiHang && row["TenSP"].ToString() == tenSP)
+                {
+                    row["SLNhap"] = soLuongNhap;         // Cập nhật số lượng
+                    row["ThanhTien"] = thanhTien;        // Cập nhật thành tiền từ input
+                    daTonTai = true;
+                    break; // Dừng kiểm tra vì đã cập nhật
+                }
+            }
+            // Nếu chưa tồn tại, thêm dòng mới
+            if (!daTonTai)
+            {
+                dt.Rows.Add(loaiHang, tenSP, donGiaNhap, soLuongNhap, thanhTien);
+            }
+
+            // Gán lại DataTable vào DataGridView
+            dgvHDN.DataSource = dt;
+
+            // Tính tổng thành tiền và cập nhật vào txtTongTien
+            decimal tongTien = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                tongTien += Convert.ToDecimal(row["ThanhTien"]);
+            }
+
+            txtTongTien.Text = tongTien.ToString("N0");
+
+            if (dt.Rows.Count > 0)
+            {
+                btnLuuHD.Enabled = true; // Hiển thị nút Lưu nếu có dữ liệu
+            }
+            else
+            {
+                btnLuuHD.Enabled = false; // Ẩn nút Lưu nếu bảng trống
+            }
+
+            ResetTTSP();
+        }
+
+        private void dgvHDN_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (btnThemSP.Enabled)
+            {
+                // Kiểm tra nếu dòng được chọn hợp lệ (không phải header hoặc ngoài phạm vi)
+                if (e.RowIndex >= 0)
+                {
+                    // Lấy dòng đang được chọn
+                    DataGridViewRow selectedRow = dgvHDN.Rows[e.RowIndex];
+
+                    // Kiểm tra nếu dòng này không phải là dòng mới
+                    if (!selectedRow.IsNewRow)
+                    {
+                        // Nếu dòng có dữ liệu hợp lệ, thực hiện xóa
+                        dgvHDN.Rows.RemoveAt(e.RowIndex);
+
+                        // Tính lại tổng thành tiền
+                        decimal tongTien = 0;
+                        foreach (DataGridViewRow row in dgvHDN.Rows)
+                        {
+                            // Cộng dồn giá trị cột "ThanhTien" vào tổng
+                            tongTien += Convert.ToDecimal(row.Cells["ThanhTien"].Value);
+                        }
+
+                        // Kiểm tra nếu bảng trống, đặt tổng tiền bằng 0
+                        if (dgvHDN.Rows.Count == 1)
+                        {
+                            tongTien = 0;
+                            btnLuuHD.Enabled = false;
+                        }
+
+                        // Cập nhật lại tổng tiền vào txtTongTien
+                        txtTongTien.Text = tongTien.ToString("N0"); // Định dạng hiển thị số
+                    }
+                }
+            }
         }
     }
 }
