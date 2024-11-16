@@ -31,8 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.lbName = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
+            this.pnlContent = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
             this.btnLogout = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
@@ -40,8 +43,6 @@
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.imgSlide = new System.Windows.Forms.PictureBox();
-            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.pnlContent = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox2)).BeginInit();
@@ -50,6 +51,7 @@
             // 
             // guna2Panel1
             // 
+            this.guna2Panel1.Controls.Add(this.guna2Button6);
             this.guna2Panel1.Controls.Add(this.guna2Panel2);
             this.guna2Panel1.Controls.Add(this.btnLogout);
             this.guna2Panel1.Controls.Add(this.guna2Button5);
@@ -74,16 +76,6 @@
             this.guna2Panel2.Size = new System.Drawing.Size(180, 163);
             this.guna2Panel2.TabIndex = 7;
             // 
-            // guna2PictureBox2
-            // 
-            this.guna2PictureBox2.Image = global::QLSieuThiMini.Properties.Resources.icons8_admin_100;
-            this.guna2PictureBox2.ImageRotate = 0F;
-            this.guna2PictureBox2.Location = new System.Drawing.Point(35, 12);
-            this.guna2PictureBox2.Name = "guna2PictureBox2";
-            this.guna2PictureBox2.Size = new System.Drawing.Size(108, 111);
-            this.guna2PictureBox2.TabIndex = 1;
-            this.guna2PictureBox2.TabStop = false;
-            // 
             // lbName
             // 
             this.lbName.BackColor = System.Drawing.Color.Transparent;
@@ -96,6 +88,57 @@
             this.lbName.Text = "Admin";
             this.lbName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.lbName.UseSystemCursors = true;
+            // 
+            // guna2Elipse1
+            // 
+            this.guna2Elipse1.BorderRadius = 26;
+            this.guna2Elipse1.TargetControl = this;
+            // 
+            // pnlContent
+            // 
+            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContent.Location = new System.Drawing.Point(180, 0);
+            this.pnlContent.Name = "pnlContent";
+            this.pnlContent.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
+            this.pnlContent.Size = new System.Drawing.Size(1240, 710);
+            this.pnlContent.TabIndex = 2;
+            // 
+            // guna2Button6
+            // 
+            this.guna2Button6.BackColor = System.Drawing.Color.Transparent;
+            this.guna2Button6.BorderRadius = 22;
+            this.guna2Button6.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            this.guna2Button6.Checked = true;
+            this.guna2Button6.CheckedState.FillColor = System.Drawing.Color.White;
+            this.guna2Button6.CheckedState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(118)))), ((int)(((byte)(212)))));
+            this.guna2Button6.CheckedState.Image = global::QLSieuThiMini.Properties.Resources.ic_dashboard_blue;
+            this.guna2Button6.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button6.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button6.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button6.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button6.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(118)))), ((int)(((byte)(212)))));
+            this.guna2Button6.Font = new System.Drawing.Font("Times New Roman", 10.2F);
+            this.guna2Button6.ForeColor = System.Drawing.Color.White;
+            this.guna2Button6.Image = global::QLSieuThiMini.Properties.Resources.ic_dashboard_white;
+            this.guna2Button6.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.guna2Button6.Location = new System.Drawing.Point(10, 213);
+            this.guna2Button6.Name = "guna2Button6";
+            this.guna2Button6.Size = new System.Drawing.Size(163, 44);
+            this.guna2Button6.TabIndex = 6;
+            this.guna2Button6.Text = "Tổng quan";
+            this.guna2Button6.UseTransparentBackground = true;
+            this.guna2Button6.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
+            this.guna2Button6.Click += new System.EventHandler(this.guna2Button6_Click);
+            // 
+            // guna2PictureBox2
+            // 
+            this.guna2PictureBox2.Image = global::QLSieuThiMini.Properties.Resources.icons8_admin_100;
+            this.guna2PictureBox2.ImageRotate = 0F;
+            this.guna2PictureBox2.Location = new System.Drawing.Point(35, 12);
+            this.guna2PictureBox2.Name = "guna2PictureBox2";
+            this.guna2PictureBox2.Size = new System.Drawing.Size(108, 111);
+            this.guna2PictureBox2.TabIndex = 1;
+            this.guna2PictureBox2.TabStop = false;
             // 
             // btnLogout
             // 
@@ -132,13 +175,13 @@
             this.guna2Button5.ForeColor = System.Drawing.Color.White;
             this.guna2Button5.Image = global::QLSieuThiMini.Properties.Resources.ic_product_white;
             this.guna2Button5.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.guna2Button5.Location = new System.Drawing.Point(10, 476);
+            this.guna2Button5.Location = new System.Drawing.Point(10, 513);
             this.guna2Button5.Name = "guna2Button5";
             this.guna2Button5.Size = new System.Drawing.Size(163, 44);
             this.guna2Button5.TabIndex = 5;
             this.guna2Button5.Text = "Sản Phẩm";
             this.guna2Button5.UseTransparentBackground = true;
-            this.guna2Button5.CheckedChanged += new System.EventHandler(this.guna2Button1_CheckedChanged);
+            this.guna2Button5.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
             this.guna2Button5.Click += new System.EventHandler(this.guna2Button5_Click);
             // 
             // guna2Button4
@@ -158,13 +201,13 @@
             this.guna2Button4.ForeColor = System.Drawing.Color.White;
             this.guna2Button4.Image = global::QLSieuThiMini.Properties.Resources.ic_invoice_white;
             this.guna2Button4.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.guna2Button4.Location = new System.Drawing.Point(10, 411);
+            this.guna2Button4.Location = new System.Drawing.Point(10, 453);
             this.guna2Button4.Name = "guna2Button4";
             this.guna2Button4.Size = new System.Drawing.Size(163, 44);
             this.guna2Button4.TabIndex = 4;
             this.guna2Button4.Text = "Hóa Đơn Nhập";
             this.guna2Button4.UseTransparentBackground = true;
-            this.guna2Button4.CheckedChanged += new System.EventHandler(this.guna2Button1_CheckedChanged);
+            this.guna2Button4.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
             this.guna2Button4.Click += new System.EventHandler(this.guna2Button4_Click);
             // 
             // guna2Button3
@@ -184,13 +227,13 @@
             this.guna2Button3.ForeColor = System.Drawing.Color.White;
             this.guna2Button3.Image = global::QLSieuThiMini.Properties.Resources.ic_invoice_white;
             this.guna2Button3.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.guna2Button3.Location = new System.Drawing.Point(10, 346);
+            this.guna2Button3.Location = new System.Drawing.Point(10, 393);
             this.guna2Button3.Name = "guna2Button3";
             this.guna2Button3.Size = new System.Drawing.Size(163, 44);
             this.guna2Button3.TabIndex = 3;
             this.guna2Button3.Text = "Hóa Đơn Bán";
             this.guna2Button3.UseTransparentBackground = true;
-            this.guna2Button3.CheckedChanged += new System.EventHandler(this.guna2Button1_CheckedChanged);
+            this.guna2Button3.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
             this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
             // 
             // guna2Button2
@@ -210,13 +253,13 @@
             this.guna2Button2.ForeColor = System.Drawing.Color.White;
             this.guna2Button2.Image = global::QLSieuThiMini.Properties.Resources.ic_customer_white;
             this.guna2Button2.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.guna2Button2.Location = new System.Drawing.Point(10, 281);
+            this.guna2Button2.Location = new System.Drawing.Point(10, 333);
             this.guna2Button2.Name = "guna2Button2";
             this.guna2Button2.Size = new System.Drawing.Size(163, 44);
             this.guna2Button2.TabIndex = 2;
             this.guna2Button2.Text = "Khách Hàng";
             this.guna2Button2.UseTransparentBackground = true;
-            this.guna2Button2.CheckedChanged += new System.EventHandler(this.guna2Button1_CheckedChanged);
+            this.guna2Button2.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
             this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
             // 
             // guna2Button1
@@ -224,7 +267,6 @@
             this.guna2Button1.BackColor = System.Drawing.Color.Transparent;
             this.guna2Button1.BorderRadius = 22;
             this.guna2Button1.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            this.guna2Button1.Checked = true;
             this.guna2Button1.CheckedState.FillColor = System.Drawing.Color.White;
             this.guna2Button1.CheckedState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(118)))), ((int)(((byte)(212)))));
             this.guna2Button1.CheckedState.Image = global::QLSieuThiMini.Properties.Resources.ic_employee_blue;
@@ -237,37 +279,23 @@
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
             this.guna2Button1.Image = global::QLSieuThiMini.Properties.Resources.ic_employee_white;
             this.guna2Button1.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.guna2Button1.Location = new System.Drawing.Point(10, 216);
+            this.guna2Button1.Location = new System.Drawing.Point(10, 273);
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(163, 44);
             this.guna2Button1.TabIndex = 1;
             this.guna2Button1.Text = "Nhân Viên";
             this.guna2Button1.UseTransparentBackground = true;
-            this.guna2Button1.CheckedChanged += new System.EventHandler(this.guna2Button1_CheckedChanged);
+            this.guna2Button1.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // imgSlide
             // 
             this.imgSlide.Image = global::QLSieuThiMini.Properties.Resources.image_check;
-            this.imgSlide.Location = new System.Drawing.Point(141, 186);
+            this.imgSlide.Location = new System.Drawing.Point(142, 183);
             this.imgSlide.Name = "imgSlide";
             this.imgSlide.Size = new System.Drawing.Size(39, 101);
             this.imgSlide.TabIndex = 1;
             this.imgSlide.TabStop = false;
-            // 
-            // guna2Elipse1
-            // 
-            this.guna2Elipse1.BorderRadius = 26;
-            this.guna2Elipse1.TargetControl = this;
-            // 
-            // pnlContent
-            // 
-            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContent.Location = new System.Drawing.Point(180, 0);
-            this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
-            this.pnlContent.Size = new System.Drawing.Size(1240, 710);
-            this.pnlContent.TabIndex = 2;
             // 
             // FrmAdmin
             // 
@@ -305,5 +333,6 @@
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel lbName;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
+        private Guna.UI2.WinForms.Guna2Button guna2Button6;
     }
 }
