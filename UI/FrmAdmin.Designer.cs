@@ -77,11 +77,11 @@
             // lbName
             // 
             this.lbName.BackColor = System.Drawing.Color.Transparent;
-            this.lbName.Font = new System.Drawing.Font("Times New Roman", 20F);
+            this.lbName.Font = new System.Drawing.Font("Times New Roman", 14F);
             this.lbName.ForeColor = System.Drawing.Color.White;
-            this.lbName.Location = new System.Drawing.Point(55, 129);
+            this.lbName.Location = new System.Drawing.Point(52, 129);
             this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(92, 39);
+            this.lbName.Size = new System.Drawing.Size(67, 28);
             this.lbName.TabIndex = 0;
             this.lbName.Text = "Admin";
             this.lbName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
