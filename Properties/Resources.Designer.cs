@@ -73,6 +73,16 @@ namespace QLSieuThiMini.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ic_admin {
+            get {
+                object obj = ResourceManager.GetObject("ic-admin", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ic_cancle {
             get {
                 object obj = ResourceManager.GetObject("ic-cancle", resourceCulture);
@@ -276,6 +286,16 @@ namespace QLSieuThiMini.Properties {
         internal static System.Drawing.Bitmap icons8_add_67 {
             get {
                 object obj = ResourceManager.GetObject("icons8-add-67", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_admin_100 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-admin-100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
