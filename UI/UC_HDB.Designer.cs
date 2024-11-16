@@ -930,7 +930,7 @@
             this.Controls.Add(this.guna2GroupBox3);
             this.Controls.Add(this.guna2GroupBox1);
             this.Name = "UC_HDB";
-            this.Size = new System.Drawing.Size(1153, 665);
+            this.Size = new System.Drawing.Size(1153, 710);
             this.Load += new System.EventHandler(this.UC_HDB_Load);
             this.guna2GroupBox1.ResumeLayout(false);
             this.guna2GroupBox1.PerformLayout();
