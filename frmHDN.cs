@@ -26,9 +26,6 @@ namespace QLSieuThiMini
             cbbLoaiHang.SelectedIndex = -1;
 
             cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDownList;
-            //cbbLoaiHang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            //cbbLoaiHang.AutoCompleteSource = AutoCompleteSource.ListItems;
-
         }
         private void LoadcbbNCC()
         {
@@ -156,7 +153,6 @@ namespace QLSieuThiMini
             dgvHDN.Columns[3].HeaderText = "Số lượng nhập";
             dgvHDN.Columns[4].HeaderText = "Thành tiền";
 
-
             dgvHDN.BackgroundColor = Color.LightBlue;
         }
         //LoadCBB tìm kiếm hóa đơn
@@ -208,7 +204,6 @@ namespace QLSieuThiMini
 
             //Load cbb tìm kiếm mã hóa đơn
             LoadCbbMHD();
-
             LoadData();
         }
         private void btnTimKiem_Click(object sender, EventArgs e)
@@ -245,14 +240,6 @@ namespace QLSieuThiMini
         }
         private void dgvHDN_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //cbbLoaiHang.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
-            //cbbTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
-            ////txtDonGiaNhap.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
-            //txtDonGiaNhap.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[2].Value).ToString("N0");
-            //txtSoLuongNhap.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
-            ////txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
-            //txtThanhTien.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[4].Value).ToString("N0");
-
             // Kiểm tra xem ô trong cột Mã Hóa Đơn (hoặc bất kỳ ô nào trong hàng) có giá trị hợp lệ không
             if (dgvHDN.CurrentRow.Cells[0].Value == DBNull.Value ||
                 dgvHDN.CurrentRow.Cells[1].Value == DBNull.Value ||
@@ -293,7 +280,6 @@ namespace QLSieuThiMini
             btnThemHD.Enabled = true;
 
             LoadData();
-
         }
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
@@ -349,8 +335,6 @@ namespace QLSieuThiMini
                 cbbTenSP.SelectedIndex = -1;
 
                 cbbTenSP.DropDownStyle = ComboBoxStyle.DropDownList;
-                //cbbTenSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                //cbbTenSP.AutoCompleteSource = AutoCompleteSource.ListItems;
             }
         }
         private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
@@ -387,14 +371,13 @@ namespace QLSieuThiMini
             { 
                 e.Handled = true; 
             }
+            if (txtSoLuongNhap.Text.Length == 0 && e.KeyChar == '0')
+            {
+                e.Handled = true; // Ngừng nhập "0" đầu tiên
+            }
         }
         private void txtSoLuongNhap_TextChanged(object sender, EventArgs e)
         {
-            if(txtSoLuongNhap.Text.Length > 1 && txtSoLuongNhap.Text.StartsWith("0"))
-            {
-                txtSoLuongNhap.Text = txtSoLuongNhap.Text.Substring(1);
-                txtSoLuongNhap.SelectionStart = txtSoLuongNhap.Text.Length;
-            }
             if (int.TryParse(txtSoLuongNhap.Text, out int soLuong) && decimal.TryParse(txtDonGiaNhap.Text, out decimal donGia))
             {
                 // Tính toán thành tiền
@@ -438,35 +421,6 @@ namespace QLSieuThiMini
                 }
             }
         }
-        //private void cbbLoaiHang_Leave(object sender, EventArgs e)
-        //{
-        //    if (!String.IsNullOrEmpty(cbbLoaiHang.Text))
-        //    {
-        //        string tenLH = cbbLoaiHang.Text.Trim();
-        //        DataTable dt = db.DataReader("SELECT COUNT(*) FROM LoaiHang WHERE TenLH = N'" + tenLH + "'");
-        //        int count = Convert.ToInt32(dt.Rows[0][0]);
-        //        if (count == 0)
-        //        {
-        //            // Hiển thị thông báo nếu loại hàng này không có trong hệ thống
-        //            DialogResult result = MessageBox.Show("Loại hàng này chưa có trong hệ thống. Bạn có muốn thêm không?",
-        //                                                  "Xác nhận thêm loại hàng",
-        //                                                  MessageBoxButtons.YesNo,
-        //                                                  MessageBoxIcon.Question);
-        //            if (result == DialogResult.Yes)
-        //            {
-        //                db.DataReader("INSERT INTO LoaiHang (TenLH) VALUES (N'" + tenLH + "')");
-        //                LoadcbbLoaiHang();
-        //                MessageBox.Show("Loại hàng đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        //                cbbLoaiHang.SelectedValue = db.DataReader("SELECT MaLH FROM LoaiHang WHERE TenLH = N'" + tenLH + "'").Rows[0]["MaLH"];
-        //            }
-        //            else
-        //            {
-        //                // Nếu người dùng chọn "Không", xóa nội dung của ComboBox
-        //                cbbLoaiHang.Text = string.Empty;
-        //            }
-        //        }
-        //    }
-        //}
         private bool KiemTraThongTin()
         {
             if (string.IsNullOrWhiteSpace(cbbTenNCC.Text))
@@ -529,7 +483,6 @@ namespace QLSieuThiMini
             {
                 dt.Rows.Add(loaiHang, tenSP, donGiaNhap, soLuongNhap, thanhTien);
             }
-
             // Gán lại DataTable vào DataGridView
             dgvHDN.DataSource = dt;
 
