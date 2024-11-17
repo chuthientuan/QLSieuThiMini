@@ -35,6 +35,7 @@ namespace QLSieuThiMini
             cbbTenNCC.DisplayMember = "TenNCC";
             cbbTenNCC.SelectedIndex = -1;
 
+            cbbTenNCC.DropDownHeight = 200;
             cbbTenNCC.DropDownStyle = ComboBoxStyle.DropDown;
             cbbTenNCC.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbbTenNCC.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -164,10 +165,8 @@ namespace QLSieuThiMini
             cbbTKMHDN.ValueMember = "MaHDN";
             cbbTKMHDN.SelectedIndex = -1;
 
-            // Đặt DropDownStyle là DropDown để cho phép nhập văn bản
+            cbbTKMHDN.DropDownHeight = 200;
             cbbTKMHDN.DropDownStyle = ComboBoxStyle.DropDown;
-
-            // Thiết lập AutoCompleteMode và AutoCompleteSource
             cbbTKMHDN.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbbTKMHDN.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
@@ -408,7 +407,7 @@ namespace QLSieuThiMini
                                                           MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
-                        db.DataReader("INSERT INTO NhaCungCap (TenNCC) VALUES (N'"+ tenNCC +"')");
+                        db.DataChange("INSERT INTO NhaCungCap (TenNCC) VALUES (N'"+ tenNCC +"')");
                         LoadcbbNCC();
                         MessageBox.Show("Nhà cung cấp đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         cbbTenNCC.SelectedValue = db.DataReader("SELECT MaNCC FROM NhaCungCap WHERE TenNCC = N'"+ tenNCC + "'").Rows[0]["MaNCC"];
@@ -553,16 +552,44 @@ namespace QLSieuThiMini
 
         private void btnLuuHD_Click(object sender, EventArgs e)
         {
-            string maHDN = txtMHDN.Text.Trim();
-            string maNV = lblMaNV.Text.Trim();
-            string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
-            string tongTien = txtTongTien.Text.Replace(",", "").Trim();
-            string maNCC = cbbTenNCC.SelectedValue.ToString();
+            DialogResult result = MessageBox.Show("Bạn có muốn lưu hóa đơn này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+            //string maHDN = txtMHDN.Text.Trim();
+            //string maNV = lblMaNV.Text.Trim();
+            //string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
+            //string tongTien = txtTongTien.Text.Replace(",", "").Trim();
+            //string maNCC = cbbTenNCC.SelectedValue.ToString();
 
-            db.DataReader($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
-                          $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
+            //db.DataChange($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
+            //              $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
 
-            //lưu từng dòng
+            ////lưu từng dòng
+            //foreach (DataGridViewRow row in dgvHDN.Rows)
+            //{
+            //    if (!row.IsNewRow) // Bỏ qua dòng mới chưa được điền
+            //    {
+            //        // Lấy Tên sản phẩm từ DataGridView
+            //        string tenSP = row.Cells["TenSP"].Value.ToString();
+
+            //        string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+            //        string thanhTien = row.Cells["ThanhTien"].Value.ToString().Replace(",", "").Trim();
+            //        string soLuongNhap = row.Cells["SLNhap"].Value.ToString();
+
+            //        db.DataChange($"INSERT INTO ChiTietHDN (MaHDN, MaSP, ThanhTien, SLNhap) " +
+            //                      $"VALUES ('{maHDN}', '{maSP}', {thanhTien}, {soLuongNhap})");
+            //    }
+            //}
+            //MessageBox.Show("Hóa đơn nhập đã được lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //ResetTTChung();
+            //string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
+            //txtMHDN.Text = newMaHD;
+            //ResetTTSP();
+            //LoadcbbLoaiHang();
+            //LoadData();
+            
         }
     }
 }

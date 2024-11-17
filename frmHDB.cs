@@ -27,14 +27,13 @@ namespace QLSieuThiMini
         {
             txtSL.ReadOnly = hide;
             txtGiamGia.ReadOnly = hide;
-            txtTenKH.ReadOnly = hide;
             txtSDT.ReadOnly = hide;
             txtDiaChi.ReadOnly = hide;
         }
         private void enable(bool enable)
         {
             cbTenSP.Enabled = enable;
-            cbMaKH.Enabled = enable;
+            cbTenKH.Enabled = enable;
             btnHuy.Enabled = enable;
             btnLuu.Enabled = enable;
             btnIn.Enabled = enable;
@@ -48,8 +47,7 @@ namespace QLSieuThiMini
             cbMaHD.Text = null;
             txtGiamGia.Text = null;
             txtMaHD.Text = null;
-            cbMaKH.Text = null;
-            txtTenKH.Text = null;
+            cbTenKH.Text = null;
             txtSDT.Text = null;
             txtDiaChi.Text = null;
             lbTotalMoney.Text = "0";
@@ -125,11 +123,14 @@ namespace QLSieuThiMini
             cbTenSP.ValueMember = "TenSP";
             cbTenSP.SelectedIndex = -1;
 
-            DataTable dtKh = db.DataReader("select MaKH from KhachHang");
-            cbMaKH.DataSource = dtKh;
-            cbMaKH.DisplayMember = "MaKH";
-            cbMaKH.ValueMember = "MaKH";
-            cbMaKH.SelectedIndex = -1;
+            DataTable dtKh = db.DataReader("select TenKH from KhachHang");
+            cbTenKH.DataSource = dtKh;
+            cbTenKH.DisplayMember = "TenKH";
+            cbTenKH.ValueMember = "TenKH";
+            cbTenKH.SelectedIndex = -1;
+            cbTenKH.DropDownStyle = ComboBoxStyle.DropDown;
+            cbTenKH.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbTenKH.AutoCompleteSource = AutoCompleteSource.ListItems;
 
             DateTime currentDate = DateTime.Now;
             string formatDate = currentDate.ToString("ddMMyyyy");
@@ -173,11 +174,10 @@ namespace QLSieuThiMini
             {
                 txtMaHD.Text = cbMaHD.Text;
                 dtpNgayBan.Value = Convert.ToDateTime(dt.Rows[0]["NgayBan"]);
-                cbMaKH.Text = dt.Rows[0]["MaKH"].ToString();
-                txtTenKH.Text = dt.Rows[0]["TenKH"].ToString();
+                cbTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
-                lbTotalMoney.Text = dt.Rows[0]["TongTien"].ToString();
+                lbTotalMoney.Text = String.Format("{0:N0} VNĐ", dt.Rows[0]["TongTien"]);
                 loadData();
             }
             else
@@ -200,38 +200,40 @@ namespace QLSieuThiMini
                 DataTable dt = db.DataReader("select * from KhachHang where DienThoai = '" + txtSDT.Text + "'");
                 if (dt.Rows.Count > 0)
                 {
-                    cbMaKH.Text = dt.Rows[0]["MaKH"].ToString();
-                    txtTenKH.Text = dt.Rows[0]["TenKH"].ToString();
+                    cbTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                     txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
                 }
                 else
                 {
-                    cbMaKH.Text = string.Empty;
-                    txtTenKH.Text = string.Empty;
-                    txtDiaChi.Text = string.Empty;
+                    cbTenKH.Text = cbTenKH.Text;
+                    txtDiaChi.Text = txtDiaChi.Text;
                 }
             }
             else
             {
-                cbMaKH.Text = string.Empty;
-                txtTenKH.Text = string.Empty;
+                cbTenKH.Text = string.Empty;
                 txtDiaChi.Text = string.Empty;
             }
         }
-        private void cbMaKH_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbTenKH_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataTable dt = db.DataReader("select * from KhachHang where MaKH = '" + cbMaKH.Text + "'");
-            if (dt.Rows.Count > 0)
+            DataTable dt = db.DataReader("select * from KhachHang where TenKH = N'" + cbTenKH.Text + "'");
+            if(dt.Rows.Count > 0)
             {
-                txtTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
             }
             else
             {
-                txtTenKH.Text = string.Empty;
                 txtSDT.Text = string.Empty;
                 txtDiaChi.Text = string.Empty;
+            }
+        }
+        private void cbTenKH_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true; 
             }
         }
         private void txtSL_KeyPress(object sender, KeyPressEventArgs e)
@@ -291,8 +293,8 @@ namespace QLSieuThiMini
             double discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDouble(txtGiamGia.Text);
             double total = quantity * price * (1 - discount / 100);
             totalPrice += total;
-            lbTotalMoney.Text = totalPrice.ToString();
-            lbPay.Text = totalPrice.ToString();
+            lbTotalMoney.Text = String.Format("{0:N0} VNĐ", totalPrice);
+            lbPay.Text = String.Format("{0:N0} VNĐ", totalPrice);
             DataTable dt = db.DataReader("select MaSP from SanPham where TenSP = N'" + cbTenSP.Text + "'");
             int maSP = int.Parse(dt.Rows[0]["MaSP"].ToString());
             try
@@ -316,10 +318,10 @@ namespace QLSieuThiMini
         }
         private bool checkInformation()
         {
-            if (string.IsNullOrWhiteSpace(txtTenKH.Text))
+            if (string.IsNullOrWhiteSpace(cbTenKH.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên khách hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtTenKH.Focus();
+                cbTenKH.Focus();
                 return false;
             }
             if (string.IsNullOrWhiteSpace(txtSDT.Text))
@@ -359,7 +361,7 @@ namespace QLSieuThiMini
                 if(count == 0 )
                 {
                     string sqlInsertKH = "insert into KhachHang (TenKH, DiaChi, DienThoai) values" +
-                        "('" + txtTenKH.Text + "', '" + txtDiaChi.Text + "', '" + txtSDT.Text + "')";
+                        "('" + cbTenKH.Text + "', '" + txtDiaChi.Text + "', '" + txtSDT.Text + "')";
                     db.DataChange(sqlInsertKH);
                     string sqlGetNewKH = "select MaKH from KhachHang where DienThoai = '" + txtSDT.Text + "'";
                     customerId = (int)db.ExecuteScalar(sqlGetNewKH);
@@ -371,8 +373,9 @@ namespace QLSieuThiMini
                 }
                 DataTable dt = db.DataReader("select MaKH from KhachHang where DienThoai = '" + txtSDT.Text + "'");
                 int maKH = int.Parse(dt.Rows[0]["MaKH"].ToString());
+                decimal totalMoney = decimal.Parse(lbTotalMoney.Text.Replace(" VNĐ", "").Replace(",", ""));
                 string invoiceSql = "insert into HoaDonBan (MaHDB, MaNV, NgayBan, TongTien, MaKH) values" +
-                    "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + lbTotalMoney.Text + "', '" + maKH + "')";
+                    "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + totalMoney + "', '" + maKH + "')";
                 db.DataChange(invoiceSql);
                 foreach(DataRow row in invoiceProducts.Rows)
                 {
@@ -389,6 +392,14 @@ namespace QLSieuThiMini
                     db.DataChange(updateQuantitySql);
                 }
                 MessageBox.Show("Lưu hóa đơn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult result = MessageBox.Show("Bạn có muốn in hóa đơn không?",
+                                          "Xác nhận",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    print1();
+                }
                 resetValue();
                 loadCbbMHD();
                 readonlyText(true);
@@ -461,7 +472,7 @@ namespace QLSieuThiMini
             }
             loadData();
         }
-        private void btnIn_Click(object sender, EventArgs e)
+        private void print1()
         {
             Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
             excelApp.Visible = true;
@@ -474,7 +485,7 @@ namespace QLSieuThiMini
             worksheet.Cells[3, 1] = "Ngày:";
             worksheet.Cells[3, 2] = dtpNgayBan.Value.ToString("dd/MM/yyyy");
             worksheet.Cells[4, 1] = "Tên Khách Hàng:";
-            worksheet.Cells[4, 2] = txtTenKH.Text;
+            worksheet.Cells[4, 2] = cbTenKH.Text;
             worksheet.Cells[5, 1] = "Số Điện Thoại:";
             worksheet.Cells[5, 2].NumberFormat = "@";
             worksheet.Cells[5, 2] = txtSDT.Text;
@@ -488,20 +499,17 @@ namespace QLSieuThiMini
             worksheet.Cells[8, 5] = "Thành Tiền";
 
             int row = 9;
-            foreach (DataGridViewRow dgvRow in dtMatHang.Rows) 
+            foreach (DataRow dgvRow in invoiceProducts.Rows)
             {
-                if (dgvRow.IsNewRow) continue;
-                worksheet.Cells[row, 1] = dgvRow.Cells["TenSP"].Value;
-                worksheet.Cells[row, 2] = dgvRow.Cells["SLBan"].Value;
-                worksheet.Cells[row, 3] = dgvRow.Cells["DonGiaBan"].Value;
-                worksheet.Cells[row, 4] = dgvRow.Cells["KhuyenMai"].Value;
-                worksheet.Cells[row, 5] = dgvRow.Cells["ThanhTien"].Value;
+                worksheet.Cells[row, 1] = dgvRow["Tên hàng"].ToString();
+                worksheet.Cells[row, 2] = dgvRow["Số lượng"].ToString();
+                worksheet.Cells[row, 3] = dgvRow["Giá"].ToString();
+                worksheet.Cells[row, 4] = dgvRow["Giảm giá"].ToString();
+                worksheet.Cells[row, 5] = dgvRow["Thành tiền"].ToString();
                 row++;
             }
-            string sql = "select TongTien from HoaDonBan where MaHDB = '" + cbMaHD.Text + "'";
-            DataTable dt = db.DataReader(sql);
             worksheet.Cells[row + 1, 5] = "Tổng Tiền:";
-            worksheet.Cells[row + 1, 6] = dt.Rows[0]["TongTien"].ToString();
+            worksheet.Cells[row + 1, 6] = lbTotalMoney.Text;
             worksheet.Range["A1", "F1"].Font.Bold = true;
             worksheet.Range["A8", "F8"].Font.Bold = true;
             worksheet.Columns.AutoFit();
@@ -519,6 +527,69 @@ namespace QLSieuThiMini
             workbook.Close(false);
             excelApp.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+        }
+        private void print()
+        {
+            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            excelApp.Visible = true;
+            Microsoft.Office.Interop.Excel.Workbook workbook = excelApp.Workbooks.Add();
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
+
+            worksheet.Cells[1, 1] = "Hóa Đơn Bán";
+            worksheet.Cells[2, 1] = "Mã Hóa Đơn:";
+            worksheet.Cells[2, 2] = txtMaHD.Text;
+            worksheet.Cells[3, 1] = "Ngày:";
+            worksheet.Cells[3, 2] = dtpNgayBan.Value.ToString("dd/MM/yyyy");
+            worksheet.Cells[4, 1] = "Tên Khách Hàng:";
+            worksheet.Cells[4, 2] = cbTenKH.Text;
+            worksheet.Cells[5, 1] = "Số Điện Thoại:";
+            worksheet.Cells[5, 2].NumberFormat = "@";
+            worksheet.Cells[5, 2] = txtSDT.Text;
+            worksheet.Cells[6, 1] = "Địa Chỉ:";
+            worksheet.Cells[6, 2] = txtDiaChi.Text;
+
+            worksheet.Cells[8, 1] = "Tên Hàng";
+            worksheet.Cells[8, 2] = "Số Lượng";
+            worksheet.Cells[8, 3] = "Giá";
+            worksheet.Cells[8, 4] = "Giảm giá";
+            worksheet.Cells[8, 5] = "Thành Tiền";
+
+            int row = 9;
+            foreach (DataGridViewRow dgvRow in dtMatHang.Rows)
+            {
+                if (dgvRow.IsNewRow) continue;
+                worksheet.Cells[row, 1] = dgvRow.Cells["TenSP"].Value;
+                worksheet.Cells[row, 2] = dgvRow.Cells["SLBan"].Value;
+                worksheet.Cells[row, 3] = dgvRow.Cells["DonGiaBan"].Value;
+                worksheet.Cells[row, 4] = dgvRow.Cells["KhuyenMai"].Value;
+                worksheet.Cells[row, 5] = dgvRow.Cells["ThanhTien"].Value;
+                row++;
+            }
+            string sql = "select TongTien from HoaDonBan where MaHDB = '" + cbMaHD.Text + "'";
+            DataTable dt = db.DataReader(sql);
+            worksheet.Cells[row + 1, 5] = "Tổng Tiền:";
+            worksheet.Cells[row + 1, 6] = String.Format("{0:N0} VNĐ", dt.Rows[0]["TongTien"]);
+            worksheet.Range["A1", "F1"].Font.Bold = true;
+            worksheet.Range["A8", "F8"].Font.Bold = true;
+            worksheet.Columns.AutoFit();
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Excel Files|*.xlsx",
+                Title = "Save Invoice"
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                workbook.SaveAs(saveFileDialog.FileName);
+                MessageBox.Show("Hóa đơn đã được xuất ra file Excel thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            workbook.Close(false);
+            excelApp.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp);
+        }
+        private void btnIn_Click(object sender, EventArgs e)
+        {
+            print();
         }
         private void btnHuySP_Click(object sender, EventArgs e)
         {
