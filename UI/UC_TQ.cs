@@ -24,22 +24,15 @@ namespace QLSieuThiMini.UI
             string invoice = "select count(*) as SHD from HoaDonBan";
             string stock = "select sum(SoLuong) as Kho, count(*) as SoSP from SanPham";
 
+            DataTable dtTurnover = db.DataReader(turnover);
+            lbDoanhThu.Text = String.Format("{0:N0} VNĐ", dtTurnover.Rows[0]["DoanhThu"]);
+
             DataTable dtInvoice = db.DataReader(invoice);
             lbInvoice.Text = dtInvoice.Rows[0]["SHD"].ToString();
 
             DataTable dtStock = db.DataReader(stock);
             lbTonKho.Text = dtStock.Rows[0]["Kho"].ToString();
             lbSoSPKho.Text = dtStock.Rows[0]["SoSP"].ToString() + " sản phẩm";
-
-            DataTable dtTurnover = db.DataReader(turnover);
-            if (decimal.TryParse(dtTurnover.Rows[0]["DoanhThu"].ToString(), out decimal doanhThu))
-            {
-                lbDoanhThu.Text = String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", doanhThu);
-            }
-            else
-            {
-                lbDoanhThu.Text = "0 VND";
-            }
         }
     }
 }
