@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -24,10 +25,7 @@ namespace QLSieuThiMini
             cbbLoaiHang.DisplayMember = "TenLH";
             cbbLoaiHang.SelectedIndex = -1;
 
-            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDown;
-            cbbLoaiHang.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cbbLoaiHang.AutoCompleteSource = AutoCompleteSource.ListItems;
-
+            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         private void LoadcbbNCC()
         {
@@ -206,7 +204,6 @@ namespace QLSieuThiMini
 
             //Load cbb tìm kiếm mã hóa đơn
             LoadCbbMHD();
-
             LoadData();
         }
         private void btnTimKiem_Click(object sender, EventArgs e)
@@ -243,14 +240,6 @@ namespace QLSieuThiMini
         }
         private void dgvHDN_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            //cbbLoaiHang.Text = dgvHDN.CurrentRow.Cells[0].Value.ToString();
-            //cbbTenSP.Text = dgvHDN.CurrentRow.Cells[1].Value.ToString();
-            ////txtDonGiaNhap.Text = dgvHDN.CurrentRow.Cells[2].Value.ToString();
-            //txtDonGiaNhap.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[2].Value).ToString("N0");
-            //txtSoLuongNhap.Text = dgvHDN.CurrentRow.Cells[3].Value.ToString();
-            ////txtThanhTien.Text = dgvHDN.CurrentRow.Cells[4].Value.ToString();
-            //txtThanhTien.Text = Convert.ToDecimal(dgvHDN.CurrentRow.Cells[4].Value).ToString("N0");
-
             // Kiểm tra xem ô trong cột Mã Hóa Đơn (hoặc bất kỳ ô nào trong hàng) có giá trị hợp lệ không
             if (dgvHDN.CurrentRow.Cells[0].Value == DBNull.Value ||
                 dgvHDN.CurrentRow.Cells[1].Value == DBNull.Value ||
@@ -291,7 +280,6 @@ namespace QLSieuThiMini
             btnThemHD.Enabled = true;
 
             LoadData();
-
         }
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
@@ -325,40 +313,36 @@ namespace QLSieuThiMini
             HidebtnChucNang(false);
 
             btnThemSP.Enabled = true;
-            btnLuuHD.Enabled = true;
-
 
             //Sinh mã hóa đơn nhập
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             txtMHDN.Text = newMaHD;
 
             LoadData(); //hiển thị bảng trống
-
         }
         private void cbbLoaiHang_SelectedIndexChanged(object sender, EventArgs e)
         {
+            cbbTenSP.SelectedIndex = -1;
             if (btnThemHD.Enabled == false && cbbLoaiHang.SelectedIndex != -1)
             {
                 cbbTenSP.Enabled = true;
                 DataTable dt = db.DataReader("SELECT MaSP, TenSP FROM SanPham " +
                                              "INNER JOIN LoaiHang ON SanPham.MaLH = LoaiHang.MaLH " +
-                                             "WHERE TenLH = N'"+ cbbLoaiHang.Text +"'");
+                                             "WHERE SanPham.MaLH = '"+ cbbLoaiHang.SelectedValue.ToString() +"'");
                 cbbTenSP.DataSource = dt;
                 cbbTenSP.ValueMember = "MaSP";
                 cbbTenSP.DisplayMember = "TenSP";
                 cbbTenSP.SelectedIndex = -1;
 
-                cbbTenSP.DropDownStyle = ComboBoxStyle.DropDown;
-                cbbTenSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                cbbTenSP.AutoCompleteSource = AutoCompleteSource.ListItems;
+                cbbTenSP.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
         private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbbTenSP.SelectedIndex != -1)
+            if(cbbTenSP.SelectedValue != null && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
             {
                 txtSoLuongNhap.Enabled = true;
-                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE TenSP = N'"+ cbbTenSP.Text +"'");
+                DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE MaSP = '" + maSP + "'");
                 //txtDonGiaNhap.Text = dt.Rows[0]["DonGiaNhap"].ToString();
                 if (dt.Rows.Count > 0)
                 {
@@ -387,14 +371,13 @@ namespace QLSieuThiMini
             { 
                 e.Handled = true; 
             }
+            if (txtSoLuongNhap.Text.Length == 0 && e.KeyChar == '0')
+            {
+                e.Handled = true; // Ngừng nhập "0" đầu tiên
+            }
         }
         private void txtSoLuongNhap_TextChanged(object sender, EventArgs e)
         {
-            if(txtSoLuongNhap.Text.Length > 1 && txtSoLuongNhap.Text.StartsWith("0"))
-            {
-                txtSoLuongNhap.Text = txtSoLuongNhap.Text.Substring(1);
-                txtSoLuongNhap.SelectionStart = txtSoLuongNhap.Text.Length;
-            }
             if (int.TryParse(txtSoLuongNhap.Text, out int soLuong) && decimal.TryParse(txtDonGiaNhap.Text, out decimal donGia))
             {
                 // Tính toán thành tiền
@@ -408,6 +391,178 @@ namespace QLSieuThiMini
                 // Nếu không có đủ dữ liệu hợp lệ, đặt giá trị txtThanhTien là "0"
                 txtThanhTien.Text = "";
             }
+        }
+        private void cbbTenNCC_Leave(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(cbbTenNCC.Text)) 
+            {
+                string tenNCC = cbbTenNCC.Text.Trim();
+                DataTable dt = db.DataReader("SELECT COUNT(*) FROM NhaCungCap WHERE TenNCC = N'"+ tenNCC +"'");
+                int count = Convert.ToInt32(dt.Rows[0][0]);
+                if (count == 0)
+                {
+                    // Hiển thị thông báo nếu nhà cung cấp này không có trong hệ thống
+                    DialogResult result = MessageBox.Show("Nhà cung cấp này chưa có trong hệ thống. Bạn có muốn thêm không?",
+                                                          "Xác nhận thêm nhà cung cấp",
+                                                          MessageBoxButtons.YesNo,
+                                                          MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
+                    {
+                        db.DataReader("INSERT INTO NhaCungCap (TenNCC) VALUES (N'"+ tenNCC +"')");
+                        LoadcbbNCC();
+                        MessageBox.Show("Nhà cung cấp đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        cbbTenNCC.SelectedValue = db.DataReader("SELECT MaNCC FROM NhaCungCap WHERE TenNCC = N'"+ tenNCC + "'").Rows[0]["MaNCC"];
+                    }
+                    else
+                    {
+                        // Nếu người dùng chọn "Không", xóa nội dung của ComboBox
+                        cbbTenNCC.Text = string.Empty;
+                    }
+                }
+            }
+        }
+        private bool KiemTraThongTin()
+        {
+            if (string.IsNullOrWhiteSpace(cbbTenNCC.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên nhà cung cấp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTenNCC.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cbbLoaiHang.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên loại hàng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbLoaiHang.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(cbbTenSP.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbbTenSP.Focus();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(txtSoLuongNhap.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số lượng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSoLuongNhap.Focus();
+                return false;
+            }
+            return true;
+        }
+
+        private void btnThemSP_Click(object sender, EventArgs e)
+        {
+            if (!KiemTraThongTin())
+            {
+                return;
+            }
+            DataTable dt = (DataTable)dgvHDN.DataSource;
+            string loaiHang = cbbLoaiHang.Text;
+            string tenSP = cbbTenSP.Text;
+            decimal donGiaNhap = Convert.ToDecimal(txtDonGiaNhap.Text);
+            int soLuongNhap = Convert.ToInt32(txtSoLuongNhap.Text);
+            decimal thanhTien = Convert.ToDecimal(txtThanhTien.Text);
+
+            // Biến kiểm tra sản phẩm đã tồn tại
+            bool daTonTai = false;
+
+            // Duyệt qua các dòng trong DataTable
+            foreach (DataRow row in dt.Rows)
+            {
+                // Kiểm tra nếu trùng loại hàng và tên sản phẩm
+                if (row["TenLH"].ToString() == loaiHang && row["TenSP"].ToString() == tenSP)
+                {
+                    row["SLNhap"] = soLuongNhap;         // Cập nhật số lượng
+                    row["ThanhTien"] = thanhTien;        // Cập nhật thành tiền từ input
+                    daTonTai = true;
+                    break; // Dừng kiểm tra vì đã cập nhật
+                }
+            }
+            // Nếu chưa tồn tại, thêm dòng mới
+            if (!daTonTai)
+            {
+                dt.Rows.Add(loaiHang, tenSP, donGiaNhap, soLuongNhap, thanhTien);
+            }
+            // Gán lại DataTable vào DataGridView
+            dgvHDN.DataSource = dt;
+
+            // Tính tổng thành tiền và cập nhật vào txtTongTien
+            decimal tongTien = 0;
+            foreach (DataRow row in dt.Rows)
+            {
+                tongTien += Convert.ToDecimal(row["ThanhTien"]);
+            }
+
+            txtTongTien.Text = tongTien.ToString("N0");
+
+            if (dt.Rows.Count > 0)
+            {
+                btnLuuHD.Enabled = true; // Hiển thị nút Lưu nếu có dữ liệu
+            }
+            else
+            {
+                btnLuuHD.Enabled = false; // Ẩn nút Lưu nếu bảng trống
+            }
+
+            ResetTTSP();
+            cbbLoaiHang.SelectedIndex = -1;
+            cbbTenSP.SelectedIndex = -1;
+        }
+
+        private void dgvHDN_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (btnThemSP.Enabled)
+            {
+                // Kiểm tra nếu dòng được chọn hợp lệ (không phải header hoặc ngoài phạm vi)
+                if (e.RowIndex >= 0)
+                {
+                    // Lấy dòng đang được chọn
+                    DataGridViewRow selectedRow = dgvHDN.Rows[e.RowIndex];
+
+                    // Kiểm tra nếu dòng này không phải là dòng mới
+                    if (!selectedRow.IsNewRow)
+                    {
+                        // Nếu dòng có dữ liệu hợp lệ, thực hiện xóa
+                        dgvHDN.Rows.RemoveAt(e.RowIndex);
+
+                        // Tính lại tổng thành tiền
+                        decimal tongTien = 0;
+                        foreach (DataGridViewRow row in dgvHDN.Rows)
+                        {
+                            // Cộng dồn giá trị cột "ThanhTien" vào tổng
+                            tongTien += Convert.ToDecimal(row.Cells["ThanhTien"].Value);
+                        }
+
+                        // Kiểm tra nếu bảng trống, đặt tổng tiền bằng 0
+                        if (dgvHDN.Rows.Count == 1)
+                        {
+                            tongTien = 0;
+                            btnLuuHD.Enabled = false;
+                        }
+
+                        // Cập nhật lại tổng tiền vào txtTongTien
+                        txtTongTien.Text = tongTien.ToString("N0"); // Định dạng hiển thị số
+
+                        ResetTTSP();
+                        cbbLoaiHang.SelectedIndex = -1;
+                        cbbTenSP.SelectedIndex = -1;
+                    }
+                }
+            }
+        }
+
+        private void btnLuuHD_Click(object sender, EventArgs e)
+        {
+            string maHDN = txtMHDN.Text.Trim();
+            string maNV = lblMaNV.Text.Trim();
+            string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
+            string tongTien = txtTongTien.Text.Replace(",", "").Trim();
+            string maNCC = cbbTenNCC.SelectedValue.ToString();
+
+            db.DataReader($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
+                          $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
+
+            //lưu từng dòng
         }
     }
 }

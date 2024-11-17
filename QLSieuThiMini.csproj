@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Guna.Charts.WinForms, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
+      <HintPath>packages\Guna.Charts.WinForms.1.1.0\lib\net472\Guna.Charts.WinForms.dll</HintPath>
+    </Reference>
     <Reference Include="Guna.UI2, Version=2.0.4.6, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>packages\Guna.UI2.WinForms.2.0.4.6\lib\net472\Guna.UI2.dll</HintPath>
     </Reference>
@@ -97,6 +100,7 @@
       <HintPath>packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -109,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataBaseProcess.cs" />
+    <Compile Include="Classes\Session.cs" />
     <Compile Include="frmHDB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,11 +158,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\FrmHome.cs">
+    <Compile Include="UI\FrmAdmin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\FrmHome.Designer.cs">
-      <DependentUpon>FrmHome.cs</DependentUpon>
+    <Compile Include="UI\FrmAdmin.Designer.cs">
+      <DependentUpon>FrmAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmLogin.Designer.cs">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmNV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FrmNV.Designer.cs">
+      <DependentUpon>FrmNV.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UC_HDB.cs">
       <SubType>UserControl</SubType>
@@ -188,6 +205,12 @@
     </Compile>
     <Compile Include="UI\UC_SanPham.Designer.cs">
       <DependentUpon>UC_SanPham.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UC_TQ.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\UC_TQ.Designer.cs">
+      <DependentUpon>UC_TQ.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="frmHDB.resx">
       <DependentUpon>frmHDB.cs</DependentUpon>
@@ -220,8 +243,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\FrmHome.resx">
-      <DependentUpon>FrmHome.cs</DependentUpon>
+    <EmbeddedResource Include="UI\FrmAdmin.resx">
+      <DependentUpon>FrmAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmLogin.resx">
+      <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UC_HDB.resx">
       <DependentUpon>UC_HDB.cs</DependentUpon>
@@ -237,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\UC_SanPham.resx">
       <DependentUpon>UC_SanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\UC_TQ.resx">
+      <DependentUpon>UC_TQ.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="appsettings.json" />
     <None Include="bin\Debug\QLSieuThiMini.exe.config" />
@@ -316,6 +345,59 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ic-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ic-login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Guna.UI2.dll" />
+    <Content Include="bin\Debug\Images\tay.jpg" />
+    <Content Include="bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <Content Include="bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.FileExtensions.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.Json.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.Json.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Configuration.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.FileProviders.Physical.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.FileSystemGlobbing.xml" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Primitives.dll" />
+    <Content Include="bin\Debug\Microsoft.Extensions.Primitives.xml" />
+    <Content Include="bin\Debug\QLSieuThiMini.exe" />
+    <Content Include="bin\Debug\QLSieuThiMini.pdb" />
+    <Content Include="bin\Debug\System.Buffers.dll" />
+    <Content Include="bin\Debug\System.Buffers.xml" />
+    <Content Include="bin\Debug\System.Memory.dll" />
+    <Content Include="bin\Debug\System.Memory.xml" />
+    <Content Include="bin\Debug\System.Numerics.Vectors.dll" />
+    <Content Include="bin\Debug\System.Numerics.Vectors.xml" />
+    <Content Include="bin\Debug\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="bin\Debug\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="bin\Debug\System.Text.Encodings.Web.dll" />
+    <Content Include="bin\Debug\System.Text.Encodings.Web.xml" />
+    <Content Include="bin\Debug\System.Text.Json.dll" />
+    <Content Include="bin\Debug\System.Text.Json.xml" />
+    <Content Include="bin\Debug\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\Debug\System.Threading.Tasks.Extensions.xml" />
+    <Content Include="bin\Debug\System.ValueTuple.dll" />
+    <Content Include="bin\Debug\System.ValueTuple.xml" />
+    <None Include="Resources\ic-box.png" />
+    <None Include="Resources\ic-cart.png" />
+    <None Include="Resources\ic-chart.png" />
+    <None Include="Resources\ic-dashboard-white.png" />
+    <None Include="Resources\ic-dashboard-blue.png" />
+    <None Include="Resources\icons8-admin-100.png" />
+    <None Include="Resources\ic-admin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
