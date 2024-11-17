@@ -30,12 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
-            this.lbName = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.pnlContent = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Button6 = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.lbName = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.btnLogout = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
@@ -43,6 +41,8 @@
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.imgSlide = new System.Windows.Forms.PictureBox();
+            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
+            this.pnlContent = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox2)).BeginInit();
@@ -65,43 +65,6 @@
             this.guna2Panel1.Name = "guna2Panel1";
             this.guna2Panel1.Size = new System.Drawing.Size(180, 710);
             this.guna2Panel1.TabIndex = 0;
-            // 
-            // guna2Panel2
-            // 
-            this.guna2Panel2.Controls.Add(this.guna2PictureBox2);
-            this.guna2Panel2.Controls.Add(this.lbName);
-            this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.guna2Panel2.Location = new System.Drawing.Point(0, 0);
-            this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(180, 163);
-            this.guna2Panel2.TabIndex = 7;
-            // 
-            // lbName
-            // 
-            this.lbName.BackColor = System.Drawing.Color.Transparent;
-            this.lbName.Font = new System.Drawing.Font("Times New Roman", 14F);
-            this.lbName.ForeColor = System.Drawing.Color.White;
-            this.lbName.Location = new System.Drawing.Point(54, 129);
-            this.lbName.Name = "lbName";
-            this.lbName.Size = new System.Drawing.Size(67, 28);
-            this.lbName.TabIndex = 0;
-            this.lbName.Text = "Admin";
-            this.lbName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lbName.UseSystemCursors = true;
-            // 
-            // guna2Elipse1
-            // 
-            this.guna2Elipse1.BorderRadius = 26;
-            this.guna2Elipse1.TargetControl = this;
-            // 
-            // pnlContent
-            // 
-            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlContent.Location = new System.Drawing.Point(180, 0);
-            this.pnlContent.Name = "pnlContent";
-            this.pnlContent.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
-            this.pnlContent.Size = new System.Drawing.Size(1240, 710);
-            this.pnlContent.TabIndex = 2;
             // 
             // guna2Button6
             // 
@@ -130,6 +93,16 @@
             this.guna2Button6.CheckedChanged += new System.EventHandler(this.guna2Button6_CheckedChanged);
             this.guna2Button6.Click += new System.EventHandler(this.guna2Button6_Click);
             // 
+            // guna2Panel2
+            // 
+            this.guna2Panel2.Controls.Add(this.guna2PictureBox2);
+            this.guna2Panel2.Controls.Add(this.lbName);
+            this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.guna2Panel2.Location = new System.Drawing.Point(0, 0);
+            this.guna2Panel2.Name = "guna2Panel2";
+            this.guna2Panel2.Size = new System.Drawing.Size(180, 163);
+            this.guna2Panel2.TabIndex = 7;
+            // 
             // guna2PictureBox2
             // 
             this.guna2PictureBox2.Image = global::QLSieuThiMini.Properties.Resources.icons8_admin_100;
@@ -139,6 +112,19 @@
             this.guna2PictureBox2.Size = new System.Drawing.Size(108, 111);
             this.guna2PictureBox2.TabIndex = 1;
             this.guna2PictureBox2.TabStop = false;
+            // 
+            // lbName
+            // 
+            this.lbName.BackColor = System.Drawing.Color.Transparent;
+            this.lbName.Font = new System.Drawing.Font("Times New Roman", 14F);
+            this.lbName.ForeColor = System.Drawing.Color.White;
+            this.lbName.Location = new System.Drawing.Point(54, 129);
+            this.lbName.Name = "lbName";
+            this.lbName.Size = new System.Drawing.Size(67, 28);
+            this.lbName.TabIndex = 0;
+            this.lbName.Text = "Admin";
+            this.lbName.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbName.UseSystemCursors = true;
             // 
             // btnLogout
             // 
@@ -297,14 +283,30 @@
             this.imgSlide.TabIndex = 1;
             this.imgSlide.TabStop = false;
             // 
+            // guna2Elipse1
+            // 
+            this.guna2Elipse1.BorderRadius = 26;
+            this.guna2Elipse1.TargetControl = this;
+            // 
+            // pnlContent
+            // 
+            this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlContent.Location = new System.Drawing.Point(180, 0);
+            this.pnlContent.Name = "pnlContent";
+            this.pnlContent.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
+            this.pnlContent.Size = new System.Drawing.Size(1240, 710);
+            this.pnlContent.TabIndex = 2;
+            // 
             // FrmAdmin
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(118)))), ((int)(((byte)(212)))));
             this.ClientSize = new System.Drawing.Size(1420, 710);
             this.Controls.Add(this.pnlContent);
             this.Controls.Add(this.guna2Panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1420, 710);
             this.Name = "FrmAdmin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmHome";
