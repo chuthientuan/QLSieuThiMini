@@ -550,5 +550,19 @@ namespace QLSieuThiMini
                 }
             }
         }
+
+        private void btnLuuHD_Click(object sender, EventArgs e)
+        {
+            string maHDN = txtMHDN.Text.Trim();
+            string maNV = lblMaNV.Text.Trim();
+            string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
+            string tongTien = txtTongTien.Text.Replace(",", "").Trim();
+            string maNCC = cbbTenNCC.SelectedValue.ToString();
+
+            db.DataReader($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
+                          $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
+
+            //lưu từng dòng
+        }
     }
 }
