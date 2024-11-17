@@ -279,6 +279,7 @@ namespace QLSieuThiMini
             btnThemHD.Enabled = true;
 
             LoadData();
+            cbbLoaiHang.SelectedIndex = -1;
         }
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
@@ -333,16 +334,15 @@ namespace QLSieuThiMini
                 cbbTenSP.DisplayMember = "TenSP";
                 cbbTenSP.SelectedIndex = -1;
 
-                cbbTenSP.DropDownStyle = ComboBoxStyle.DropDownList;
+                //cbbTenSP.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
         private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbbTenSP.SelectedValue != null && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
+            if(cbbTenSP.SelectedIndex != -1 && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
             {
-                txtSoLuongNhap.Enabled = true;
+                if(btnTimKiem.Enabled == false) txtSoLuongNhap.Enabled = true;
                 DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE MaSP = '" + maSP + "'");
-                //txtDonGiaNhap.Text = dt.Rows[0]["DonGiaNhap"].ToString();
                 if (dt.Rows.Count > 0)
                 {
                     // Truy xuất giá trị của cột "DonGiaNhap" từ dòng đầu tiên
@@ -557,39 +557,37 @@ namespace QLSieuThiMini
             {
                 return;
             }
-            //string maHDN = txtMHDN.Text.Trim();
-            //string maNV = lblMaNV.Text.Trim();
-            //string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
-            //string tongTien = txtTongTien.Text.Replace(",", "").Trim();
-            //string maNCC = cbbTenNCC.SelectedValue.ToString();
+            string maHDN = txtMHDN.Text.Trim();
+            string maNV = lblMaNV.Text.Trim();
+            string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
+            string tongTien = txtTongTien.Text.Replace(",", "").Trim();
+            string maNCC = cbbTenNCC.SelectedValue.ToString();
 
-            //db.DataChange($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
-            //              $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
+            db.DataChange($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
+                          $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
 
-            ////lưu từng dòng
-            //foreach (DataGridViewRow row in dgvHDN.Rows)
-            //{
-            //    if (!row.IsNewRow) // Bỏ qua dòng mới chưa được điền
-            //    {
-            //        // Lấy Tên sản phẩm từ DataGridView
-            //        string tenSP = row.Cells["TenSP"].Value.ToString();
+            //lưu từng dòng
+            foreach (DataGridViewRow row in dgvHDN.Rows)
+            {
+                if (!row.IsNewRow) // Bỏ qua dòng mới chưa được điền
+                {
+                    // Lấy Tên sản phẩm từ DataGridView
+                    string tenSP = row.Cells["TenSP"].Value.ToString();
 
-            //        string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
-            //        string thanhTien = row.Cells["ThanhTien"].Value.ToString().Replace(",", "").Trim();
-            //        string soLuongNhap = row.Cells["SLNhap"].Value.ToString();
+                    string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+                    string thanhTien = row.Cells["ThanhTien"].Value.ToString().Replace(",", "").Trim();
+                    string soLuongNhap = row.Cells["SLNhap"].Value.ToString();
 
-            //        db.DataChange($"INSERT INTO ChiTietHDN (MaHDN, MaSP, ThanhTien, SLNhap) " +
-            //                      $"VALUES ('{maHDN}', '{maSP}', {thanhTien}, {soLuongNhap})");
-            //    }
-            //}
-            //MessageBox.Show("Hóa đơn nhập đã được lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //ResetTTChung();
-            //string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
-            //txtMHDN.Text = newMaHD;
-            //ResetTTSP();
-            //LoadcbbLoaiHang();
-            //LoadData();
-            
+                    db.DataChange($"INSERT INTO ChiTietHDN (MaHDN, MaSP, ThanhTien, SLNhap) " +
+                                  $"VALUES ('{maHDN}', '{maSP}', {thanhTien}, {soLuongNhap})");
+                }
+            }
+            MessageBox.Show("Hóa đơn nhập đã được lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ResetTTChung();
+            string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
+            txtMHDN.Text = newMaHD;
+            LoadData();
+
         }
     }
 }
