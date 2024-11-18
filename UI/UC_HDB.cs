@@ -176,7 +176,7 @@ namespace QLSieuThiMini.UI
                 cbTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
-                lbTotalMoney.Text = String.Format("{0:N0} VNĐ", dt.Rows[0]["TongTien"]);
+                lbTotalMoney.Text = String.Format("{0:N0} VND", dt.Rows[0]["TongTien"]);
                 loadData();
             }
             else
@@ -293,7 +293,7 @@ namespace QLSieuThiMini.UI
             double discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDouble(txtGiamGia.Text);
             double total = quantity * price * (1 - discount / 100);
             totalPrice += total;
-            lbTotalMoney.Text = String.Format("{0:N0} VNĐ", totalPrice);
+            lbTotalMoney.Text = String.Format("{0:N0} VND", totalPrice);
             lbPay.Text = String.Format("{0:N0} VNĐ", totalPrice);
             DataTable dt = db.DataReader("select MaSP from SanPham where TenSP = N'" + cbTenSP.Text + "'");
             int maSP = int.Parse(dt.Rows[0]["MaSP"].ToString());
@@ -373,7 +373,7 @@ namespace QLSieuThiMini.UI
                 }
                 DataTable dt = db.DataReader("select MaKH from KhachHang where DienThoai = '" + txtSDT.Text + "'");
                 int maKH = int.Parse(dt.Rows[0]["MaKH"].ToString());
-                decimal totalMoney = decimal.Parse(lbTotalMoney.Text.Replace(" VNĐ", "").Replace(",", ""));
+                decimal totalMoney = decimal.Parse(lbTotalMoney.Text.Replace(" VND", "").Replace(",", ""));
                 string invoiceSql = "insert into HoaDonBan (MaHDB, MaNV, NgayBan, TongTien, MaKH) values" +
                     "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + totalMoney + "', '" + maKH + "')";
                 db.DataChange(invoiceSql);
@@ -558,7 +558,7 @@ namespace QLSieuThiMini.UI
             string sql = "select TongTien from HoaDonBan where MaHDB = '" + cbMaHD.Text + "'";
             DataTable dt = db.DataReader(sql);
             worksheet.Cells[row + 1, 5] = "Tổng Tiền:";
-            worksheet.Cells[row + 1, 6] = String.Format("{0:N0} VNĐ", dt.Rows[0]["TongTien"]);
+            worksheet.Cells[row + 1, 6] = String.Format("{0:N0} VND", dt.Rows[0]["TongTien"]);
             worksheet.Range["A1", "F1"].Font.Bold = true;
             worksheet.Range["A8", "F8"].Font.Bold = true;
             worksheet.Columns.AutoFit();
