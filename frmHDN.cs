@@ -548,6 +548,108 @@ namespace QLSieuThiMini
                     }
                 }
             }
+            else
+            {
+                // Kiểm tra nếu dòng được chọn hợp lệ (không phải header hoặc ngoài phạm vi)
+                if (e.RowIndex >= 0)
+                {
+                    // Lấy dòng đang được chọn
+                    DataGridViewRow selectedRow = dgvHDN.Rows[e.RowIndex];
+
+                    // Kiểm tra nếu dòng này không phải là dòng mới
+                    if (!selectedRow.IsNewRow)
+                    {
+                        string maHDN = txtMHDN.Text.Trim();
+                        string tenSP = selectedRow.Cells["TenSP"].Value.ToString();
+                        string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+                        int soLuong = Convert.ToInt32(selectedRow.Cells["SLNhap"].Value);
+                        int soLuongTonKho = Convert.ToInt32(db.ExecuteScalar($"SELECT SoLuong FROM SanPham WHERE MaSP = '{maSP}'"));
+                        decimal thanhTien = Convert.ToDecimal(selectedRow.Cells["ThanhTien"].Value);
+
+                        if (soLuong > soLuongTonKho)
+                        {
+                            // Thông báo nếu số lượng hiện tại ít hơn số lượng cần hoàn
+                            DialogResult result = MessageBox.Show($"Số lượng trong kho ({soLuongTonKho}) ít hơn số lượng cần trả ({soLuong})." +
+                                                                  $"\nBạn có muốn trả hết số lượng hiện tại không?",
+                                                                  "Xác nhận trả hàng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                            if (result == DialogResult.Yes) // Nếu chọn Có, hoàn toàn bộ
+                            {
+                                // Trừ toàn bộ số lượng hiện tại
+                                db.DataChange($"UPDATE SanPham SET SoLuong = 0 WHERE MaSP = '{maSP}'");
+
+                                // Xóa dữ liệu trong bảng ChiTietHDN
+                                db.DataChange($"DELETE FROM ChiTietHDN WHERE MaHDN = '{maHDN}' AND MaSP = '{maSP}'");
+
+                                // Cập nhật lại tổng tiền hóa đơn
+                                db.DataChange($"UPDATE HoaDonNhap SET TongTien = TongTien - {thanhTien} WHERE MaHDN = '{maHDN}'");
+
+                                MessageBox.Show("Trả hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                decimal tongTienMoi = Convert.ToDecimal(db.ExecuteScalar($"SELECT TongTien FROM HoaDonNhap WHERE MaHDN = '{maHDN}'"));
+                                if (tongTienMoi == 0)
+                                {
+                                    // Xóa hóa đơn nếu tổng tiền bằng 0
+                                    db.DataChange($"DELETE FROM HoaDonNhap WHERE MaHDN = '{maHDN}'");
+                                    MessageBox.Show("Hóa đơn đã bị hủy vì không còn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    ResetTTChung();
+                                    LoadCbbMHD();
+                                }
+                                else
+                                {
+                                    // Cập nhật lại txtTongTien nếu hóa đơn chưa bị xóa
+                                    txtTongTien.Text = tongTienMoi.ToString("N0");
+                                }
+
+                                LoadData();
+                                ResetTTSP();
+                                cbbLoaiHang.SelectedIndex = -1;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            DialogResult result = MessageBox.Show("Bạn có muốn trả sản phẩm này không?",
+                                                                   "Xác nhận trả hàng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if(result == DialogResult.Yes)
+                            {
+                                // Trừ số lượng cần hoàn
+                                db.DataChange($"UPDATE SanPham SET SoLuong = SoLuong - {soLuong} WHERE MaSP = '{maSP}'");
+
+                                // Xóa dữ liệu trong bảng ChiTietHDN
+                                db.DataChange($"DELETE FROM ChiTietHDN WHERE MaHDN = '{maHDN}' AND MaSP = '{maSP}'");
+
+                                db.DataChange($"UPDATE HoaDonNhap SET TongTien = TongTien - {thanhTien} WHERE MaHDN = '{maHDN}'");
+
+                                MessageBox.Show("Trả hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                decimal tongTienMoi = Convert.ToDecimal(db.ExecuteScalar($"SELECT TongTien FROM HoaDonNhap WHERE MaHDN = '{maHDN}'"));
+                                if (tongTienMoi == 0)
+                                {
+                                    // Xóa hóa đơn nếu tổng tiền bằng 0
+                                    db.DataChange($"DELETE FROM HoaDonNhap WHERE MaHDN = '{maHDN}'");
+                                    MessageBox.Show("Hóa đơn đã bị hủy vì không còn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    ResetTTChung();
+                                    LoadCbbMHD();
+                                }
+                                else
+                                {
+                                    // Cập nhật lại txtTongTien nếu hóa đơn chưa bị xóa
+                                    txtTongTien.Text = tongTienMoi.ToString("N0");
+                                }
+
+                                LoadData();
+                                ResetTTSP();
+                                cbbLoaiHang.SelectedIndex = -1;
+                            }
+                            else { return; }
+                        }
+                    }
+                }
+            }
         }
 
         private void btnLuuHD_Click(object sender, EventArgs e)
@@ -580,6 +682,8 @@ namespace QLSieuThiMini
 
                     db.DataChange($"INSERT INTO ChiTietHDN (MaHDN, MaSP, ThanhTien, SLNhap) " +
                                   $"VALUES ('{maHDN}', '{maSP}', {thanhTien}, {soLuongNhap})");
+
+                    db.DataChange($"UPDATE SanPham SET SoLuong = SoLuong + {soLuongNhap} WHERE MaSP = '{maSP}'");
                 }
             }
             MessageBox.Show("Hóa đơn nhập đã được lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
