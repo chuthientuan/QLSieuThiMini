@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace QLSieuThiMini
 {
@@ -692,6 +693,144 @@ namespace QLSieuThiMini
             txtMHDN.Text = newMaHD;
             LoadData();
 
+        }
+
+        private void btnHuyHD_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn hủy hóa đơn này không?\n" +
+                                          "Toàn bộ dữ liệu liên quan sẽ bị xóa và số lượng sản phẩm sẽ được cập nhật lại.",
+                                          "Xác nhận hủy hóa đơn", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                string maHDN = txtMHDN.Text.Trim();
+                foreach (DataGridViewRow row in dgvHDN.Rows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        // Lấy thông tin sản phẩm
+                        string tenSP = row.Cells["TenSP"].Value.ToString();
+                        string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+                        int soLuongNhap = Convert.ToInt32(row.Cells["SLNhap"].Value);
+                        int soLuongTonKho = Convert.ToInt32(db.ExecuteScalar($"SELECT SoLuong FROM SanPham WHERE MaSP = '{maSP}'"));
+
+                        // Trường hợp số lượng tồn kho nhỏ hơn số lượng hủy
+                        if (soLuongTonKho < soLuongNhap)
+                        {
+                            // Cập nhật số lượng còn lại về 0
+                            db.DataChange($"UPDATE SanPham SET SoLuong = 0 WHERE MaSP = '{maSP}'");
+
+                            MessageBox.Show($"Sản phẩm '{tenSP}' chỉ còn {soLuongTonKho} trong kho, toàn bộ số lượng đã được hủy.",
+                                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            // Trừ số lượng nhập khỏi tồn kho
+                            db.DataChange($"UPDATE SanPham SET SoLuong = SoLuong - {soLuongNhap} WHERE MaSP = '{maSP}'");
+                        }
+                    }
+                }
+                // Xóa dữ liệu trong bảng ChiTietHDN
+                db.DataChange($"DELETE FROM ChiTietHDN WHERE MaHDN = '{maHDN}'");
+
+                // Xóa dữ liệu trong bảng HoaDonNhap
+                db.DataChange($"DELETE FROM HoaDonNhap WHERE MaHDN = '{maHDN}'");
+
+                // Làm mới giao diện và dữ liệu
+                ResetTTChung();
+                ResetTTSP();
+                LoadData();
+                LoadCbbMHD();
+
+                MessageBox.Show("Hóa đơn đã được hủy thành công và số lượng sản phẩm đã được cập nhật lại!",
+                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnInHD_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Mở hộp thoại lưu tệp
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Lưu Hóa Đơn Nhập";
+                saveFileDialog.FileName = "HoaDonNhap.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Tạo ứng dụng Excel
+                    Excel.Application excelApp = new Excel.Application();
+                    excelApp.Visible = false; // Không hiển thị ứng dụng Excel
+
+                    // Tạo Workbook và Worksheet
+                    Excel.Workbook workbook = excelApp.Workbooks.Add();
+                    Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
+                    worksheet.Name = "Hóa Đơn Nhập";
+
+                    // Tiêu đề
+                    worksheet.Cells[1, 1] = "HÓA ĐƠN NHẬP HÀNG";
+                    worksheet.Cells[1, 1].Font.Bold = true;
+                    worksheet.Cells[1, 1].Font.Size = 16;
+
+                    // Thông tin hóa đơn
+                    worksheet.Cells[3, 1] = "Mã hóa đơn:";
+                    worksheet.Cells[3, 2] = txtMHDN.Text.Trim();
+                    worksheet.Cells[4, 1] = "Nhân viên nhập:";
+                    worksheet.Cells[4, 2] = lblTenNV.Text.Trim();
+                    worksheet.Cells[4, 3] = "Mã nhân viên:";
+                    worksheet.Cells[4, 4] = lblMaNV.Text.Trim();
+                    worksheet.Cells[5, 1] = "Ngày nhập:";
+                    worksheet.Cells[5, 2] = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
+                    worksheet.Cells[6, 1] = "Nhà cung cấp:";
+                    worksheet.Cells[6, 2] = cbbTenNCC.Text;
+
+                    // Tiêu đề bảng
+                    worksheet.Cells[8, 1] = "Tên sản phẩm";
+                    worksheet.Cells[8, 2] = "Số lượng nhập";
+                    worksheet.Cells[8, 3] = "Thành tiền";
+                    worksheet.Cells[8, 4] = "Tổng tiền";
+
+                    // Định dạng tiêu đề bảng
+                    Excel.Range headerRange = worksheet.Range["A8", "D8"];
+                    headerRange.Font.Bold = true;
+                    headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+
+                    // Xuất dữ liệu từ DataGridView
+                    int rowIndex = 9; // Bắt đầu từ dòng thứ 9
+                    foreach (DataGridViewRow row in dgvHDN.Rows)
+                    {
+                        if (!row.IsNewRow) // Bỏ qua dòng trống
+                        {
+                            worksheet.Cells[rowIndex, 1] = row.Cells["TenSP"].Value; // Tên sản phẩm
+                            worksheet.Cells[rowIndex, 2] = row.Cells["SLNhap"].Value; // Số lượng nhập
+                            worksheet.Cells[rowIndex, 3] = row.Cells["ThanhTien"].Value; // Thành tiền
+                            rowIndex++;
+                        }
+                    }
+
+                    // Tổng tiền hóa đơn
+                    worksheet.Cells[rowIndex, 3] = "Tổng tiền:";
+                    worksheet.Cells[rowIndex, 4] = txtTongTien.Text;
+
+                    // Định dạng cột
+                    Excel.Range dataRange = worksheet.Range["A8", $"D{rowIndex}"];
+                    dataRange.Columns.AutoFit();
+
+                    // Lưu tệp Excel theo đường dẫn người dùng chọn
+                    workbook.SaveAs(saveFileDialog.FileName);
+
+                    // Đóng Excel
+                    workbook.Close();
+                    excelApp.Quit();
+
+                    // Thông báo thành công
+                    MessageBox.Show($"Hóa đơn đã được xuất ra Excel tại: {saveFileDialog.FileName}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Có lỗi xảy ra khi xuất dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
