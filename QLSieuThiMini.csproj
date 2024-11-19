@@ -272,7 +272,6 @@
     <EmbeddedResource Include="UI\UC_TQ.resx">
       <DependentUpon>UC_TQ.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="appsettings.json" />
     <None Include="bin\Debug\QLSieuThiMini.exe.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

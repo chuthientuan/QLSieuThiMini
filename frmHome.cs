@@ -12,17 +12,23 @@ namespace QLSieuThiMini
 {
     public partial class frmHome : Form
     {
-        public int MaNV = 0;
-        public frmHome(int manv)
+        public string MaNV = "";
+        public frmHome(string manv)
         {
             InitializeComponent();
             MaNV = manv;
-            guna2HtmlLabel1.Text = "Welcome, " + MaNV.ToString();
+            guna2HtmlLabel1.Text = "Welcome, " + MaNV;
         }
 
         private void frmHome_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit(); 
+        }
+
+        private void loạiHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmProduct frm = new frmProduct();
+            frm.Show();
         }
     }
 }

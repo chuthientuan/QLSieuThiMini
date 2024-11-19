@@ -14,7 +14,6 @@ namespace QLSieuThiMini
     public partial class frmLogin : Form
     {
         DataBaseProcess dtBase = new DataBaseProcess();
-        public string maNV;
         public frmLogin()
         {
             InitializeComponent();
@@ -22,16 +21,15 @@ namespace QLSieuThiMini
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string TenDangNhap = txtLogin.Text.Trim();
+            string MaNV = txtLogin.Text.Trim();
             string MatKhau = txtPassword.Text.Trim();
 
-            DataTable dtNhanVien = dtBase.DataReader($"Select * from NhanVien where TenDangNhap = '{TenDangNhap}' and MatKhau = '{MatKhau}'");
-            int maNV = int.Parse(dtNhanVien.Rows[0]["MaNV"].ToString());
+            DataTable dtNhanVien = dtBase.DataReader($"Select * from NhanVien where MaNV = '{MaNV}' and MatKhau = '{MatKhau}'");
             if (dtNhanVien.Rows.Count > 0)
             {
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
-                frmHome frm = new frmHome(maNV);
+                frmHome frm = new frmHome(MaNV);
                 frm.Show();
                 this.Hide();
             }
