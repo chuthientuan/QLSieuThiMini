@@ -35,7 +35,6 @@
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnLamMoi = new Guna.UI2.WinForms.Guna2Button();
-            this.btnThoat = new Guna.UI2.WinForms.Guna2Button();
             this.btnInHD = new Guna.UI2.WinForms.Guna2Button();
             this.btnLuuHD = new Guna.UI2.WinForms.Guna2Button();
             this.btnHuyHD = new Guna.UI2.WinForms.Guna2Button();
@@ -100,7 +99,6 @@
             // guna2GroupBox2
             // 
             this.guna2GroupBox2.Controls.Add(this.btnLamMoi);
-            this.guna2GroupBox2.Controls.Add(this.btnThoat);
             this.guna2GroupBox2.Controls.Add(this.btnInHD);
             this.guna2GroupBox2.Controls.Add(this.btnLuuHD);
             this.guna2GroupBox2.Controls.Add(this.btnHuyHD);
@@ -131,23 +129,6 @@
             this.btnLamMoi.TabIndex = 5;
             this.btnLamMoi.Text = "Làm mới";
             this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.BackColor = System.Drawing.Color.White;
-            this.btnThoat.BorderRadius = 6;
-            this.btnThoat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnThoat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnThoat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnThoat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThoat.ForeColor = System.Drawing.Color.White;
-            this.btnThoat.Location = new System.Drawing.Point(8, 456);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(180, 45);
-            this.btnThoat.TabIndex = 4;
-            this.btnThoat.Text = "Thoát";
-            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
             // btnInHD
             // 
@@ -814,7 +795,6 @@
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox2;
         private Guna.UI2.WinForms.Guna2Button btnLamMoi;
-        private Guna.UI2.WinForms.Guna2Button btnThoat;
         private Guna.UI2.WinForms.Guna2Button btnInHD;
         private Guna.UI2.WinForms.Guna2Button btnLuuHD;
         private Guna.UI2.WinForms.Guna2Button btnHuyHD;

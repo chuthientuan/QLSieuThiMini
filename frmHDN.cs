@@ -743,6 +743,8 @@ namespace QLSieuThiMini
 
                 MessageBox.Show("Hóa đơn đã được hủy thành công và số lượng sản phẩm đã được cập nhật lại!",
                                 "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnHuyHD.Enabled = false;
+                btnInHD.Enabled = false;
             }
         }
 
@@ -788,10 +790,9 @@ namespace QLSieuThiMini
                     worksheet.Cells[8, 1] = "Tên sản phẩm";
                     worksheet.Cells[8, 2] = "Số lượng nhập";
                     worksheet.Cells[8, 3] = "Thành tiền";
-                    worksheet.Cells[8, 4] = "Tổng tiền";
 
                     // Định dạng tiêu đề bảng
-                    Excel.Range headerRange = worksheet.Range["A8", "D8"];
+                    Excel.Range headerRange = worksheet.Range["A8", "C8"];
                     headerRange.Font.Bold = true;
                     headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
 
@@ -809,8 +810,8 @@ namespace QLSieuThiMini
                     }
 
                     // Tổng tiền hóa đơn
-                    worksheet.Cells[rowIndex, 3] = "Tổng tiền:";
-                    worksheet.Cells[rowIndex, 4] = txtTongTien.Text;
+                    worksheet.Cells[rowIndex, 2] = "Tổng tiền:";
+                    worksheet.Cells[rowIndex, 3] = txtTongTien.Text;
 
                     // Định dạng cột
                     Excel.Range dataRange = worksheet.Range["A8", $"D{rowIndex}"];
@@ -830,39 +831,6 @@ namespace QLSieuThiMini
             catch (Exception ex)
             {
                 MessageBox.Show($"Có lỗi xảy ra khi xuất dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            if (btnLuuHD.Enabled)
-            {
-                DialogResult result = MessageBox.Show("Dữ liệu chưa được lưu. Bạn có muốn lưu không?",
-                                                      "Xác nhận thoát", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-
-                if (result == DialogResult.Yes)
-                {
-                    // Gọi sự kiện nút lưu
-                    btnLuuHD.PerformClick();
-
-                    // Thoát nếu lưu thành công
-                    this.Close();
-                }
-                else if (result == DialogResult.No)
-                {
-                    // Thoát không lưu
-                    this.Close();
-                }
-                else
-                {
-                    // Hủy thao tác, không làm gì
-                    return;
-                }
-            }
-            else
-            {
-                // Thoát ngay vì không có dữ liệu cần lưu
-                this.Close();
             }
         }
     }
