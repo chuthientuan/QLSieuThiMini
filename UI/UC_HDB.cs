@@ -56,7 +56,6 @@ namespace QLSieuThiMini.UI
         {
             invoiceProducts.Clear();
             invoiceProducts.Columns.Clear();
-            invoiceProducts.Columns.Add("Mã hàng", typeof(int));
             invoiceProducts.Columns.Add("Tên hàng", typeof(string));
             invoiceProducts.Columns.Add("Số lượng", typeof(int));
             invoiceProducts.Columns.Add("Giá", typeof(decimal));
@@ -104,12 +103,18 @@ namespace QLSieuThiMini.UI
             cbMaHD.ValueMember = "MaHDB";
             cbMaHD.SelectedIndex = -1;
         }
+        private void resetNV()
+        {
+            txtMaNV.Text = Session.MaNhanVien;
+            txtTenNV.Text = Session.TenNhanVien;
+        }
         private void btnThem_Click(object sender, EventArgs e)
         {
             readonlyText(false);
             resetValue();
             enable(true);
             loadData();
+            resetNV();
             cbMaHD.Text = null;
             btnHuy.Enabled = false;
             btnIn.Enabled = false;
@@ -164,15 +169,17 @@ namespace QLSieuThiMini.UI
             string sql = "select * from ChiTietHDB c inner join HoaDonBan h on c.MaHDB = h.MaHDB " +
              "inner join KhachHang k on k.MaKH = h.MaKH " +
              "inner join SanPham s on s.MaSP = c.MaSP " +
-             "where c.MaHDB = '" + cbMaHD.Text + "' " +
-             "and h.MaNV = '" + txtMaNV.Text + "'";
+             "where c.MaHDB = '" + cbMaHD.Text + "' ";
 
             DataTable dt = db.DataReader(sql);
-
+            string maNV = dt.Rows[0]["MaNV"].ToString();
+            DataTable dtMNV = db.DataReader("select TenNV from NhanVien where MaNV = N'" + maNV + "'");
+            txtTenNV.Text = dtMNV.Rows[0]["TenNV"].ToString();
             if (dt.Rows.Count > 0)
             {
                 txtMaHD.Text = cbMaHD.Text;
                 dtpNgayBan.Value = Convert.ToDateTime(dt.Rows[0]["NgayBan"]);
+                txtMaNV.Text = dt.Rows[0]["MaNV"].ToString();
                 cbTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
@@ -295,12 +302,9 @@ namespace QLSieuThiMini.UI
             totalPrice += total;
             lbTotalMoney.Text = String.Format("{0:N0} VND", totalPrice);
             lbPay.Text = String.Format("{0:N0} VNĐ", totalPrice);
-            DataTable dt = db.DataReader("select MaSP from SanPham where TenSP = N'" + cbTenSP.Text + "'");
-            int maSP = int.Parse(dt.Rows[0]["MaSP"].ToString());
             try
             {
                 DataRow row = invoiceProducts.NewRow();
-                row["Mã hàng"] = maSP;
                 row["Tên hàng"] = cbTenSP.Text;
                 row["Số lượng"] = quantity;
                 row["Giá"] = price;
@@ -379,7 +383,9 @@ namespace QLSieuThiMini.UI
                 db.DataChange(invoiceSql);
                 foreach (DataRow row in invoiceProducts.Rows)
                 {
-                    int productId = Convert.ToInt32(row["Mã hàng"]);
+                    string productName = row["Tên hàng"].ToString();
+                    DataTable dataTable = db.DataReader("select MaSP from SanPham where TenSP = N'" + productName + "'");
+                    int productId = Convert.ToInt32(dataTable.Rows[0]["MaSP"].ToString());
                     int quantity = Convert.ToInt32(row["Số lượng"]);
                     decimal discount = Convert.ToDecimal(row["Giảm giá"]);
                     decimal total = Convert.ToDecimal(row["Thành tiền"]);
@@ -417,6 +423,7 @@ namespace QLSieuThiMini.UI
             loadCbbMHD();
             enable(false);
             resetValue();
+            resetNV();
             btnHuySP.Enabled = false;
             cbTenSP.SelectedIndex = -1;
             loadData();
