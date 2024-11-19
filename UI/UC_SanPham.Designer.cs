@@ -54,8 +54,8 @@
             this.guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.groupDanhSach = new Guna.UI2.WinForms.Guna2GroupBox();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.dgvSanPham = new Guna.UI2.WinForms.Guna2DataGridView();
+            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.groupThongTin.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
             this.groupDanhSach.SuspendLayout();
@@ -89,7 +89,7 @@
             this.groupThongTin.Location = new System.Drawing.Point(0, 0);
             this.groupThongTin.Margin = new System.Windows.Forms.Padding(4);
             this.groupThongTin.Name = "groupThongTin";
-            this.groupThongTin.Size = new System.Drawing.Size(1548, 276);
+            this.groupThongTin.Size = new System.Drawing.Size(1348, 276);
             this.groupThongTin.TabIndex = 1;
             this.groupThongTin.Text = "Thông tin sản phẩm";
             // 
@@ -176,7 +176,7 @@
             this.guna2HtmlLabel7.Location = new System.Drawing.Point(1160, 256);
             this.guna2HtmlLabel7.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel7.Name = "guna2HtmlLabel7";
-            this.guna2HtmlLabel7.Size = new System.Drawing.Size(97, 22);
+            this.guna2HtmlLabel7.Size = new System.Drawing.Size(71, 15);
             this.guna2HtmlLabel7.TabIndex = 13;
             this.guna2HtmlLabel7.Text = "Ảnh sản phẩm";
             // 
@@ -220,7 +220,7 @@
             this.guna2HtmlLabel6.Location = new System.Drawing.Point(732, 89);
             this.guna2HtmlLabel6.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            this.guna2HtmlLabel6.Size = new System.Drawing.Size(81, 24);
+            this.guna2HtmlLabel6.Size = new System.Drawing.Size(61, 21);
             this.guna2HtmlLabel6.TabIndex = 10;
             this.guna2HtmlLabel6.Text = "Số lượng:";
             // 
@@ -287,7 +287,7 @@
             this.guna2HtmlLabel5.Location = new System.Drawing.Point(732, 175);
             this.guna2HtmlLabel5.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(107, 24);
+            this.guna2HtmlLabel5.Size = new System.Drawing.Size(83, 21);
             this.guna2HtmlLabel5.TabIndex = 6;
             this.guna2HtmlLabel5.Text = "Hạn sử dụng:";
             // 
@@ -299,7 +299,7 @@
             this.guna2HtmlLabel4.Location = new System.Drawing.Point(375, 175);
             this.guna2HtmlLabel4.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            this.guna2HtmlLabel4.Size = new System.Drawing.Size(105, 24);
+            this.guna2HtmlLabel4.Size = new System.Drawing.Size(79, 21);
             this.guna2HtmlLabel4.TabIndex = 5;
             this.guna2HtmlLabel4.Text = "Đơn giá bán:";
             // 
@@ -311,7 +311,7 @@
             this.guna2HtmlLabel3.Location = new System.Drawing.Point(375, 89);
             this.guna2HtmlLabel3.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            this.guna2HtmlLabel3.Size = new System.Drawing.Size(114, 24);
+            this.guna2HtmlLabel3.Size = new System.Drawing.Size(86, 21);
             this.guna2HtmlLabel3.TabIndex = 4;
             this.guna2HtmlLabel3.Text = "Đơn giá nhập:";
             // 
@@ -339,7 +339,7 @@
             this.guna2HtmlLabel2.Location = new System.Drawing.Point(21, 175);
             this.guna2HtmlLabel2.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(123, 24);
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(94, 21);
             this.guna2HtmlLabel2.TabIndex = 2;
             this.guna2HtmlLabel2.Text = "Loại sản phẩm:";
             // 
@@ -371,7 +371,7 @@
             this.guna2HtmlLabel1.Location = new System.Drawing.Point(21, 89);
             this.guna2HtmlLabel1.Margin = new System.Windows.Forms.Padding(4);
             this.guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            this.guna2HtmlLabel1.Size = new System.Drawing.Size(117, 24);
+            this.guna2HtmlLabel1.Size = new System.Drawing.Size(90, 21);
             this.guna2HtmlLabel1.TabIndex = 0;
             this.guna2HtmlLabel1.Text = "Tên sản phẩm:";
             // 
@@ -385,7 +385,7 @@
             this.groupDanhSach.Location = new System.Drawing.Point(0, 276);
             this.groupDanhSach.Margin = new System.Windows.Forms.Padding(4);
             this.groupDanhSach.Name = "groupDanhSach";
-            this.groupDanhSach.Size = new System.Drawing.Size(1548, 334);
+            this.groupDanhSach.Size = new System.Drawing.Size(1348, 434);
             this.groupDanhSach.TabIndex = 2;
             this.groupDanhSach.Text = "Danh sách sản phẩm";
             // 
@@ -395,13 +395,8 @@
             this.guna2Panel1.Location = new System.Drawing.Point(0, 40);
             this.guna2Panel1.Margin = new System.Windows.Forms.Padding(4);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1548, 57);
+            this.guna2Panel1.Size = new System.Drawing.Size(1348, 57);
             this.guna2Panel1.TabIndex = 2;
-            // 
-            // guna2Elipse1
-            // 
-            this.guna2Elipse1.BorderRadius = 26;
-            this.guna2Elipse1.TargetControl = this;
             // 
             // dgvSanPham
             // 
@@ -432,7 +427,7 @@
             this.dgvSanPham.Name = "dgvSanPham";
             this.dgvSanPham.RowHeadersVisible = false;
             this.dgvSanPham.RowHeadersWidth = 62;
-            this.dgvSanPham.Size = new System.Drawing.Size(1548, 294);
+            this.dgvSanPham.Size = new System.Drawing.Size(1348, 394);
             this.dgvSanPham.TabIndex = 1;
             this.dgvSanPham.ThemeStyle.AlternatingRowsStyle.BackColor = System.Drawing.Color.White;
             this.dgvSanPham.ThemeStyle.AlternatingRowsStyle.Font = null;
@@ -455,6 +450,11 @@
             this.dgvSanPham.ThemeStyle.RowsStyle.Height = 22;
             this.dgvSanPham.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvSanPham.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            // 
+            // guna2Elipse1
+            // 
+            this.guna2Elipse1.BorderRadius = 26;
+            this.guna2Elipse1.TargetControl = this;
             // 
             // UC_SanPham
             // 
