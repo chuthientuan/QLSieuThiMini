@@ -254,6 +254,9 @@
     <EmbeddedResource Include="UI\FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmNV.resx">
+      <DependentUpon>FrmNV.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\UC_HDB.resx">
       <DependentUpon>UC_HDB.cs</DependentUpon>
     </EmbeddedResource>

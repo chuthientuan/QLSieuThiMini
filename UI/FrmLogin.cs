@@ -36,7 +36,7 @@ namespace QLSieuThiMini.UI
                 Session.MaNhanVien = dt.Rows[0]["MaNV"].ToString();
                 Session.TenNhanVien = dt.Rows[0]["TenNV"].ToString();
                 int cd = int.Parse(dt.Rows[0]["ChucDanh"].ToString());
-                MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 if(cd == 0)
                 {
                     FrmAdmin frmAdmin = new FrmAdmin();

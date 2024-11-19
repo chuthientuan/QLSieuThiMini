@@ -74,9 +74,9 @@ namespace QLSieuThiMini.UI
             readonlyText(true);
             enable(false);
             btnHuySP.Enabled = false;
-            DataTable dtb = db.DataReader("select TenNV from NhanVien where MaNV = N'NV01'");
+            DataTable dtb = db.DataReader("select TenNV from NhanVien where MaNV = '" + Session.MaNhanVien + "'");
             txtTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
-            txtMaNV.Text = "NV01";
+            txtMaNV.Text = Session.MaNhanVien;
             loadCbbMHD();
             timer1.Tick += new EventHandler(timer1_Tick_1);
             timer1.Interval = 1000;
@@ -98,7 +98,7 @@ namespace QLSieuThiMini.UI
         }
         private void loadCbbMHD()
         {
-            DataTable dt = db.DataReader("select MaHDB from HoaDonBan where MaNV = '" + txtMaNV.Text + "'");
+            DataTable dt = db.DataReader("select MaHDB from HoaDonBan");
             cbMaHD.DataSource = dt;
             cbMaHD.DisplayMember = "MaHDB";
             cbMaHD.ValueMember = "MaHDB";
@@ -605,6 +605,10 @@ namespace QLSieuThiMini.UI
             {
                 MessageBox.Show("Chọn ít nhất một sản phẩm để hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+        private void cbMaHD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -832,5 +832,38 @@ namespace QLSieuThiMini
                 MessageBox.Show($"Có lỗi xảy ra khi xuất dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            if (btnLuuHD.Enabled)
+            {
+                DialogResult result = MessageBox.Show("Dữ liệu chưa được lưu. Bạn có muốn lưu không?",
+                                                      "Xác nhận thoát", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    // Gọi sự kiện nút lưu
+                    btnLuuHD.PerformClick();
+
+                    // Thoát nếu lưu thành công
+                    this.Close();
+                }
+                else if (result == DialogResult.No)
+                {
+                    // Thoát không lưu
+                    this.Close();
+                }
+                else
+                {
+                    // Hủy thao tác, không làm gì
+                    return;
+                }
+            }
+            else
+            {
+                // Thoát ngay vì không có dữ liệu cần lưu
+                this.Close();
+            }
+        }
     }
 }

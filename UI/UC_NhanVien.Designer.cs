@@ -39,7 +39,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.guna2GroupBox3 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnsearch = new Guna.UI2.WinForms.Guna2Button();
-            this.btnThoat = new Guna.UI2.WinForms.Guna2Button();
             this.btnTaoMoi = new Guna.UI2.WinForms.Guna2Button();
             this.btnXoa = new Guna.UI2.WinForms.Guna2Button();
             this.btnLuu = new Guna.UI2.WinForms.Guna2Button();
@@ -143,7 +142,6 @@
             // 
             this.guna2GroupBox3.BorderRadius = 5;
             this.guna2GroupBox3.Controls.Add(this.btnsearch);
-            this.guna2GroupBox3.Controls.Add(this.btnThoat);
             this.guna2GroupBox3.Controls.Add(this.btnTaoMoi);
             this.guna2GroupBox3.Controls.Add(this.btnXoa);
             this.guna2GroupBox3.Controls.Add(this.btnLuu);
@@ -169,29 +167,12 @@
             this.btnsearch.ForeColor = System.Drawing.Color.White;
             this.btnsearch.Image = global::QLSieuThiMini.Properties.Resources.ic_search;
             this.btnsearch.ImageSize = new System.Drawing.Size(25, 25);
-            this.btnsearch.Location = new System.Drawing.Point(17, 60);
+            this.btnsearch.Location = new System.Drawing.Point(90, 58);
             this.btnsearch.Name = "btnsearch";
             this.btnsearch.Size = new System.Drawing.Size(153, 48);
             this.btnsearch.TabIndex = 2;
             this.btnsearch.Text = "Tìm Kiếm";
             this.btnsearch.Click += new System.EventHandler(this.btnsearch_Click);
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.BorderRadius = 10;
-            this.btnThoat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnThoat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnThoat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnThoat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnThoat.FillColor = System.Drawing.SystemColors.MenuHighlight;
-            this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnThoat.ForeColor = System.Drawing.Color.White;
-            this.btnThoat.Image = global::QLSieuThiMini.Properties.Resources.ic_exit;
-            this.btnThoat.Location = new System.Drawing.Point(1063, 63);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(162, 45);
-            this.btnThoat.TabIndex = 17;
-            this.btnThoat.Text = "Thoát";
             // 
             // btnTaoMoi
             // 
@@ -205,7 +186,7 @@
             this.btnTaoMoi.ForeColor = System.Drawing.Color.White;
             this.btnTaoMoi.Image = global::QLSieuThiMini.Properties.Resources.ic_addnew;
             this.btnTaoMoi.ImageSize = new System.Drawing.Size(25, 25);
-            this.btnTaoMoi.Location = new System.Drawing.Point(204, 63);
+            this.btnTaoMoi.Location = new System.Drawing.Point(277, 61);
             this.btnTaoMoi.Name = "btnTaoMoi";
             this.btnTaoMoi.Size = new System.Drawing.Size(152, 45);
             this.btnTaoMoi.TabIndex = 12;
@@ -223,7 +204,7 @@
             this.btnXoa.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnXoa.ForeColor = System.Drawing.Color.White;
             this.btnXoa.Image = global::QLSieuThiMini.Properties.Resources.ic_delete;
-            this.btnXoa.Location = new System.Drawing.Point(902, 63);
+            this.btnXoa.Location = new System.Drawing.Point(975, 61);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(145, 45);
             this.btnXoa.TabIndex = 16;
@@ -241,7 +222,7 @@
             this.btnLuu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnLuu.ForeColor = System.Drawing.Color.White;
             this.btnLuu.Image = global::QLSieuThiMini.Properties.Resources.ic_save;
-            this.btnLuu.Location = new System.Drawing.Point(380, 63);
+            this.btnLuu.Location = new System.Drawing.Point(453, 61);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(150, 45);
             this.btnLuu.TabIndex = 13;
@@ -259,7 +240,7 @@
             this.btnNhapLai.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnNhapLai.ForeColor = System.Drawing.Color.White;
             this.btnNhapLai.Image = global::QLSieuThiMini.Properties.Resources.ic_reload;
-            this.btnNhapLai.Location = new System.Drawing.Point(718, 63);
+            this.btnNhapLai.Location = new System.Drawing.Point(791, 61);
             this.btnNhapLai.Name = "btnNhapLai";
             this.btnNhapLai.Size = new System.Drawing.Size(153, 45);
             this.btnNhapLai.TabIndex = 14;
@@ -277,7 +258,7 @@
             this.btnSua.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSua.ForeColor = System.Drawing.Color.White;
             this.btnSua.Image = global::QLSieuThiMini.Properties.Resources.ic_edit;
-            this.btnSua.Location = new System.Drawing.Point(547, 63);
+            this.btnSua.Location = new System.Drawing.Point(620, 61);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(154, 45);
             this.btnSua.TabIndex = 15;
@@ -308,6 +289,7 @@
             this.dvgNhanVien.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dvgNhanVien.Location = new System.Drawing.Point(634, 322);
             this.dvgNhanVien.Name = "dvgNhanVien";
+            this.dvgNhanVien.ReadOnly = true;
             this.dvgNhanVien.RowHeadersVisible = false;
             this.dvgNhanVien.RowHeadersWidth = 51;
             this.dvgNhanVien.RowTemplate.Height = 24;
@@ -326,7 +308,7 @@
             this.dvgNhanVien.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
             this.dvgNhanVien.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dvgNhanVien.ThemeStyle.HeaderStyle.Height = 30;
-            this.dvgNhanVien.ThemeStyle.ReadOnly = false;
+            this.dvgNhanVien.ThemeStyle.ReadOnly = true;
             this.dvgNhanVien.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
             this.dvgNhanVien.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dvgNhanVien.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -611,7 +593,6 @@
         private System.Windows.Forms.Label label12;
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox3;
         private Guna.UI2.WinForms.Guna2Button btnsearch;
-        private Guna.UI2.WinForms.Guna2Button btnThoat;
         private Guna.UI2.WinForms.Guna2Button btnTaoMoi;
         private Guna.UI2.WinForms.Guna2Button btnXoa;
         private Guna.UI2.WinForms.Guna2Button btnLuu;
