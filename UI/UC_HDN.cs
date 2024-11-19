@@ -161,7 +161,7 @@ namespace QLSieuThiMini.UI
         //LoadCBB tìm kiếm hóa đơn
         private void LoadCbbMHD()
         {
-            DataTable dt = db.DataReader("SELECT MaHDN FROM HoaDonNhap WHERE MaNV = '" + lblMaNV.Text + "'");
+            DataTable dt = db.DataReader("SELECT MaHDN FROM HoaDonNhap WHERE MaNV = '" + Session.MaNhanVien + "'");
             cbbTKMHDN.DataSource = dt;
             cbbTKMHDN.DisplayMember = "MaHDN";
             cbbTKMHDN.ValueMember = "MaHDN";
@@ -188,9 +188,9 @@ namespace QLSieuThiMini.UI
 
             HideData(false);
             //Lấy thông tin nhân viên 
-            DataTable dtNV = db.DataReader("SELECT TenNV FROM NhanVien WHERE MaNV = 'NV02'");
+            DataTable dtNV = db.DataReader("SELECT TenNV FROM NhanVien WHERE MaNV = '" + Session.MaNhanVien + "'");
             lblTenNV.Text = dtNV.Rows[0]["TenNV"].ToString();
-            lblMaNV.Text = "NV02";
+            lblMaNV.Text = Session.MaNhanVien;
 
             //Lấy thời gian hiện tại 
             timer1.Interval = 1000; // 1 giây

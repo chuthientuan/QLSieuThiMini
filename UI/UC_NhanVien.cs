@@ -45,7 +45,6 @@ namespace QLSieuThiMini.UI
             btnNhapLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
-            btnThoat.Enabled = true;
         }
         private void btnsearch_Click(object sender, EventArgs e)
         {
@@ -78,7 +77,6 @@ namespace QLSieuThiMini.UI
             btnNhapLai.Enabled = false;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
-            btnThoat.Enabled = true;
             btnsearch.Enabled = false;
         }
         void Reset()
@@ -114,7 +112,6 @@ namespace QLSieuThiMini.UI
                 btnNhapLai.Enabled = true;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
-                btnThoat.Enabled = true;
             }
         }
         private void btnNhapLai_Click(object sender, EventArgs e)
@@ -192,7 +189,6 @@ namespace QLSieuThiMini.UI
                     btnNhapLai.Enabled = false;
                     btnSua.Enabled = false;
                     btnXoa.Enabled = false;
-                    btnThoat.Enabled = true;
                     btnsearch.Enabled = true;
                     dvgNhanVien.Enabled = true;
                 }
@@ -291,7 +287,6 @@ namespace QLSieuThiMini.UI
                 btnNhapLai.Enabled = false;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
-                btnThoat.Enabled = true;
                 tieude.Text = "QUẢN LÝ NHÂN VIÊN";
             }
         }
@@ -309,7 +304,6 @@ namespace QLSieuThiMini.UI
                 btnNhapLai.Enabled = false;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
-                btnThoat.Enabled = true;
                 tieude.Text = "QUẢN LÝ NHÂN VIÊN";
             }
         }
