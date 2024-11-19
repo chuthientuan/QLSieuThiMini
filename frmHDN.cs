@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace QLSieuThiMini
 {
@@ -35,6 +36,7 @@ namespace QLSieuThiMini
             cbbTenNCC.DisplayMember = "TenNCC";
             cbbTenNCC.SelectedIndex = -1;
 
+            cbbTenNCC.DropDownHeight = 200;
             cbbTenNCC.DropDownStyle = ComboBoxStyle.DropDown;
             cbbTenNCC.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbbTenNCC.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -164,10 +166,8 @@ namespace QLSieuThiMini
             cbbTKMHDN.ValueMember = "MaHDN";
             cbbTKMHDN.SelectedIndex = -1;
 
-            // Đặt DropDownStyle là DropDown để cho phép nhập văn bản
+            cbbTKMHDN.DropDownHeight = 200;
             cbbTKMHDN.DropDownStyle = ComboBoxStyle.DropDown;
-
-            // Thiết lập AutoCompleteMode và AutoCompleteSource
             cbbTKMHDN.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbbTKMHDN.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
@@ -280,6 +280,7 @@ namespace QLSieuThiMini
             btnThemHD.Enabled = true;
 
             LoadData();
+            cbbLoaiHang.SelectedIndex = -1;
         }
         private void txtTongTien_TextChanged(object sender, EventArgs e)
         {
@@ -334,16 +335,15 @@ namespace QLSieuThiMini
                 cbbTenSP.DisplayMember = "TenSP";
                 cbbTenSP.SelectedIndex = -1;
 
-                cbbTenSP.DropDownStyle = ComboBoxStyle.DropDownList;
+                //cbbTenSP.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
         private void cbbTenSP_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(cbbTenSP.SelectedValue != null && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
+            if(cbbTenSP.SelectedIndex != -1 && int.TryParse(cbbTenSP.SelectedValue.ToString(), out int maSP))
             {
-                txtSoLuongNhap.Enabled = true;
+                if(btnTimKiem.Enabled == false) txtSoLuongNhap.Enabled = true;
                 DataTable dt = db.DataReader("SELECT DonGiaNhap FROM SanPham WHERE MaSP = '" + maSP + "'");
-                //txtDonGiaNhap.Text = dt.Rows[0]["DonGiaNhap"].ToString();
                 if (dt.Rows.Count > 0)
                 {
                     // Truy xuất giá trị của cột "DonGiaNhap" từ dòng đầu tiên
@@ -408,7 +408,7 @@ namespace QLSieuThiMini
                                                           MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
-                        db.DataReader("INSERT INTO NhaCungCap (TenNCC) VALUES (N'"+ tenNCC +"')");
+                        db.DataChange("INSERT INTO NhaCungCap (TenNCC) VALUES (N'"+ tenNCC +"')");
                         LoadcbbNCC();
                         MessageBox.Show("Nhà cung cấp đã được thêm thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         cbbTenNCC.SelectedValue = db.DataReader("SELECT MaNCC FROM NhaCungCap WHERE TenNCC = N'"+ tenNCC + "'").Rows[0]["MaNCC"];
@@ -549,20 +549,288 @@ namespace QLSieuThiMini
                     }
                 }
             }
+            else
+            {
+                // Kiểm tra nếu dòng được chọn hợp lệ (không phải header hoặc ngoài phạm vi)
+                if (e.RowIndex >= 0)
+                {
+                    // Lấy dòng đang được chọn
+                    DataGridViewRow selectedRow = dgvHDN.Rows[e.RowIndex];
+
+                    // Kiểm tra nếu dòng này không phải là dòng mới
+                    if (!selectedRow.IsNewRow)
+                    {
+                        string maHDN = txtMHDN.Text.Trim();
+                        string tenSP = selectedRow.Cells["TenSP"].Value.ToString();
+                        string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+                        int soLuong = Convert.ToInt32(selectedRow.Cells["SLNhap"].Value);
+                        int soLuongTonKho = Convert.ToInt32(db.ExecuteScalar($"SELECT SoLuong FROM SanPham WHERE MaSP = '{maSP}'"));
+                        decimal thanhTien = Convert.ToDecimal(selectedRow.Cells["ThanhTien"].Value);
+
+                        if (soLuong > soLuongTonKho)
+                        {
+                            // Thông báo nếu số lượng hiện tại ít hơn số lượng cần hoàn
+                            DialogResult result = MessageBox.Show($"Số lượng trong kho ({soLuongTonKho}) ít hơn số lượng cần trả ({soLuong})." +
+                                                                  $"\nBạn có muốn trả hết số lượng hiện tại không?",
+                                                                  "Xác nhận trả hàng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                            if (result == DialogResult.Yes) // Nếu chọn Có, hoàn toàn bộ
+                            {
+                                // Trừ toàn bộ số lượng hiện tại
+                                db.DataChange($"UPDATE SanPham SET SoLuong = 0 WHERE MaSP = '{maSP}'");
+
+                                // Xóa dữ liệu trong bảng ChiTietHDN
+                                db.DataChange($"DELETE FROM ChiTietHDN WHERE MaHDN = '{maHDN}' AND MaSP = '{maSP}'");
+
+                                // Cập nhật lại tổng tiền hóa đơn
+                                db.DataChange($"UPDATE HoaDonNhap SET TongTien = TongTien - {thanhTien} WHERE MaHDN = '{maHDN}'");
+
+                                MessageBox.Show("Trả hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                decimal tongTienMoi = Convert.ToDecimal(db.ExecuteScalar($"SELECT TongTien FROM HoaDonNhap WHERE MaHDN = '{maHDN}'"));
+                                if (tongTienMoi == 0)
+                                {
+                                    // Xóa hóa đơn nếu tổng tiền bằng 0
+                                    db.DataChange($"DELETE FROM HoaDonNhap WHERE MaHDN = '{maHDN}'");
+                                    MessageBox.Show("Hóa đơn đã bị hủy vì không còn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    ResetTTChung();
+                                    LoadCbbMHD();
+                                }
+                                else
+                                {
+                                    // Cập nhật lại txtTongTien nếu hóa đơn chưa bị xóa
+                                    txtTongTien.Text = tongTienMoi.ToString("N0");
+                                }
+
+                                LoadData();
+                                ResetTTSP();
+                                cbbLoaiHang.SelectedIndex = -1;
+                            }
+                            else
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            DialogResult result = MessageBox.Show("Bạn có muốn trả sản phẩm này không?",
+                                                                   "Xác nhận trả hàng", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if(result == DialogResult.Yes)
+                            {
+                                // Trừ số lượng cần hoàn
+                                db.DataChange($"UPDATE SanPham SET SoLuong = SoLuong - {soLuong} WHERE MaSP = '{maSP}'");
+
+                                // Xóa dữ liệu trong bảng ChiTietHDN
+                                db.DataChange($"DELETE FROM ChiTietHDN WHERE MaHDN = '{maHDN}' AND MaSP = '{maSP}'");
+
+                                db.DataChange($"UPDATE HoaDonNhap SET TongTien = TongTien - {thanhTien} WHERE MaHDN = '{maHDN}'");
+
+                                MessageBox.Show("Trả hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                decimal tongTienMoi = Convert.ToDecimal(db.ExecuteScalar($"SELECT TongTien FROM HoaDonNhap WHERE MaHDN = '{maHDN}'"));
+                                if (tongTienMoi == 0)
+                                {
+                                    // Xóa hóa đơn nếu tổng tiền bằng 0
+                                    db.DataChange($"DELETE FROM HoaDonNhap WHERE MaHDN = '{maHDN}'");
+                                    MessageBox.Show("Hóa đơn đã bị hủy vì không còn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    ResetTTChung();
+                                    LoadCbbMHD();
+                                }
+                                else
+                                {
+                                    // Cập nhật lại txtTongTien nếu hóa đơn chưa bị xóa
+                                    txtTongTien.Text = tongTienMoi.ToString("N0");
+                                }
+
+                                LoadData();
+                                ResetTTSP();
+                                cbbLoaiHang.SelectedIndex = -1;
+                            }
+                            else { return; }
+                        }
+                    }
+                }
+            }
         }
 
         private void btnLuuHD_Click(object sender, EventArgs e)
         {
+            DialogResult result = MessageBox.Show("Bạn có muốn lưu hóa đơn này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.No)
+            {
+                return;
+            }
             string maHDN = txtMHDN.Text.Trim();
             string maNV = lblMaNV.Text.Trim();
             string ngayNhap = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
             string tongTien = txtTongTien.Text.Replace(",", "").Trim();
             string maNCC = cbbTenNCC.SelectedValue.ToString();
 
-            db.DataReader($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
+            db.DataChange($"INSERT INTO HoaDonNhap (MaHDN, MaNV, NgayNhap, TongTien, MaNCC) " +
                           $"VALUES ('{maHDN}', '{maNV}', '{ngayNhap}', {tongTien}, '{maNCC}')");
 
             //lưu từng dòng
+            foreach (DataGridViewRow row in dgvHDN.Rows)
+            {
+                if (!row.IsNewRow) // Bỏ qua dòng mới chưa được điền
+                {
+                    // Lấy Tên sản phẩm từ DataGridView
+                    string tenSP = row.Cells["TenSP"].Value.ToString();
+
+                    string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+                    string thanhTien = row.Cells["ThanhTien"].Value.ToString().Replace(",", "").Trim();
+                    string soLuongNhap = row.Cells["SLNhap"].Value.ToString();
+
+                    db.DataChange($"INSERT INTO ChiTietHDN (MaHDN, MaSP, ThanhTien, SLNhap) " +
+                                  $"VALUES ('{maHDN}', '{maSP}', {thanhTien}, {soLuongNhap})");
+
+                    db.DataChange($"UPDATE SanPham SET SoLuong = SoLuong + {soLuongNhap} WHERE MaSP = '{maSP}'");
+                }
+            }
+            MessageBox.Show("Hóa đơn nhập đã được lưu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ResetTTChung();
+            string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
+            txtMHDN.Text = newMaHD;
+            LoadData();
+
+        }
+
+        private void btnHuyHD_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn hủy hóa đơn này không?\n" +
+                                          "Toàn bộ dữ liệu liên quan sẽ bị xóa và số lượng sản phẩm sẽ được cập nhật lại.",
+                                          "Xác nhận hủy hóa đơn", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                string maHDN = txtMHDN.Text.Trim();
+                foreach (DataGridViewRow row in dgvHDN.Rows)
+                {
+                    if (!row.IsNewRow)
+                    {
+                        // Lấy thông tin sản phẩm
+                        string tenSP = row.Cells["TenSP"].Value.ToString();
+                        string maSP = db.ExecuteScalar($"SELECT MaSP FROM SanPham WHERE TenSP = N'{tenSP}'")?.ToString();
+                        int soLuongNhap = Convert.ToInt32(row.Cells["SLNhap"].Value);
+                        int soLuongTonKho = Convert.ToInt32(db.ExecuteScalar($"SELECT SoLuong FROM SanPham WHERE MaSP = '{maSP}'"));
+
+                        // Trường hợp số lượng tồn kho nhỏ hơn số lượng hủy
+                        if (soLuongTonKho < soLuongNhap)
+                        {
+                            // Cập nhật số lượng còn lại về 0
+                            db.DataChange($"UPDATE SanPham SET SoLuong = 0 WHERE MaSP = '{maSP}'");
+
+                            MessageBox.Show($"Sản phẩm '{tenSP}' chỉ còn {soLuongTonKho} trong kho, toàn bộ số lượng đã được hủy.",
+                                            "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            // Trừ số lượng nhập khỏi tồn kho
+                            db.DataChange($"UPDATE SanPham SET SoLuong = SoLuong - {soLuongNhap} WHERE MaSP = '{maSP}'");
+                        }
+                    }
+                }
+                // Xóa dữ liệu trong bảng ChiTietHDN
+                db.DataChange($"DELETE FROM ChiTietHDN WHERE MaHDN = '{maHDN}'");
+
+                // Xóa dữ liệu trong bảng HoaDonNhap
+                db.DataChange($"DELETE FROM HoaDonNhap WHERE MaHDN = '{maHDN}'");
+
+                // Làm mới giao diện và dữ liệu
+                ResetTTChung();
+                ResetTTSP();
+                LoadData();
+                LoadCbbMHD();
+
+                MessageBox.Show("Hóa đơn đã được hủy thành công và số lượng sản phẩm đã được cập nhật lại!",
+                                "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnInHD_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Mở hộp thoại lưu tệp
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Lưu Hóa Đơn Nhập";
+                saveFileDialog.FileName = "HoaDonNhap.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Tạo ứng dụng Excel
+                    Excel.Application excelApp = new Excel.Application();
+                    excelApp.Visible = false; // Không hiển thị ứng dụng Excel
+
+                    // Tạo Workbook và Worksheet
+                    Excel.Workbook workbook = excelApp.Workbooks.Add();
+                    Excel.Worksheet worksheet = (Excel.Worksheet)workbook.Sheets[1];
+                    worksheet.Name = "Hóa Đơn Nhập";
+
+                    // Tiêu đề
+                    worksheet.Cells[1, 1] = "HÓA ĐƠN NHẬP HÀNG";
+                    worksheet.Cells[1, 1].Font.Bold = true;
+                    worksheet.Cells[1, 1].Font.Size = 16;
+
+                    // Thông tin hóa đơn
+                    worksheet.Cells[3, 1] = "Mã hóa đơn:";
+                    worksheet.Cells[3, 2] = txtMHDN.Text.Trim();
+                    worksheet.Cells[4, 1] = "Nhân viên nhập:";
+                    worksheet.Cells[4, 2] = lblTenNV.Text.Trim();
+                    worksheet.Cells[4, 3] = "Mã nhân viên:";
+                    worksheet.Cells[4, 4] = lblMaNV.Text.Trim();
+                    worksheet.Cells[5, 1] = "Ngày nhập:";
+                    worksheet.Cells[5, 2] = dtpNgayNhap.Value.ToString("yyyy-MM-dd");
+                    worksheet.Cells[6, 1] = "Nhà cung cấp:";
+                    worksheet.Cells[6, 2] = cbbTenNCC.Text;
+
+                    // Tiêu đề bảng
+                    worksheet.Cells[8, 1] = "Tên sản phẩm";
+                    worksheet.Cells[8, 2] = "Số lượng nhập";
+                    worksheet.Cells[8, 3] = "Thành tiền";
+                    worksheet.Cells[8, 4] = "Tổng tiền";
+
+                    // Định dạng tiêu đề bảng
+                    Excel.Range headerRange = worksheet.Range["A8", "D8"];
+                    headerRange.Font.Bold = true;
+                    headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
+
+                    // Xuất dữ liệu từ DataGridView
+                    int rowIndex = 9; // Bắt đầu từ dòng thứ 9
+                    foreach (DataGridViewRow row in dgvHDN.Rows)
+                    {
+                        if (!row.IsNewRow) // Bỏ qua dòng trống
+                        {
+                            worksheet.Cells[rowIndex, 1] = row.Cells["TenSP"].Value; // Tên sản phẩm
+                            worksheet.Cells[rowIndex, 2] = row.Cells["SLNhap"].Value; // Số lượng nhập
+                            worksheet.Cells[rowIndex, 3] = row.Cells["ThanhTien"].Value; // Thành tiền
+                            rowIndex++;
+                        }
+                    }
+
+                    // Tổng tiền hóa đơn
+                    worksheet.Cells[rowIndex, 3] = "Tổng tiền:";
+                    worksheet.Cells[rowIndex, 4] = txtTongTien.Text;
+
+                    // Định dạng cột
+                    Excel.Range dataRange = worksheet.Range["A8", $"D{rowIndex}"];
+                    dataRange.Columns.AutoFit();
+
+                    // Lưu tệp Excel theo đường dẫn người dùng chọn
+                    workbook.SaveAs(saveFileDialog.FileName);
+
+                    // Đóng Excel
+                    workbook.Close();
+                    excelApp.Quit();
+
+                    // Thông báo thành công
+                    MessageBox.Show($"Hóa đơn đã được xuất ra Excel tại: {saveFileDialog.FileName}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Có lỗi xảy ra khi xuất dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

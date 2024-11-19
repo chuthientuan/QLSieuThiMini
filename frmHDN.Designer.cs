@@ -165,6 +165,7 @@
             this.btnInHD.Size = new System.Drawing.Size(180, 45);
             this.btnInHD.TabIndex = 3;
             this.btnInHD.Text = "In hóa đơn";
+            this.btnInHD.Click += new System.EventHandler(this.btnInHD_Click);
             // 
             // btnLuuHD
             // 
@@ -202,6 +203,7 @@
             this.btnHuyHD.Size = new System.Drawing.Size(180, 45);
             this.btnHuyHD.TabIndex = 1;
             this.btnHuyHD.Text = "Hủy hóa đơn";
+            this.btnHuyHD.Click += new System.EventHandler(this.btnHuyHD_Click);
             // 
             // btnThemHD
             // 
@@ -373,11 +375,11 @@
             // 
             this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
             this.guna2HtmlLabel5.ForeColor = System.Drawing.Color.Red;
-            this.guna2HtmlLabel5.Location = new System.Drawing.Point(853, 375);
+            this.guna2HtmlLabel5.Location = new System.Drawing.Point(802, 371);
             this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(186, 18);
+            this.guna2HtmlLabel5.Size = new System.Drawing.Size(212, 18);
             this.guna2HtmlLabel5.TabIndex = 18;
-            this.guna2HtmlLabel5.Text = "(*): Click đúp để xóa sản phẩm!";
+            this.guna2HtmlLabel5.Text = "(*): Click đúp để hoàn trả sản phẩm!";
             // 
             // lblThemHD
             // 
