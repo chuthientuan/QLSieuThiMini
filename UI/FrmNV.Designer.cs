@@ -38,8 +38,8 @@
             this.guna2Button5 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
-            this.imgSlide = new System.Windows.Forms.PictureBox();
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
+            this.imgSlide = new System.Windows.Forms.PictureBox();
             this.pnlContent = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel2.SuspendLayout();
@@ -197,15 +197,6 @@
             this.guna2Button3.CheckedChanged += new System.EventHandler(this.guna2Button5_CheckedChanged);
             this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
             // 
-            // imgSlide
-            // 
-            this.imgSlide.Image = global::QLSieuThiMini.Properties.Resources.image_check;
-            this.imgSlide.Location = new System.Drawing.Point(142, 183);
-            this.imgSlide.Name = "imgSlide";
-            this.imgSlide.Size = new System.Drawing.Size(39, 101);
-            this.imgSlide.TabIndex = 1;
-            this.imgSlide.TabStop = false;
-            // 
             // guna2Button2
             // 
             this.guna2Button2.BackColor = System.Drawing.Color.Transparent;
@@ -232,6 +223,15 @@
             this.guna2Button2.CheckedChanged += new System.EventHandler(this.guna2Button5_CheckedChanged);
             this.guna2Button2.Click += new System.EventHandler(this.guna2Button2_Click);
             // 
+            // imgSlide
+            // 
+            this.imgSlide.Image = global::QLSieuThiMini.Properties.Resources.image_check;
+            this.imgSlide.Location = new System.Drawing.Point(142, 183);
+            this.imgSlide.Name = "imgSlide";
+            this.imgSlide.Size = new System.Drawing.Size(39, 101);
+            this.imgSlide.TabIndex = 1;
+            this.imgSlide.TabStop = false;
+            // 
             // pnlContent
             // 
             this.pnlContent.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -249,6 +249,7 @@
             this.Controls.Add(this.guna2Panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmNV";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmNV";
             this.Load += new System.EventHandler(this.FrmNV_Load);
             this.guna2Panel1.ResumeLayout(false);
