@@ -34,7 +34,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2GroupBox1 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnMoi = new Guna.UI2.WinForms.Guna2Button();
-            this.btnThoat = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.btnIn = new Guna.UI2.WinForms.Guna2Button();
             this.btnLuu = new Guna.UI2.WinForms.Guna2Button();
@@ -97,7 +96,6 @@
             this.guna2GroupBox1.BackColor = System.Drawing.Color.White;
             this.guna2GroupBox1.BorderColor = System.Drawing.Color.Black;
             this.guna2GroupBox1.Controls.Add(this.btnMoi);
-            this.guna2GroupBox1.Controls.Add(this.btnThoat);
             this.guna2GroupBox1.Controls.Add(this.guna2Panel1);
             this.guna2GroupBox1.Controls.Add(this.btnIn);
             this.guna2GroupBox1.Controls.Add(this.btnLuu);
@@ -130,23 +128,6 @@
             this.btnMoi.TabIndex = 30;
             this.btnMoi.Text = "Làm mới";
             this.btnMoi.Click += new System.EventHandler(this.btnMoi_Click);
-            // 
-            // btnThoat
-            // 
-            this.btnThoat.BorderRadius = 6;
-            this.btnThoat.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnThoat.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnThoat.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnThoat.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnThoat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
-            this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnThoat.ForeColor = System.Drawing.Color.White;
-            this.btnThoat.Image = global::QLSieuThiMini.Properties.Resources.ic_exit;
-            this.btnThoat.Location = new System.Drawing.Point(28, 487);
-            this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Size = new System.Drawing.Size(180, 45);
-            this.btnThoat.TabIndex = 16;
-            this.btnThoat.Text = "Thoát";
             // 
             // guna2Panel1
             // 
@@ -353,6 +334,7 @@
             this.dtMatHang.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dtMatHang.Location = new System.Drawing.Point(10, 0);
             this.dtMatHang.Name = "dtMatHang";
+            this.dtMatHang.ReadOnly = true;
             this.dtMatHang.RowHeadersVisible = false;
             this.dtMatHang.RowHeadersWidth = 62;
             this.dtMatHang.RowTemplate.Height = 28;
@@ -371,7 +353,7 @@
             this.dtMatHang.ThemeStyle.HeaderStyle.ForeColor = System.Drawing.Color.White;
             this.dtMatHang.ThemeStyle.HeaderStyle.HeaightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dtMatHang.ThemeStyle.HeaderStyle.Height = 20;
-            this.dtMatHang.ThemeStyle.ReadOnly = false;
+            this.dtMatHang.ThemeStyle.ReadOnly = true;
             this.dtMatHang.ThemeStyle.RowsStyle.BackColor = System.Drawing.Color.White;
             this.dtMatHang.ThemeStyle.RowsStyle.BorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.dtMatHang.ThemeStyle.RowsStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -526,6 +508,7 @@
             this.cbMaHD.Name = "cbMaHD";
             this.cbMaHD.Size = new System.Drawing.Size(180, 36);
             this.cbMaHD.TabIndex = 41;
+            this.cbMaHD.SelectedIndexChanged += new System.EventHandler(this.cbMaHD_SelectedIndexChanged);
             // 
             // txtSL
             // 
@@ -926,7 +909,6 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox1;
-        private Guna.UI2.WinForms.Guna2Button btnThoat;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2Button btnIn;
         private Guna.UI2.WinForms.Guna2Button btnLuu;

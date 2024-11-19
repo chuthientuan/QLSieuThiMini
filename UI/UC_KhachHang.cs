@@ -38,7 +38,6 @@ namespace QLSieuThiMini.UI
             btnNhapLai.Enabled = false;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
-            btnThoat.Enabled = true;
         }
         private void dvgKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -52,7 +51,6 @@ namespace QLSieuThiMini.UI
             btnNhapLai.Enabled = false;
             btnSua.Enabled = true;
             btnXoa.Enabled = true;
-            btnThoat.Enabled = true;
             grbTimKiem.Enabled = false;
         }
         private void btnsearch_Click(object sender, EventArgs e)
@@ -99,7 +97,6 @@ namespace QLSieuThiMini.UI
             btnNhapLai.Enabled = true;
             btnSua.Enabled = false;
             btnXoa.Enabled = false;
-            btnThoat.Enabled = true;
         }
         private void btnNhapLai_Click(object sender, EventArgs e)
         {
@@ -170,7 +167,6 @@ namespace QLSieuThiMini.UI
                     btnNhapLai.Enabled = false;
                     btnSua.Enabled = false;
                     btnXoa.Enabled = false;
-                    btnThoat.Enabled = true;
                     dvgKhachHang.Enabled = true;
                     tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
                 }
@@ -249,7 +245,6 @@ namespace QLSieuThiMini.UI
                 btnNhapLai.Enabled = false;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
-                btnThoat.Enabled = true;
                 tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
             }
         }
@@ -268,7 +263,6 @@ namespace QLSieuThiMini.UI
                 btnNhapLai.Enabled = false;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
-                btnThoat.Enabled = true;
                 tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
             }
         }

@@ -295,7 +295,7 @@
             this.pnlContent.Name = "pnlContent";
             this.pnlContent.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
             this.pnlContent.Size = new System.Drawing.Size(1240, 710);
-            this.pnlContent.TabIndex = 2;
+            this.pnlContent.TabIndex = 3;
             // 
             // FrmAdmin
             // 
@@ -331,10 +331,10 @@
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
         private Guna.UI2.WinForms.Guna2Button btnLogout;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
-        private Guna.UI2.WinForms.Guna2Panel pnlContent;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel lbName;
         private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
         private Guna.UI2.WinForms.Guna2Button guna2Button6;
+        private Guna.UI2.WinForms.Guna2Panel pnlContent;
     }
 }
