@@ -376,9 +376,7 @@ namespace QLSieuThiMini.UI
 
                 dvgNhanVien.DataSource = data;
 
-                // Ẩn cột MatKhau nếu cần
-                if (dvgNhanVien.Columns["MatKhau"] != null)
-                    dvgNhanVien.Columns["MatKhau"].Visible = false;
+                
             }
             catch (Exception ex)
             {

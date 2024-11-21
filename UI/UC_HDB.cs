@@ -74,8 +74,8 @@ namespace QLSieuThiMini.UI
             enable(false);
             btnHuySP.Enabled = false;
             DataTable dtb = db.DataReader("select TenNV from NhanVien where MaNV = '" + Session.MaNhanVien + "'");
-            txtTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
-            txtMaNV.Text = Session.MaNhanVien;
+            lblTenNV.Text = dtb.Rows[0]["TenNV"].ToString();
+            lblMaNV.Text = Session.MaNhanVien;
             loadCbbMHD();
             timer1.Tick += new EventHandler(timer1_Tick_1);
             timer1.Interval = 1000;
@@ -87,7 +87,7 @@ namespace QLSieuThiMini.UI
             DataTable dtb = db.DataReader("select s.TenSP, c.SLBan, s.DonGiaBan, c.KhuyenMai, c.ThanhTien " +
                 "from SanPham s inner join ChiTietHDB c on s.MaSP = c.MaSP " +
                 "inner join HoaDonBan h on h.MaHDB = c.MaHDB " +
-                "where h.MaNV = '" + txtMaNV.Text + "' and h.MaHDB = '" + txtMaHD.Text + "'");
+                "where h.MaNV = '" + lblMaNV.Text + "' and h.MaHDB = '" + txtMaHD.Text + "'");
             dtMatHang.DataSource = dtb;
             dtMatHang.Columns[0].HeaderText = "Tên Hàng";
             dtMatHang.Columns[1].HeaderText = "Số Lượng";
@@ -105,8 +105,8 @@ namespace QLSieuThiMini.UI
         }
         private void resetNV()
         {
-            txtMaNV.Text = Session.MaNhanVien;
-            txtTenNV.Text = Session.TenNhanVien;
+            lblMaNV.Text = Session.MaNhanVien;
+            lblTenNV.Text = Session.TenNhanVien;
         }
         private void btnThem_Click(object sender, EventArgs e)
         {
@@ -174,12 +174,12 @@ namespace QLSieuThiMini.UI
             DataTable dt = db.DataReader(sql);
             string maNV = dt.Rows[0]["MaNV"].ToString();
             DataTable dtMNV = db.DataReader("select TenNV from NhanVien where MaNV = N'" + maNV + "'");
-            txtTenNV.Text = dtMNV.Rows[0]["TenNV"].ToString();
+            lblTenNV.Text = dtMNV.Rows[0]["TenNV"].ToString();
             if (dt.Rows.Count > 0)
             {
                 txtMaHD.Text = cbMaHD.Text;
                 dtpNgayBan.Value = Convert.ToDateTime(dt.Rows[0]["NgayBan"]);
-                txtMaNV.Text = dt.Rows[0]["MaNV"].ToString();
+                lblMaNV.Text = dt.Rows[0]["MaNV"].ToString();
                 cbTenKH.Text = dt.Rows[0]["TenKH"].ToString();
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
@@ -379,7 +379,7 @@ namespace QLSieuThiMini.UI
                 int maKH = int.Parse(dt.Rows[0]["MaKH"].ToString());
                 decimal totalMoney = decimal.Parse(lbTotalMoney.Text.Replace(" VND", "").Replace(",", ""));
                 string invoiceSql = "insert into HoaDonBan (MaHDB, MaNV, NgayBan, TongTien, MaKH) values" +
-                    "('" + txtMaHD.Text + "', '" + txtMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + totalMoney + "', '" + maKH + "')";
+                    "('" + txtMaHD.Text + "', '" + lblMaNV.Text + "', '" + dtpNgayBan.Value.ToString("yyyy-MM-dd") + "', '" + totalMoney + "', '" + maKH + "')";
                 db.DataChange(invoiceSql);
                 foreach (DataRow row in invoiceProducts.Rows)
                 {
@@ -612,10 +612,6 @@ namespace QLSieuThiMini.UI
             {
                 MessageBox.Show("Chọn ít nhất một sản phẩm để hủy.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-        private void cbMaHD_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
