@@ -51,6 +51,7 @@ namespace QLSieuThiMini.UI
             txtDiaChi.Text = null;
             lbTotalMoney.Text = "0";
             lbPay.Text = "0";
+            lbTien.Text = "";
         }
         private void productTable()
         {
@@ -184,6 +185,8 @@ namespace QLSieuThiMini.UI
                 txtSDT.Text = dt.Rows[0]["DienThoai"].ToString();
                 txtDiaChi.Text = dt.Rows[0]["DiaChi"].ToString();
                 lbTotalMoney.Text = String.Format("{0:N0} VND", dt.Rows[0]["TongTien"]);
+                lbPay.Text = String.Format("{0:N0} VND", dt.Rows[0]["TongTien"]);
+                lbTien.Text = ConvertToWords((decimal)dt.Rows[0]["TongTien"]);
                 loadData();
             }
             else
@@ -280,6 +283,58 @@ namespace QLSieuThiMini.UI
                 }
             }
         }
+        //Tien bang chu
+        private string ConvertToWords(decimal number)
+        {
+            string[] units = { "", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+            string[] places = { "", "nghìn", "triệu", "tỷ" };
+
+            if (number == 0) return "không đồng";
+
+            string words = "";
+            int placeIndex = 0;
+
+            while (number > 0)
+            {
+                int group = (int)(number % 1000);
+                if (group > 0)
+                {
+                    string groupWords = ConvertGroupToWords(group, units);
+                    words = groupWords + " " + places[placeIndex] + " " + words;
+                }
+
+                number /= 1000;
+                placeIndex++;
+            }
+
+            words = words.Trim() + " đồng";
+            words = char.ToUpper(words[0]) + words.Substring(1); // Viết hoa chữ cái đầu.
+            return words;
+        }
+        private string ConvertGroupToWords(int group, string[] units)
+        {
+            string result = "";
+            int hundred = group / 100;
+            int ten = (group % 100) / 10;
+            int one = group % 10;
+
+            if (hundred > 0) result += units[hundred] + " trăm ";
+
+            if (ten > 0)
+            {
+                if (ten == 1) result += "mười ";
+                else result += units[ten] + " mươi ";
+            }
+
+            if (one > 0)
+            {
+                if (ten > 1 && one == 1) result += "mốt ";
+                else if (one == 5) result += "lăm ";
+                else result += units[one] + " ";
+            }
+
+            return result.Trim();
+        }
         private void btnThemSP_Click(object sender, EventArgs e)
         {
             btnHuySP.Enabled = true;
@@ -302,6 +357,7 @@ namespace QLSieuThiMini.UI
             totalPrice += total;
             lbTotalMoney.Text = String.Format("{0:N0} VND", totalPrice);
             lbPay.Text = String.Format("{0:N0} VNĐ", totalPrice);
+            lbTien.Text = ConvertToWords((decimal)totalPrice);
             try
             {
                 DataRow row = invoiceProducts.NewRow();
@@ -505,8 +561,10 @@ namespace QLSieuThiMini.UI
                 worksheet.Cells[row, 5] = dgvRow["Thành tiền"].ToString();
                 row++;
             }
-            worksheet.Cells[row + 1, 5] = "Tổng Tiền:";
-            worksheet.Cells[row + 1, 6] = lbTotalMoney.Text;
+            worksheet.Cells[row + 1, 4] = "Tổng Tiền:";
+            worksheet.Cells[row + 1, 5] = lbTotalMoney.Text;
+            worksheet.Cells[row + 2, 4] = "Tiền bằng chữ:";
+            worksheet.Cells[row + 2, 5] = ConvertToWords((decimal)totalPrice);
             worksheet.Range["A1", "F1"].Font.Bold = true;
             worksheet.Range["A8", "F8"].Font.Bold = true;
             worksheet.Columns.AutoFit();
@@ -564,8 +622,10 @@ namespace QLSieuThiMini.UI
             }
             string sql = "select TongTien from HoaDonBan where MaHDB = '" + cbMaHD.Text + "'";
             DataTable dt = db.DataReader(sql);
-            worksheet.Cells[row + 1, 5] = "Tổng Tiền:";
-            worksheet.Cells[row + 1, 6] = String.Format("{0:N0} VND", dt.Rows[0]["TongTien"]);
+            worksheet.Cells[row + 1, 4] = "Tổng Tiền:";
+            worksheet.Cells[row + 1, 5] = String.Format("{0:N0} VND", dt.Rows[0]["TongTien"]);
+            worksheet.Cells[row + 2, 4] = "Tiền bằng chữ:";
+            worksheet.Cells[row + 2, 5] = ConvertToWords((decimal)dt.Rows[0]["TongTien"]);
             worksheet.Range["A1", "F1"].Font.Bold = true;
             worksheet.Range["A8", "F8"].Font.Bold = true;
             worksheet.Columns.AutoFit();
@@ -604,6 +664,7 @@ namespace QLSieuThiMini.UI
                     }
                     lbTotalMoney.Text = totalPrice.ToString();
                     lbPay.Text = totalPrice.ToString();
+                    lbTien.Text = ConvertToWords((decimal)totalPrice);
                     dtMatHang.DataSource = invoiceProducts;
                     dtMatHang.Refresh();
                 }
