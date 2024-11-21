@@ -1,4 +1,5 @@
 ﻿using Guna.UI2.WinForms;
+using QLSieuThiMini.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,6 +42,7 @@ namespace QLSieuThiMini.UI
         private void FrmNV_Load(object sender, EventArgs e)
         {
             ShowUserControl(new UC_HDB());
+            lbName.Text = Session.TenNhanVien;
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
