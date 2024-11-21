@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,11 +50,12 @@ namespace QLSieuThiMini.UI
         }
         private void btnsearch_Click(object sender, EventArgs e)
         {
-            grbtimkiem.Enabled = true;
+
             grbchitiet.Enabled = false;
             dvgNhanVien.Enabled = false;
             btnsearch.Enabled = false;
             btnNhapLai.Enabled = true;
+            txtTimKiem.Enabled = true;
             tieude.Text = "TÌM KIẾM NHÂN VIÊN";
         }
         private void dvgNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -81,16 +84,18 @@ namespace QLSieuThiMini.UI
         }
         void Reset()
         {
+            txtMaNV.Text = "";
             txtTenNV.Text = "";
             txtMatKhau.Text = "";
             cbbGioiTinh.Text = "";
             txtSDT.Text = "";
+            cbbGioiTinh.SelectedIndex = -1;
+            Anh.Image = null;
         }
         private void btnTaoMoi_Click(object sender, EventArgs e)
         {
             tieude.Text = "THÊM MỚI NHÂN VIÊN ";
             Reset();
-            grbtimkiem.Enabled = false;
             grbchitiet.Enabled = true;
             txtMaNV.Enabled = false;
             // Đếm số lượng mã KH hiện có
@@ -117,7 +122,6 @@ namespace QLSieuThiMini.UI
         private void btnNhapLai_Click(object sender, EventArgs e)
         {
             Reset();
-            txtTimMaNV.Text = "";
             DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien");
             dvgNhanVien.DataSource = dtNhanVien;
 
@@ -158,6 +162,12 @@ namespace QLSieuThiMini.UI
             else if (txtMatKhau.Text.Trim() == "")
             {
                 errChiTiet.SetError(txtMatKhau, "Bạn không để trống tên Số Điện Thoại NHân Viên!");
+                return;
+            }
+            else if (Anh.Image == null) // Kiểm tra nếu chưa chọn ảnh
+            {
+                errChiTiet.SetError(Anh, "Bạn chưa chọn ảnh cho Nhân Viên!");
+                Anh.Focus();
                 return;
             }
             else
@@ -307,41 +317,73 @@ namespace QLSieuThiMini.UI
                 tieude.Text = "QUẢN LÝ NHÂN VIÊN";
             }
         }
-        private void btTimKiem_Click(object sender, EventArgs e)
-        {
-            dvgNhanVien.Enabled = false;
 
-            string sql = "SELECT * FROM NhanVien WHERE MaNV is not null";
-
-            // Tìm theo mã nhân viên nếu có
-            if (txtTimMaNV.Text.Trim() != "")
-            {
-                sql += " AND MaNV LIKE '%" + txtTimMaNV.Text + "%'";
-            }
-
-            // Hiển thị kết quả tìm kiếm
-            dvgNhanVien.DataSource = dtBase.DataReader(sql);
-        }
         private void btnAnh_Click(object sender, EventArgs e)
         {
-            // Thiết lập thư mục khởi động cho OpenFileDialog
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = Application.StartupPath + "\\Images\\";
-            openFile.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif"; // Chỉ cho phép chọn ảnh
-            openFile.Title = "Chọn ảnh";
-
-            // Mở hộp thoại và kiểm tra nếu người dùng chọn ảnh
-            if (openFile.ShowDialog() == DialogResult.OK)
+            try
             {
-                // Lấy đường dẫn file ảnh
-                string imagePath = openFile.FileName;
+                OpenFileDialog openFile = new OpenFileDialog
+                {
+                    Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
+                    Title = "Chọn ảnh"
+                };
 
-                // Hiển thị ảnh trong PictureBox
-                Anh.Image = Image.FromFile(imagePath);
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    string sourceFilePath = openFile.FileName;
+                    string imageFolderPath = Path.Combine(Application.StartupPath, "Images");
 
-                ImageName = System.IO.Path.GetFileName(imagePath);
+                    if (!Directory.Exists(imageFolderPath))
+                    {
+                        Directory.CreateDirectory(imageFolderPath);
+                    }
 
+                    ImageName = Path.GetFileName(sourceFilePath);
+                    string destFilePath = Path.Combine(imageFolderPath, ImageName);
+
+                    File.Copy(sourceFilePath, destFilePath, true);
+
+                    Anh.Image = Image.FromFile(destFilePath);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi chọn ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void txtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+            string keyword = txtTimKiem.Text.Trim();
+            if (keyword != "")
+            {
+                SearchEmployee(keyword);
+            }
+        }
+        private void SearchEmployee(string keyword)
+        {
+            try
+            {
+                string query = $@"
+            SELECT MaNV, TenNV, MatKhau, ChucDanh, Anh, GioiTinh, NgaySinh, DienThoai
+            FROM NhanVien
+            WHERE MaNV LIKE N'%{keyword}%'
+            OR TenNV LIKE N'%{keyword}%'";
+
+                // Sử dụng phương thức DataReader của DataBaseProcess
+                DataTable data = dtBase.DataReader(query);
+
+                dvgNhanVien.DataSource = data;
+
+                // Ẩn cột MatKhau nếu cần
+                if (dvgNhanVien.Columns["MatKhau"] != null)
+                    dvgNhanVien.Columns["MatKhau"].Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm nhân viên: " + ex.Message);
             }
         }
     }
-}
+ }
