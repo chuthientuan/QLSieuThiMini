@@ -41,7 +41,6 @@ namespace QLSieuThiMini.UI
         }
         private void dvgKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtMaKH.Text = dvgKhachHang.CurrentRow.Cells[0].Value.ToString();
             txtTenKH.Text = dvgKhachHang.CurrentRow.Cells[1].Value.ToString();
             cbbGioiTinh.Text = dvgKhachHang.CurrentRow.Cells[2].Value.ToString();
             txtDiaChi.Text = dvgKhachHang.CurrentRow.Cells[3].Value.ToString();
@@ -64,10 +63,9 @@ namespace QLSieuThiMini.UI
         }
         void Reset()
         {
-            txtMaKH.Text = "";
             txtTenKH.Text = "";
             txtDiaChi.Text = "";
-            cbbGioiTinh.Text = "";
+            cbbGioiTinh.SelectedIndex = -1;
             txtDienThoai.Text = "";
         }
         private void btnThemMoi_Click(object sender, EventArgs e)
@@ -76,7 +74,7 @@ namespace QLSieuThiMini.UI
             Reset();
             grbTimKiem.Enabled = false;
             grbChiTiet.Enabled = true;
-            txtMaKH.Enabled = false;
+           
             // Đếm số lượng mã KH hiện có
             string sqlCheckKhach = $"SELECT COUNT(*) FROM KhachHang WHERE DienThoai = N'{txtDienThoai.Text}'";
 
@@ -85,11 +83,7 @@ namespace QLSieuThiMini.UI
             {
                 string sqlThemKhach = $"SELECT COUNT(*) FROM KhachHang";
                 int count = Convert.ToInt32(dtBase.DataReader(sqlThemKhach).Rows[0][0]) + 1;
-                string maKH = "KH_" + count.ToString("D3");
-
-
-                // Gán mã mới vào txtMaKH
-                txtMaKH.Text = maKH;
+               
             }
             btnsearch.Enabled = false;
             btnThemMoi.Enabled = false;
@@ -102,13 +96,12 @@ namespace QLSieuThiMini.UI
         {
             txtTenKH.Text = "";
             txtDiaChi.Text = "";
-            cbbGioiTinh.Text = "";
+            cbbGioiTinh.SelectedIndex = -1;
             txtDienThoai.Text = "";
             txtTimKiem.Text = "";
             dvgKhachHang.Enabled = true;
             DataTable dtKhachHang = dtBase.DataReader("Select * from KhachHang");
             dvgKhachHang.DataSource = dtKhachHang;
-
             dvgKhachHang.Columns[0].HeaderText = "Mã Khách Hàng";
             dvgKhachHang.Columns[1].HeaderText = "Tên Khách Hàng";
             dvgKhachHang.Columns[2].HeaderText = "Giới Tính ";
@@ -152,8 +145,8 @@ namespace QLSieuThiMini.UI
                 else
                 {
                     // Lệnh INSERT để thêm khách hàng mới
-                    string query = "INSERT INTO KhachHang(MaKH, TenKH,GioiTinh, DiaChi, DienThoai) " +
-                                   "VALUES (N'" + txtMaKH.Text + "', N'" + txtTenKH.Text + "', N'" + cbbGioiTinh.Text + "', N'" + txtDiaChi.Text + "', N'" + txtDienThoai.Text + "')";
+                    string query = "INSERT INTO KhachHang( TenKH,GioiTinh, DiaChi, DienThoai) " +
+                                   "VALUES ( N'" + txtTenKH.Text + "', N'" + cbbGioiTinh.Text + "', N'" + txtDiaChi.Text + "', N'" + txtDienThoai.Text + "')";
                     dtBase.DataChange(query);
 
                     MessageBox.Show("Bạn đã thêm mới khách hàng thành công");
@@ -168,7 +161,9 @@ namespace QLSieuThiMini.UI
                     btnSua.Enabled = false;
                     btnXoa.Enabled = false;
                     dvgKhachHang.Enabled = true;
+                    btnsearch.Enabled = true;
                     tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
+
                 }
             }
         }
@@ -202,7 +197,7 @@ namespace QLSieuThiMini.UI
         }
         private void btnSua_Click(object sender, EventArgs e)
         {
-            txtMaKH.Enabled = false;
+            
             if (txtTenKH.Text.Trim() == "")
             {
                 errChiTiet.SetError(txtTenKH, "Bạn không để trống tên Tên Khách Hàng!");
@@ -231,7 +226,7 @@ namespace QLSieuThiMini.UI
                   "', GioiTinh = N'" + cbbGioiTinh.Text +
                   "', DiaChi = N'" + txtDiaChi.Text +
                   "', DienThoai = N'" + txtDienThoai.Text +
-                  "' WHERE MaKH = '" + txtMaKH.Text + "'");
+                  "' WHERE DienThoai = '" + txtDienThoai.Text + "'");
                 //Sau khi update cần lấy lại dữ liệu để hiển thị lên lưới
                 dvgKhachHang.DataSource = dtBase.DataReader("select * from KhachHang");
                 MessageBox.Show("Bạn đã sửa khách hàng thành công");
@@ -250,10 +245,10 @@ namespace QLSieuThiMini.UI
         }
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn xóa Khách Hàng có mã là:" + txtMaKH.Text + " không?", "Thông báo",
+            if (MessageBox.Show("Bạn có muốn xóa Khách Hàng này không" ,"Thông báo",
                  MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                dtBase.DataChange("delete KhachHang where MaKH='" + txtMaKH.Text + "'");
+                dtBase.DataChange("delete KhachHang where TenKH='" + txtTenKH.Text + "'");
                 dvgKhachHang.DataSource = dtBase.DataReader("Select * from KhachHang");
 
                 Reset();

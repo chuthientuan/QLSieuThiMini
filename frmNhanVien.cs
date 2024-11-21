@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -368,24 +369,42 @@ namespace QLSieuThiMini
 
         private void btnAnh_Click(object sender, EventArgs e)
         {
-            // Thiết lập thư mục khởi động cho OpenFileDialog
-            OpenFileDialog openFile = new OpenFileDialog();
-            openFile.InitialDirectory = Application.StartupPath + "\\Images\\";
-            openFile.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif"; // Chỉ cho phép chọn ảnh
-            openFile.Title = "Chọn ảnh";
-
-            // Mở hộp thoại và kiểm tra nếu người dùng chọn ảnh
-            if (openFile.ShowDialog() == DialogResult.OK)
+            try
             {
-                // Lấy đường dẫn file ảnh
-                string imagePath = openFile.FileName;
+                OpenFileDialog openFile = new OpenFileDialog
+                {
+                    Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
+                    Title = "Chọn ảnh"
+                };
 
-                // Hiển thị ảnh trong PictureBox
-                Anh.Image = Image.FromFile(imagePath);
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    string sourceFilePath = openFile.FileName;
+                    string imageFolderPath = Path.Combine(Application.StartupPath, "Images");
 
-                ImageName = System.IO.Path.GetFileName(imagePath);
+                    if (!Directory.Exists(imageFolderPath))
+                    {
+                        Directory.CreateDirectory(imageFolderPath);
+                    }
 
+                    ImageName = Path.GetFileName(sourceFilePath);
+                    string destFilePath = Path.Combine(imageFolderPath, ImageName);
+
+                    File.Copy(sourceFilePath, destFilePath, true);
+
+                    Anh.Image = Image.FromFile(destFilePath);
+
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi chọn ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void grbtimkiem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
