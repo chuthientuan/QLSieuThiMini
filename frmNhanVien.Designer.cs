@@ -323,6 +323,7 @@
             this.grbtimkiem.Size = new System.Drawing.Size(609, 201);
             this.grbtimkiem.TabIndex = 2;
             this.grbtimkiem.Text = "Tìm Kiếm Nhân Viên";
+            this.grbtimkiem.Click += new System.EventHandler(this.grbtimkiem_Click);
             // 
             // txtTimMaNV
             // 

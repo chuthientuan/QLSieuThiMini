@@ -19,10 +19,6 @@ namespace QLSieuThiMini
             InitializeComponent();
             cbbGioiTinh.Items.Add("Nam");
             cbbGioiTinh.Items.Add("Nữ");
-            cbbThanThiet.Items.Add("Thân thiết");
-            cbbThanThiet.Items.Add("Khách hàng mới");
-            cbbThanThiet.Items.Add("VIP");
-            cbbThanThiet.Items.Add("Đăc Biệt");
             tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
         }
 
@@ -48,7 +44,6 @@ namespace QLSieuThiMini
 
         private void dvgKhachHang_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            txtMaKH.Text = dvgKhachHang.CurrentRow.Cells[0].Value.ToString();
             txtTenKH.Text = dvgKhachHang.CurrentRow.Cells[1].Value.ToString();
             cbbGioiTinh.Text = dvgKhachHang.CurrentRow.Cells[2].Value.ToString();
             txtDiaChi.Text = dvgKhachHang.CurrentRow.Cells[3].Value.ToString();
@@ -74,12 +69,10 @@ namespace QLSieuThiMini
         }
         void Reset()
         {
-            txtMaKH.Text = "";
             txtTenKH.Text = "";
             txtDiaChi.Text = "";
-            cbbGioiTinh.Text = "";
+            cbbGioiTinh.SelectedIndex = -1;
             txtDienThoai.Text = "";
-            cbbThanThiet.Text = "";
         }
 
         private void btnThemMoi_Click(object sender, EventArgs e)
@@ -88,7 +81,6 @@ namespace QLSieuThiMini
             Reset();
             grbTimKiem.Enabled= false;
             grbChiTiet.Enabled = true;
-            txtMaKH.Enabled = false;
             // Đếm số lượng mã KH hiện có
             string sqlCheckKhach = $"SELECT COUNT(*) FROM KhachHang WHERE DienThoai = N'{txtDienThoai.Text}'";
 
@@ -97,11 +89,8 @@ namespace QLSieuThiMini
             {
                 string sqlThemKhach = $"SELECT COUNT(*) FROM KhachHang";
                 int count = Convert.ToInt32(dtBase.DataReader(sqlThemKhach).Rows[0][0]) + 1;
-                string maKH = "KH_" + count.ToString("D3");
-
-
-                // Gán mã mới vào txtMaKH
-                txtMaKH.Text = maKH;
+               
+                
             }
             btnsearch.Enabled = false;
             btnThemMoi.Enabled = false;
@@ -116,15 +105,12 @@ namespace QLSieuThiMini
         {
             txtTenKH.Text = "";
             txtDiaChi.Text = "";
-            cbbGioiTinh.Text = "";
+            cbbGioiTinh.SelectedIndex = -1;
             txtDienThoai.Text = "";
-            cbbThanThiet.Text = "";
             txtTimKiem.Text = "";
             dvgKhachHang.Enabled = true;
             DataTable dtKhachHang = dtBase.DataReader("Select * from KhachHang");
             dvgKhachHang.DataSource = dtKhachHang;
-
-            dvgKhachHang.Columns[0].HeaderText = "Mã Khách Hàng";
             dvgKhachHang.Columns[1].HeaderText = "Tên Khách Hàng";
             dvgKhachHang.Columns[2].HeaderText = "Giới Tính ";
             dvgKhachHang.Columns[3].HeaderText = "Địa chỉ";
@@ -154,13 +140,7 @@ namespace QLSieuThiMini
             {
                 errChiTiet.SetError(txtDienThoai, "Bạn không để trống tên Số Điện Thoại Khách Hàng!");
                 return;
-            }
-            else if (cbbThanThiet.SelectedIndex == -1)
-            {
-                errChiTiet.SetError(cbbThanThiet, "Bạn không để trống tên mức thân thiết của  Khách Hàng!");
-                return;
-            }
-            else
+            }else
             {
                 // Kiểm tra SĐT của  khách hàng đã tồn tại hay chưa
                 DataTable dtKhachHang = dtBase.DataReader("Select * from KhachHang where DienThoai = '" + txtDienThoai.Text.Trim() + "'");
@@ -173,8 +153,8 @@ namespace QLSieuThiMini
                 else
                 {
                     // Lệnh INSERT để thêm khách hàng mới
-                    string query = "INSERT INTO KhachHang(MaKH, TenKH,GioiTinh, DiaChi, DienThoai) " +
-                                   "VALUES (N'" + txtMaKH.Text + "', N'" + txtTenKH.Text + "', N'" + cbbGioiTinh.Text + "', N'" + txtDiaChi.Text + "', N'" + txtDienThoai.Text + "')";
+                    string query = "INSERT INTO KhachHang( TenKH,GioiTinh, DiaChi, DienThoai) " +
+                                   "VALUES ( N'" + txtTenKH.Text + "', N'" + cbbGioiTinh.Text + "', N'" + txtDiaChi.Text + "', N'" + txtDienThoai.Text + "')";
                     dtBase.DataChange(query);
 
                     MessageBox.Show("Bạn đã thêm mới khách hàng thành công");
@@ -232,17 +212,10 @@ namespace QLSieuThiMini
             }
         }
 
-        private void cbbThanThiet_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbbThanThiet.SelectedIndex != -1) // Kiểm tra xem đã chọn một mục hợp lệ hay chưa
-            {
-                errChiTiet.SetError(cbbThanThiet, string.Empty); // Xóa lỗi
-            }
-        }
+      
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            txtMaKH.Enabled = false;
             if (txtTenKH.Text.Trim() == "")
             {
                 errChiTiet.SetError(txtTenKH, "Bạn không để trống tên Tên Khách Hàng!");
@@ -271,7 +244,7 @@ namespace QLSieuThiMini
                   "', GioiTinh = N'" + cbbGioiTinh.Text +
                   "', DiaChi = N'" + txtDiaChi.Text +
                   "', DienThoai = N'" + txtDienThoai.Text +
-                  "' WHERE MaKH = '" + txtMaKH.Text + "'");
+                  "' WHERE DienThoai = '" + txtDienThoai.Text + "'");
                 //Sau khi update cần lấy lại dữ liệu để hiển thị lên lưới
                 dvgKhachHang.DataSource = dtBase.DataReader("select * from KhachHang");
                 MessageBox.Show("Bạn đã sửa khách hàng thành công");
@@ -292,10 +265,10 @@ namespace QLSieuThiMini
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Bạn có muốn xóa Khách Hàng có mã là:" + txtMaKH.Text + " không?", "Thông báo",
+            if (MessageBox.Show("Bạn có muốn xóa Khách Hàng có tên là:" + txtTenKH.Text + " không?", "Thông báo",
                  MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                dtBase.DataChange("delete KhachHang where MaKH='" + txtMaKH.Text + "'");
+                dtBase.DataChange("delete KhachHang where DienThoai='" + txtDienThoai.Text + "'");
                 dvgKhachHang.DataSource = dtBase.DataReader("Select * from KhachHang");
 
                 Reset();

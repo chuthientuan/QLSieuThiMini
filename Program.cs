@@ -17,7 +17,11 @@ namespace QLSieuThiMini
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+<<<<<<< Updated upstream
             Application.Run(new FrmLogin());
+=======
+            Application.Run(new FrmAdmin());
+>>>>>>> Stashed changes
         }
     }
 }
