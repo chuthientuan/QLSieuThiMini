@@ -12,11 +12,8 @@ namespace QLSieuThiMini.Classes
 {
     internal class DataBaseProcess
     {
-<<<<<<< Updated upstream
-        string strConnect = "Data Source=DESKTOP-15605MG\\SQLEXPRESS;" +
-=======
+
         string strConnect = "Data Source=TAY_ANH\\SQLEXPRESS;" +
->>>>>>> Stashed changes
                 "DataBase=QuanlySieuthi;User ID=sa;" +
                 "Password=abc123;Integrated Security=false";
         SqlConnection sqlConnect = null;
