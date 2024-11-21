@@ -66,5 +66,12 @@ namespace QLSieuThiMini.UI
                 txtMK.PasswordChar = '*';
             }
         }
+        private void FrmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                btnLogin_Click(sender, e);
+            }
+        }
     }
 }
