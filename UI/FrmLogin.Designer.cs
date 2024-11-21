@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,34 +38,19 @@
             this.guna2CheckBox1 = new Guna.UI2.WinForms.Guna2CheckBox();
             this.txtMK = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtTDN = new Guna.UI2.WinForms.Guna2TextBox();
-            this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // guna2Elipse1
             // 
+            this.guna2Elipse1.BorderRadius = 26;
             this.guna2Elipse1.TargetControl = this;
-            // 
-            // guna2Panel1
-            // 
-            this.guna2Panel1.BackColor = System.Drawing.Color.White;
-            this.guna2Panel1.Controls.Add(this.label3);
-            this.guna2Panel1.Controls.Add(this.label2);
-            this.guna2Panel1.Controls.Add(this.label1);
-            this.guna2Panel1.Controls.Add(this.btnThoat);
-            this.guna2Panel1.Controls.Add(this.btnLogin);
-            this.guna2Panel1.Controls.Add(this.guna2CheckBox1);
-            this.guna2Panel1.Controls.Add(this.txtMK);
-            this.guna2Panel1.Controls.Add(this.txtTDN);
-            this.guna2Panel1.Location = new System.Drawing.Point(238, 155);
-            this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(316, 376);
-            this.guna2Panel1.TabIndex = 0;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(88, 12);
+            this.label3.Location = new System.Drawing.Point(129, 177);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(142, 31);
             this.label3.TabIndex = 40;
@@ -75,8 +59,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.label2.Location = new System.Drawing.Point(23, 170);
+            this.label2.Location = new System.Drawing.Point(74, 315);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 22);
             this.label2.TabIndex = 39;
@@ -85,8 +70,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.label1.Location = new System.Drawing.Point(23, 93);
+            this.label1.Location = new System.Drawing.Point(74, 238);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 22);
             this.label1.TabIndex = 38;
@@ -103,7 +89,7 @@
             this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnThoat.ForeColor = System.Drawing.Color.White;
             this.btnThoat.Image = global::QLSieuThiMini.Properties.Resources.ic_exit;
-            this.btnThoat.Location = new System.Drawing.Point(167, 310);
+            this.btnThoat.Location = new System.Drawing.Point(218, 455);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(130, 36);
             this.btnThoat.TabIndex = 36;
@@ -120,7 +106,7 @@
             this.btnLogin.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnLogin.ForeColor = System.Drawing.Color.White;
             this.btnLogin.Image = global::QLSieuThiMini.Properties.Resources.ic_login;
-            this.btnLogin.Location = new System.Drawing.Point(14, 310);
+            this.btnLogin.Location = new System.Drawing.Point(65, 455);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(130, 36);
             this.btnLogin.TabIndex = 35;
@@ -130,12 +116,13 @@
             // guna2CheckBox1
             // 
             this.guna2CheckBox1.AutoSize = true;
+            this.guna2CheckBox1.BackColor = System.Drawing.Color.Transparent;
             this.guna2CheckBox1.CheckedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.guna2CheckBox1.CheckedState.BorderRadius = 0;
             this.guna2CheckBox1.CheckedState.BorderThickness = 0;
             this.guna2CheckBox1.CheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.guna2CheckBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F);
-            this.guna2CheckBox1.Location = new System.Drawing.Point(84, 248);
+            this.guna2CheckBox1.Location = new System.Drawing.Point(135, 393);
             this.guna2CheckBox1.Name = "guna2CheckBox1";
             this.guna2CheckBox1.Size = new System.Drawing.Size(114, 20);
             this.guna2CheckBox1.TabIndex = 4;
@@ -144,6 +131,7 @@
             this.guna2CheckBox1.UncheckedState.BorderRadius = 0;
             this.guna2CheckBox1.UncheckedState.BorderThickness = 0;
             this.guna2CheckBox1.UncheckedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.guna2CheckBox1.UseVisualStyleBackColor = false;
             this.guna2CheckBox1.CheckedChanged += new System.EventHandler(this.guna2CheckBox1_CheckedChanged);
             // 
             // txtMK
@@ -160,7 +148,7 @@
             this.txtMK.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtMK.ForeColor = System.Drawing.Color.Black;
             this.txtMK.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtMK.Location = new System.Drawing.Point(27, 196);
+            this.txtMK.Location = new System.Drawing.Point(78, 341);
             this.txtMK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtMK.Name = "txtMK";
             this.txtMK.PasswordChar = '*';
@@ -183,7 +171,7 @@
             this.txtTDN.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtTDN.ForeColor = System.Drawing.Color.Black;
             this.txtTDN.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtTDN.Location = new System.Drawing.Point(27, 119);
+            this.txtTDN.Location = new System.Drawing.Point(78, 264);
             this.txtTDN.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTDN.Name = "txtTDN";
             this.txtTDN.PasswordChar = '\0';
@@ -196,24 +184,30 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::QLSieuThiMini.Properties.Resources.bg;
+            this.BackgroundImage = global::QLSieuThiMini.Properties.Resources.bgrjpg;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(790, 585);
-            this.Controls.Add(this.guna2Panel1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtTDN);
+            this.Controls.Add(this.btnThoat);
+            this.Controls.Add(this.txtMK);
+            this.Controls.Add(this.btnLogin);
+            this.Controls.Add(this.guna2CheckBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmLogin";
             this.Load += new System.EventHandler(this.FrmLogin_Load);
-            this.guna2Panel1.ResumeLayout(false);
-            this.guna2Panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2TextBox txtTDN;
         private Guna.UI2.WinForms.Guna2TextBox txtMK;
         private Guna.UI2.WinForms.Guna2CheckBox guna2CheckBox1;
