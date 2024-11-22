@@ -163,6 +163,7 @@
             this.btnAnh.Size = new System.Drawing.Size(93, 22);
             this.btnAnh.TabIndex = 20;
             this.btnAnh.Text = "Thêm ảnh";
+            this.btnAnh.Click += new System.EventHandler(this.btnAnh_Click);
             // 
             // btnIn
             // 
