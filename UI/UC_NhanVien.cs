@@ -20,7 +20,6 @@ namespace QLSieuThiMini.UI
         public UC_NhanVien()
         {
             InitializeComponent();
-            txtMatKhau.PasswordChar = '*';
             //thêm giới tính 
             cbbGioiTinh.Items.Add("Nam");
             cbbGioiTinh.Items.Add("Nữ");
@@ -28,17 +27,16 @@ namespace QLSieuThiMini.UI
         private void UC_NhanVien_Load(object sender, EventArgs e)
         {
             tieude.Text = "QUẢN LÝ NHÂN VIÊN";
-            DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien Where ChucDanh = 1");
+            DataTable dtNhanVien = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
             dvgNhanVien.DataSource = dtNhanVien;
 
             dvgNhanVien.Columns[0].HeaderText = "Mã Nhân Viên";
             dvgNhanVien.Columns[1].HeaderText = "Tên Nhân Viên";
             dvgNhanVien.Columns[2].HeaderText = "Mật Khẩu ";
-            dvgNhanVien.Columns[3].HeaderText = "Chức Danh";
-            dvgNhanVien.Columns[4].HeaderText = "Anh";
-            dvgNhanVien.Columns[5].HeaderText = "Giới Tính ";
-            dvgNhanVien.Columns[6].HeaderText = "Ngày Sinh";
-            dvgNhanVien.Columns[7].HeaderText = "Điện Thoại";
+            dvgNhanVien.Columns[3].HeaderText = "Anh";
+            dvgNhanVien.Columns[4].HeaderText = "Giới Tính ";
+            dvgNhanVien.Columns[5].HeaderText = "Ngày Sinh";
+            dvgNhanVien.Columns[6].HeaderText = "Điện Thoại";
 
             dvgNhanVien.BackgroundColor = Color.LightBlue;
             dtNhanVien.Dispose();//Giải phóng bộ nhớ cho DataTable
@@ -63,7 +61,7 @@ namespace QLSieuThiMini.UI
             txtMaNV.Text = dvgNhanVien.CurrentRow.Cells[0].Value.ToString();
             txtTenNV.Text = dvgNhanVien.CurrentRow.Cells[1].Value.ToString();
             txtMatKhau.Text = dvgNhanVien.CurrentRow.Cells[2].Value.ToString();
-            string imageName = dvgNhanVien.CurrentRow.Cells[4].Value?.ToString();
+            string imageName = dvgNhanVien.CurrentRow.Cells[3].Value?.ToString();
             if (imageName != "")
             {
                 Anh.Image = Image.FromFile(Application.StartupPath + "\\Images\\" + imageName);
@@ -72,9 +70,9 @@ namespace QLSieuThiMini.UI
             {
                 Anh.Image = null;
             }
-            cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells[5].Value.ToString();
-            dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells[6].Value.ToString();
-            txtSDT.Text = dvgNhanVien.CurrentRow.Cells[7].Value.ToString();
+            cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells[4].Value.ToString();
+            dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells[5].Value.ToString();
+            txtSDT.Text = dvgNhanVien.CurrentRow.Cells[6].Value.ToString();
             btnAnh.Enabled = true;
             btnTaoMoi.Enabled = true;
             btnLuu.Enabled = false;
@@ -124,14 +122,14 @@ namespace QLSieuThiMini.UI
         {
             Reset();
             txtTimKiem.Text = "";
-            DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien where ChucDanh = 1");
+            DataTable dtNhanVien = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
             dvgNhanVien.DataSource = dtNhanVien;
             
 
             dvgNhanVien.Columns[0].HeaderText = "Mã Nhân Viên";
             dvgNhanVien.Columns[1].HeaderText = "Tên Nhân Viên";
             dvgNhanVien.Columns[2].HeaderText = "Mật Khẩu ";
-            dvgNhanVien.Columns[3].HeaderText = "Chức Danh";
+            dvgNhanVien.Columns[3].HeaderText = "Ảnh";
             dvgNhanVien.Columns[4].HeaderText = "Giới Tính ";
             dvgNhanVien.Columns[5].HeaderText = "Ngày Sinh";
             dvgNhanVien.Columns[6].HeaderText = "Điện Thoại";
@@ -336,6 +334,7 @@ namespace QLSieuThiMini.UI
                     Title = "Chọn ảnh"
                 };
                 Anh.Image = null;
+                errChiTiet.SetError(Anh, string.Empty);
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
                     string sourceFilePath = openFile.FileName;
@@ -390,6 +389,35 @@ namespace QLSieuThiMini.UI
             {
                 MessageBox.Show("Lỗi khi tìm kiếm nhân viên: " + ex.Message);
             }
+        }
+
+        private void btnQuayLai_Click(object sender, EventArgs e)
+        {
+            tieude.Text = "QUẢN LÝ NHÂN VIÊN";
+            btnTaoMoi.Enabled = true;
+            btnsearch.Enabled = true;
+            btnLuu.Enabled = false;
+            btnQuayLai.Enabled = true;
+            btnSua.Enabled = false;
+            btnNhapLai.Enabled = false;
+            btnXoa.Enabled = false;
+            Reset();
+            txtMaNV.Text = "";
+            txtTimKiem.Text = "";
+            DataTable dtNhanVien = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
+            dvgNhanVien.DataSource = dtNhanVien;
+
+
+            dvgNhanVien.Columns[0].HeaderText = "Mã Nhân Viên";
+            dvgNhanVien.Columns[1].HeaderText = "Tên Nhân Viên";
+            dvgNhanVien.Columns[2].HeaderText = "Mật Khẩu ";
+            dvgNhanVien.Columns[3].HeaderText = "Ảnh";
+            dvgNhanVien.Columns[4].HeaderText = "Giới Tính ";
+            dvgNhanVien.Columns[5].HeaderText = "Ngày Sinh";
+            dvgNhanVien.Columns[6].HeaderText = "Điện Thoại";
+
+            dvgNhanVien.BackgroundColor = Color.LightBlue;
+            dtNhanVien.Dispose();//Giải phóng bộ nhớ cho DataTable
         }
     }
  }

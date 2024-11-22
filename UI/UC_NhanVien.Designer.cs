@@ -29,9 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+<<<<<<< Updated upstream
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+=======
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+>>>>>>> Stashed changes
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.guna2GroupBox3 = new Guna.UI2.WinForms.Guna2GroupBox();
             this.txtTimKiem = new Guna.UI2.WinForms.Guna2TextBox();
@@ -59,6 +65,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tieude = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.errChiTiet = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnQuayLai = new Guna.UI2.WinForms.Guna2Button();
             this.guna2GroupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dvgNhanVien)).BeginInit();
             this.grbchitiet.SuspendLayout();
@@ -74,6 +81,7 @@
             // guna2GroupBox3
             // 
             this.guna2GroupBox3.BorderRadius = 5;
+            this.guna2GroupBox3.Controls.Add(this.btnQuayLai);
             this.guna2GroupBox3.Controls.Add(this.txtTimKiem);
             this.guna2GroupBox3.Controls.Add(this.btnsearch);
             this.guna2GroupBox3.Controls.Add(this.btnTaoMoi);
@@ -145,7 +153,7 @@
             this.btnTaoMoi.ForeColor = System.Drawing.Color.White;
             this.btnTaoMoi.Image = global::QLSieuThiMini.Properties.Resources.ic_addnew;
             this.btnTaoMoi.ImageSize = new System.Drawing.Size(25, 25);
-            this.btnTaoMoi.Location = new System.Drawing.Point(55, 61);
+            this.btnTaoMoi.Location = new System.Drawing.Point(25, 61);
             this.btnTaoMoi.Name = "btnTaoMoi";
             this.btnTaoMoi.Size = new System.Drawing.Size(152, 45);
             this.btnTaoMoi.TabIndex = 12;
@@ -163,7 +171,7 @@
             this.btnXoa.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnXoa.ForeColor = System.Drawing.Color.White;
             this.btnXoa.Image = global::QLSieuThiMini.Properties.Resources.ic_delete;
-            this.btnXoa.Location = new System.Drawing.Point(1003, 61);
+            this.btnXoa.Location = new System.Drawing.Point(846, 61);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(145, 45);
             this.btnXoa.TabIndex = 16;
@@ -181,7 +189,7 @@
             this.btnLuu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnLuu.ForeColor = System.Drawing.Color.White;
             this.btnLuu.Image = global::QLSieuThiMini.Properties.Resources.ic_save;
-            this.btnLuu.Location = new System.Drawing.Point(302, 61);
+            this.btnLuu.Location = new System.Drawing.Point(226, 61);
             this.btnLuu.Name = "btnLuu";
             this.btnLuu.Size = new System.Drawing.Size(150, 45);
             this.btnLuu.TabIndex = 13;
@@ -199,7 +207,7 @@
             this.btnNhapLai.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnNhapLai.ForeColor = System.Drawing.Color.White;
             this.btnNhapLai.Image = global::QLSieuThiMini.Properties.Resources.ic_reload;
-            this.btnNhapLai.Location = new System.Drawing.Point(755, 61);
+            this.btnNhapLai.Location = new System.Drawing.Point(638, 61);
             this.btnNhapLai.Name = "btnNhapLai";
             this.btnNhapLai.Size = new System.Drawing.Size(153, 45);
             this.btnNhapLai.TabIndex = 14;
@@ -217,7 +225,7 @@
             this.btnSua.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSua.ForeColor = System.Drawing.Color.White;
             this.btnSua.Image = global::QLSieuThiMini.Properties.Resources.ic_edit;
-            this.btnSua.Location = new System.Drawing.Point(522, 61);
+            this.btnSua.Location = new System.Drawing.Point(443, 61);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(154, 45);
             this.btnSua.TabIndex = 15;
@@ -226,6 +234,7 @@
             // 
             // dvgNhanVien
             // 
+<<<<<<< Updated upstream
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
             this.dvgNhanVien.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -245,6 +254,27 @@
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dvgNhanVien.DefaultCellStyle = dataGridViewCellStyle6;
+=======
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            this.dvgNhanVien.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dvgNhanVien.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dvgNhanVien.ColumnHeadersHeight = 30;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dvgNhanVien.DefaultCellStyle = dataGridViewCellStyle3;
+>>>>>>> Stashed changes
             this.dvgNhanVien.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dvgNhanVien.Location = new System.Drawing.Point(16, 324);
             this.dvgNhanVien.Name = "dvgNhanVien";
@@ -537,6 +567,24 @@
             // 
             this.errChiTiet.ContainerControl = this;
             // 
+            // btnQuayLai
+            // 
+            this.btnQuayLai.BorderRadius = 10;
+            this.btnQuayLai.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnQuayLai.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnQuayLai.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnQuayLai.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnQuayLai.FillColor = System.Drawing.Color.Teal;
+            this.btnQuayLai.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnQuayLai.ForeColor = System.Drawing.Color.White;
+            this.btnQuayLai.Image = global::QLSieuThiMini.Properties.Resources.ic_reload;
+            this.btnQuayLai.Location = new System.Drawing.Point(1032, 61);
+            this.btnQuayLai.Name = "btnQuayLai";
+            this.btnQuayLai.Size = new System.Drawing.Size(153, 45);
+            this.btnQuayLai.TabIndex = 25;
+            this.btnQuayLai.Text = "Quay Lại";
+            this.btnQuayLai.Click += new System.EventHandler(this.btnQuayLai_Click);
+            // 
             // UC_NhanVien
             // 
             this.BackColor = System.Drawing.Color.White;
@@ -587,5 +635,6 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel tieude;
         private System.Windows.Forms.ErrorProvider errChiTiet;
         private Guna.UI2.WinForms.Guna2TextBox txtTimKiem;
+        private Guna.UI2.WinForms.Guna2Button btnQuayLai;
     }
 }
