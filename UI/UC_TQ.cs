@@ -77,7 +77,7 @@ namespace QLSieuThiMini.UI
                         : 0;
 
                     // Hiển thị DoanhThuTuanNay
-                    lbDoanhThu.Text = $"{doanhThuTuanNay:N0} VND";
+                    lbDoanhThu.Text = $"{doanhThuTuanNay:N0} VNĐ";
 
                     // Lấy và kiểm tra giá trị PhanTramThayDoi
                     int phanTramThayDoi = dtTurnover.Rows[0]["PhanTramThayDoi"] != DBNull.Value
@@ -89,7 +89,7 @@ namespace QLSieuThiMini.UI
                 }
                 else
                 {
-                    lbDoanhThu.Text = "0 VND";
+                    lbDoanhThu.Text = "0 VNĐ";
                     lbRevenue.Text = "0%";
                 }
             }
@@ -102,36 +102,36 @@ namespace QLSieuThiMini.UI
         private void invoice()
         {
             string invoice = @"
-                WITH ThisWeek AS (
-    SELECT 
-        COUNT(MaHDB) AS SoHoaDon
-    FROM 
-        HoaDonBan
-    WHERE 
-        NgayBan BETWEEN DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE)) 
-                    AND DATEADD(DAY, 7 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE))
-),
-LastWeek AS (
-    SELECT 
-        COUNT(MaHDB) AS SoHoaDon
-    FROM 
-        HoaDonBan
-    WHERE 
-        NgayBan BETWEEN DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()) - 7, CAST(GETDATE() AS DATE)) 
-                    AND DATEADD(DAY, 7 - DATEPART(WEEKDAY, GETDATE()) - 7, CAST(GETDATE() AS DATE))
-)
-SELECT 
-    ThisWeek.SoHoaDon AS SoHoaDonTuanNay,
-    CASE 
-        WHEN LastWeek.SoHoaDon = 0 THEN 0
-        ELSE CAST(((ThisWeek.SoHoaDon * 1.0 - LastWeek.SoHoaDon) / LastWeek.SoHoaDon) * 100 AS INT)
-    END AS PhanTramThayDoi,
-    CASE 
-        WHEN LastWeek.SoHoaDon = 0 THEN '(0 hóa đơn)'
-        ELSE CONCAT('(', LastWeek.SoHoaDon, ' hóa đơn)')
-    END AS GhiChu
-FROM 
-    ThisWeek, LastWeek";
+                        WITH ThisWeek AS (
+                        SELECT 
+                            COUNT(MaHDB) AS SoHoaDon
+                            FROM 
+                            HoaDonBan
+                        WHERE 
+                            NgayBan BETWEEN DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE)) 
+                                        AND DATEADD(DAY, 7 - DATEPART(WEEKDAY, GETDATE()), CAST(GETDATE() AS DATE))
+                    ),
+                    LastWeek AS (
+                        SELECT 
+                            COUNT(MaHDB) AS SoHoaDon
+                        FROM 
+                            HoaDonBan
+                        WHERE 
+                            NgayBan BETWEEN DATEADD(DAY, 1 - DATEPART(WEEKDAY, GETDATE()) - 7, CAST(GETDATE() AS DATE)) 
+                                        AND DATEADD(DAY, 7 - DATEPART(WEEKDAY, GETDATE()) - 7, CAST(GETDATE() AS DATE))
+                    )
+                        SELECT 
+                        ThisWeek.SoHoaDon AS SoHoaDonTuanNay,
+                        CASE 
+                            WHEN LastWeek.SoHoaDon = 0 THEN 0
+                            ELSE CAST(((ThisWeek.SoHoaDon * 1.0 - LastWeek.SoHoaDon) / LastWeek.SoHoaDon) * 100 AS INT)
+                        END AS PhanTramThayDoi,
+                        CASE 
+                            WHEN LastWeek.SoHoaDon = 0 THEN '(0 hóa đơn)'
+                            ELSE CONCAT('(', LastWeek.SoHoaDon, ' hóa đơn)')
+                        END AS GhiChu
+                        FROM 
+                            ThisWeek, LastWeek";
             DataTable dtInvoice = db.DataReader(invoice);
             lbInvoice.Text = dtInvoice.Rows[0]["SoHoaDonTuanNay"].ToString();
             lbRateHD.Text = dtInvoice.Rows[0]["PhanTramThayDoi"].ToString() + "%" + " " + dtInvoice.Rows[0]["GhiChu"].ToString();

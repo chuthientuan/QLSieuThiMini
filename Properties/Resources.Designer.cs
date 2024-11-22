@@ -73,6 +73,26 @@ namespace QLSieuThiMini.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bg {
+            get {
+                object obj = ResourceManager.GetObject("bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bgrjpg {
+            get {
+                object obj = ResourceManager.GetObject("bgrjpg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ic_addnew {
             get {
                 object obj = ResourceManager.GetObject("ic-addnew", resourceCulture);
@@ -366,6 +386,16 @@ namespace QLSieuThiMini.Properties {
         internal static System.Drawing.Bitmap icons8_admin_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-admin-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_employee_100 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-employee-100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
