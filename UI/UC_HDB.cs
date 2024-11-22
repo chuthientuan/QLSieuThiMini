@@ -344,6 +344,7 @@ namespace QLSieuThiMini.UI
                 txtSL.Focus();
                 return;
             }
+
             DataTable dtSP = db.DataReader("select SoLuong from SanPham where TenSP = N'" + cbTenSP.Text + "'");
             int sl = int.Parse(dtSP.Rows[0]["SoLuong"].ToString());
             if (sl < quantity)
@@ -351,30 +352,50 @@ namespace QLSieuThiMini.UI
                 MessageBox.Show("Số lượng sản phẩm không đủ. Hiện có " + sl + " sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
             double price = Convert.ToDouble(txtDonGia.Text);
             double discount = string.IsNullOrEmpty(txtGiamGia.Text) ? 0 : Convert.ToDouble(txtGiamGia.Text);
             double total = quantity * price * (1 - discount / 100);
-            totalPrice += total;
+
+            bool productExists = false;
+            foreach (DataRow row in invoiceProducts.Rows)
+            {
+                if (row["Tên hàng"].ToString() == cbTenSP.Text)
+                {
+                    row["Số lượng"] = quantity;
+                    row["Thành tiền"] = total;
+                    productExists = true;
+                    break;
+                }
+            }
+
+            if (!productExists)
+            {
+                try
+                {
+                    DataRow row = invoiceProducts.NewRow();
+                    row["Tên hàng"] = cbTenSP.Text;
+                    row["Số lượng"] = quantity;
+                    row["Giá"] = price;
+                    row["Giảm giá"] = discount;
+                    row["Thành tiền"] = total;
+
+                    invoiceProducts.Rows.Add(row);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi thêm sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+            totalPrice = invoiceProducts.AsEnumerable().Sum(r => Convert.ToDouble(r["Thành tiền"]));
+
             lbTotalMoney.Text = String.Format("{0:N0} VNĐ", totalPrice);
             lbPay.Text = String.Format("{0:N0} VNĐ", totalPrice);
             lbTien.Text = ConvertToWords((decimal)totalPrice);
-            try
-            {
-                DataRow row = invoiceProducts.NewRow();
-                row["Tên hàng"] = cbTenSP.Text;
-                row["Số lượng"] = quantity;
-                row["Giá"] = price;
-                row["Giảm giá"] = discount;
-                row["Thành tiền"] = total;
 
-                invoiceProducts.Rows.Add(row);
-                dtMatHang.DataSource = invoiceProducts;
-                dtMatHang.Refresh();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi thêm sản phẩm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            dtMatHang.DataSource = invoiceProducts;
+            dtMatHang.Refresh();
         }
         private bool checkInformation()
         {
