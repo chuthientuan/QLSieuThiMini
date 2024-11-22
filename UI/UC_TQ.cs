@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Guna.Charts.Interfaces;
 using Guna.Charts.WinForms;
 using QLSieuThiMini.Classes;
 
@@ -257,6 +258,7 @@ FROM
                 pd5.DataPoints.Add(dt.Rows[4]["ProductName"].ToString(), int.Parse(dt.Rows[4]["TotalQuantity"].ToString()));
                 pd5.Label = dt.Rows[4]["ProductName"].ToString();
             }
+            barChart.XAxes.Display = false;
             barChart.Update();
         }
     }
