@@ -28,7 +28,7 @@ namespace QLSieuThiMini.UI
         private void UC_NhanVien_Load(object sender, EventArgs e)
         {
             tieude.Text = "QUẢN LÝ NHÂN VIÊN";
-            DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien");
+            DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien Where ChucDanh = 1");
             dvgNhanVien.DataSource = dtNhanVien;
 
             dvgNhanVien.Columns[0].HeaderText = "Mã Nhân Viên";
@@ -75,7 +75,8 @@ namespace QLSieuThiMini.UI
             cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells[5].Value.ToString();
             dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells[6].Value.ToString();
             txtSDT.Text = dvgNhanVien.CurrentRow.Cells[7].Value.ToString();
-            btnTaoMoi.Enabled = false;
+            btnAnh.Enabled = true;
+            btnTaoMoi.Enabled = true;
             btnLuu.Enabled = false;
             btnNhapLai.Enabled = false;
             btnSua.Enabled = true;
@@ -84,7 +85,6 @@ namespace QLSieuThiMini.UI
         }
         void Reset()
         {
-            txtMaNV.Text = "";
             txtTenNV.Text = "";
             txtMatKhau.Text = "";
             cbbGioiTinh.Text = "";
@@ -110,6 +110,7 @@ namespace QLSieuThiMini.UI
 
 
                 // Gán mã mới vào txtMaKH
+                btnAnh.Enabled = true;
                 txtMaNV.Text = maNV;
                 btnsearch.Enabled = false;
                 btnTaoMoi.Enabled = false;
@@ -122,8 +123,10 @@ namespace QLSieuThiMini.UI
         private void btnNhapLai_Click(object sender, EventArgs e)
         {
             Reset();
-            DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien");
+            txtTimKiem.Text = "";
+            DataTable dtNhanVien = dtBase.DataReader("Select * from NhanVien where ChucDanh = 1");
             dvgNhanVien.DataSource = dtNhanVien;
+            
 
             dvgNhanVien.Columns[0].HeaderText = "Mã Nhân Viên";
             dvgNhanVien.Columns[1].HeaderText = "Tên Nhân Viên";
@@ -191,9 +194,10 @@ namespace QLSieuThiMini.UI
                     MessageBox.Show("Bạn đã thêm mới Nhân Viên thành công");
 
                     // Cập nhật lại DataGridView để hiển thị thông tin mới
-                    dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien");
+                    dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien Where ChucDanh = 1");
                     // Reset giá trị các ô nhập liệu sau khi lưu thành công
                     Reset();
+                    btnAnh.Enabled = false;
                     btnTaoMoi.Enabled = true;
                     btnLuu.Enabled = false;
                     btnNhapLai.Enabled = false;
@@ -286,12 +290,14 @@ namespace QLSieuThiMini.UI
                   "', DienThoai = N'" + txtSDT.Text +
                   "' WHERE MaNV = '" + txtMaNV.Text + "'");
                 //Sau khi update cần lấy lại dữ liệu để hiển thị lên lưới
-                dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien");
+                dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien where ChucDanh = 1");
                 MessageBox.Show("Bạn đã sửa Nhân Viên thành công");
                 // Cập nhật lại DataGridView để hiển thị thông tin mới
-                dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien");
+                dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien Where ChucDanh = 1");
                 // Reset giá trị các ô nhập liệu sau khi lưu thành công
                 Reset();
+                btnsearch.Enabled = true;
+                btnAnh.Enabled = false;
                 btnTaoMoi.Enabled = true;
                 btnLuu.Enabled = false;
                 btnNhapLai.Enabled = false;
@@ -309,12 +315,14 @@ namespace QLSieuThiMini.UI
                 dvgNhanVien.DataSource = dtBase.DataReader("Select * from NhanVien");
 
                 Reset();
+                btnAnh.Enabled = false;
                 btnTaoMoi.Enabled = true;
                 btnLuu.Enabled = false;
                 btnNhapLai.Enabled = false;
                 btnSua.Enabled = false;
                 btnXoa.Enabled = false;
                 tieude.Text = "QUẢN LÝ NHÂN VIÊN";
+                btnsearch.Enabled = true;
             }
         }
 
@@ -327,7 +335,7 @@ namespace QLSieuThiMini.UI
                     Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
                     Title = "Chọn ảnh"
                 };
-
+                Anh.Image = null;
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
                     string sourceFilePath = openFile.FileName;
