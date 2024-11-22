@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle54 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle55 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle56 = new System.Windows.Forms.DataGridViewCellStyle();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.groupThongTin = new Guna.UI2.WinForms.Guna2GroupBox();
             this.btnMoi = new Guna.UI2.WinForms.Guna2Button();
@@ -100,7 +100,7 @@
             this.groupThongTin.Controls.Add(this.txtTenHang);
             this.groupThongTin.Controls.Add(this.guna2HtmlLabel1);
             this.groupThongTin.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupThongTin.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.groupThongTin.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
             this.groupThongTin.ForeColor = System.Drawing.Color.Black;
             this.groupThongTin.Location = new System.Drawing.Point(0, 512);
             this.groupThongTin.Name = "groupThongTin";
@@ -110,6 +110,8 @@
             // 
             // btnMoi
             // 
+            this.btnMoi.BackColor = System.Drawing.Color.White;
+            this.btnMoi.BorderRadius = 6;
             this.btnMoi.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnMoi.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnMoi.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -117,9 +119,9 @@
             this.btnMoi.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnMoi.ForeColor = System.Drawing.Color.White;
             this.btnMoi.Image = global::QLSieuThiMini.Properties.Resources.ic_reload;
-            this.btnMoi.Location = new System.Drawing.Point(731, 163);
+            this.btnMoi.Location = new System.Drawing.Point(755, 157);
             this.btnMoi.Name = "btnMoi";
-            this.btnMoi.Size = new System.Drawing.Size(93, 22);
+            this.btnMoi.Size = new System.Drawing.Size(130, 33);
             this.btnMoi.TabIndex = 23;
             this.btnMoi.Text = "Làm mới";
             this.btnMoi.Click += new System.EventHandler(this.btnMoi_Click);
@@ -130,43 +132,51 @@
             this.cbbLoaiHang.FormattingEnabled = true;
             this.cbbLoaiHang.Location = new System.Drawing.Point(158, 108);
             this.cbbLoaiHang.Name = "cbbLoaiHang";
-            this.cbbLoaiHang.Size = new System.Drawing.Size(151, 30);
+            this.cbbLoaiHang.Size = new System.Drawing.Size(151, 31);
             this.cbbLoaiHang.TabIndex = 22;
             // 
             // btnLuu
             // 
+            this.btnLuu.BackColor = System.Drawing.Color.White;
+            this.btnLuu.BorderRadius = 6;
             this.btnLuu.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLuu.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnLuu.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnLuu.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnLuu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.btnLuu.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnLuu.ForeColor = System.Drawing.SystemColors.Window;
             this.btnLuu.Image = global::QLSieuThiMini.Properties.Resources.ic_save;
-            this.btnLuu.Location = new System.Drawing.Point(592, 163);
+            this.btnLuu.Location = new System.Drawing.Point(607, 157);
             this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(93, 22);
+            this.btnLuu.Size = new System.Drawing.Size(130, 33);
             this.btnLuu.TabIndex = 21;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
             // 
             // btnAnh
             // 
+            this.btnAnh.BackColor = System.Drawing.Color.White;
+            this.btnAnh.BorderRadius = 6;
             this.btnAnh.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnAnh.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnAnh.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnAnh.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnAnh.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.btnAnh.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnAnh.ForeColor = System.Drawing.Color.White;
             this.btnAnh.Image = global::QLSieuThiMini.Properties.Resources.ic_addnew;
-            this.btnAnh.Location = new System.Drawing.Point(873, 163);
+            this.btnAnh.Location = new System.Drawing.Point(903, 157);
             this.btnAnh.Name = "btnAnh";
-            this.btnAnh.Size = new System.Drawing.Size(93, 22);
+            this.btnAnh.Size = new System.Drawing.Size(130, 33);
             this.btnAnh.TabIndex = 20;
             this.btnAnh.Text = "Thêm ảnh";
             this.btnAnh.Click += new System.EventHandler(this.btnAnh_Click);
             // 
             // btnIn
             // 
+            this.btnIn.BackColor = System.Drawing.Color.White;
+            this.btnIn.BorderRadius = 6;
             this.btnIn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnIn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnIn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -174,57 +184,66 @@
             this.btnIn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnIn.ForeColor = System.Drawing.Color.White;
             this.btnIn.Image = global::QLSieuThiMini.Properties.Resources.ic_print;
-            this.btnIn.Location = new System.Drawing.Point(440, 163);
+            this.btnIn.Location = new System.Drawing.Point(459, 157);
             this.btnIn.Name = "btnIn";
-            this.btnIn.Size = new System.Drawing.Size(93, 22);
+            this.btnIn.Size = new System.Drawing.Size(130, 33);
             this.btnIn.TabIndex = 18;
             this.btnIn.Text = "In";
             this.btnIn.Click += new System.EventHandler(this.btnIn_Click);
             // 
             // btnXoa
             // 
+            this.btnXoa.BackColor = System.Drawing.Color.White;
+            this.btnXoa.BorderRadius = 6;
             this.btnXoa.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnXoa.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnXoa.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnXoa.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnXoa.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(28)))), ((int)(((byte)(24)))));
             this.btnXoa.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnXoa.ForeColor = System.Drawing.Color.White;
             this.btnXoa.Image = global::QLSieuThiMini.Properties.Resources.ic_delete;
-            this.btnXoa.Location = new System.Drawing.Point(290, 163);
+            this.btnXoa.Location = new System.Drawing.Point(311, 157);
             this.btnXoa.Name = "btnXoa";
-            this.btnXoa.Size = new System.Drawing.Size(93, 22);
+            this.btnXoa.Size = new System.Drawing.Size(130, 33);
             this.btnXoa.TabIndex = 16;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // btnSua
             // 
+            this.btnSua.BackColor = System.Drawing.Color.White;
+            this.btnSua.BorderRadius = 6;
             this.btnSua.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnSua.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnSua.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnSua.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnSua.FillColor = System.Drawing.Color.Gold;
             this.btnSua.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnSua.ForeColor = System.Drawing.Color.White;
             this.btnSua.Image = global::QLSieuThiMini.Properties.Resources.ic_edit;
-            this.btnSua.Location = new System.Drawing.Point(146, 163);
+            this.btnSua.Location = new System.Drawing.Point(163, 157);
             this.btnSua.Name = "btnSua";
-            this.btnSua.Size = new System.Drawing.Size(93, 22);
+            this.btnSua.Size = new System.Drawing.Size(130, 33);
             this.btnSua.TabIndex = 15;
             this.btnSua.Text = "Sửa";
             this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
             // btnThem
             // 
+            this.btnThem.BackColor = System.Drawing.Color.White;
+            this.btnThem.BorderRadius = 6;
             this.btnThem.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnThem.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.btnThem.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             this.btnThem.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnThem.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(166)))), ((int)(((byte)(154)))));
             this.btnThem.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnThem.ForeColor = System.Drawing.Color.White;
             this.btnThem.Image = global::QLSieuThiMini.Properties.Resources.ic_addnew;
-            this.btnThem.Location = new System.Drawing.Point(16, 163);
+            this.btnThem.Location = new System.Drawing.Point(15, 157);
             this.btnThem.Name = "btnThem";
-            this.btnThem.Size = new System.Drawing.Size(93, 22);
+            this.btnThem.Size = new System.Drawing.Size(130, 33);
             this.btnThem.TabIndex = 14;
             this.btnThem.Text = "Thêm";
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
@@ -274,10 +293,11 @@
             // guna2HtmlLabel6
             // 
             this.guna2HtmlLabel6.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel6.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.guna2HtmlLabel6.ForeColor = System.Drawing.Color.Black;
             this.guna2HtmlLabel6.Location = new System.Drawing.Point(673, 70);
             this.guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            this.guna2HtmlLabel6.Size = new System.Drawing.Size(59, 18);
+            this.guna2HtmlLabel6.Size = new System.Drawing.Size(81, 24);
             this.guna2HtmlLabel6.TabIndex = 10;
             this.guna2HtmlLabel6.Text = "Số lượng:";
             // 
@@ -343,40 +363,44 @@
             // guna2HtmlLabel5
             // 
             this.guna2HtmlLabel5.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel5.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.guna2HtmlLabel5.ForeColor = System.Drawing.Color.Black;
             this.guna2HtmlLabel5.Location = new System.Drawing.Point(673, 110);
             this.guna2HtmlLabel5.Name = "guna2HtmlLabel5";
-            this.guna2HtmlLabel5.Size = new System.Drawing.Size(81, 18);
+            this.guna2HtmlLabel5.Size = new System.Drawing.Size(107, 24);
             this.guna2HtmlLabel5.TabIndex = 6;
             this.guna2HtmlLabel5.Text = "Hạn sử dụng:";
             // 
             // guna2HtmlLabel4
             // 
             this.guna2HtmlLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel4.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.guna2HtmlLabel4.ForeColor = System.Drawing.Color.Black;
             this.guna2HtmlLabel4.Location = new System.Drawing.Point(335, 111);
             this.guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            this.guna2HtmlLabel4.Size = new System.Drawing.Size(78, 18);
+            this.guna2HtmlLabel4.Size = new System.Drawing.Size(105, 24);
             this.guna2HtmlLabel4.TabIndex = 5;
             this.guna2HtmlLabel4.Text = "Đơn giá bán:";
             // 
             // guna2HtmlLabel3
             // 
             this.guna2HtmlLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel3.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.guna2HtmlLabel3.ForeColor = System.Drawing.Color.Black;
             this.guna2HtmlLabel3.Location = new System.Drawing.Point(335, 70);
             this.guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            this.guna2HtmlLabel3.Size = new System.Drawing.Size(85, 18);
+            this.guna2HtmlLabel3.Size = new System.Drawing.Size(114, 24);
             this.guna2HtmlLabel3.TabIndex = 4;
             this.guna2HtmlLabel3.Text = "Đơn giá nhập:";
             // 
             // guna2HtmlLabel2
             // 
             this.guna2HtmlLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.guna2HtmlLabel2.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.guna2HtmlLabel2.ForeColor = System.Drawing.Color.Black;
             this.guna2HtmlLabel2.Location = new System.Drawing.Point(16, 114);
             this.guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            this.guna2HtmlLabel2.Size = new System.Drawing.Size(94, 18);
+            this.guna2HtmlLabel2.Size = new System.Drawing.Size(123, 24);
             this.guna2HtmlLabel2.TabIndex = 2;
             this.guna2HtmlLabel2.Text = "Loại sản phẩm:";
             // 
@@ -418,7 +442,7 @@
             this.groupDanhSach.Controls.Add(this.guna2Panel1);
             this.groupDanhSach.Controls.Add(this.dgvSanPham);
             this.groupDanhSach.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupDanhSach.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.groupDanhSach.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
             this.groupDanhSach.ForeColor = System.Drawing.Color.Black;
             this.groupDanhSach.Location = new System.Drawing.Point(0, 0);
             this.groupDanhSach.Name = "groupDanhSach";
@@ -441,6 +465,7 @@
             // 
             // cbbLoc
             // 
+            this.cbbLoc.Font = new System.Drawing.Font("Times New Roman", 10F);
             this.cbbLoc.ForeColor = System.Drawing.SystemColors.WindowText;
             this.cbbLoc.FormattingEnabled = true;
             this.cbbLoc.Items.AddRange(new object[] {
@@ -449,7 +474,7 @@
             "Loại sản phẩm"});
             this.cbbLoc.Location = new System.Drawing.Point(501, 14);
             this.cbbLoc.Name = "cbbLoc";
-            this.cbbLoc.Size = new System.Drawing.Size(129, 30);
+            this.cbbLoc.Size = new System.Drawing.Size(129, 27);
             this.cbbLoc.TabIndex = 24;
             this.cbbLoc.Text = "Tên sản phẩm";
             this.cbbLoc.SelectedIndexChanged += new System.EventHandler(this.cbbLoc_SelectedIndexChanged);
@@ -501,38 +526,38 @@
             // 
             // dgvSanPham
             // 
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-            this.dgvSanPham.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle53.BackColor = System.Drawing.Color.White;
+            this.dgvSanPham.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle53;
+            dataGridViewCellStyle54.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle54.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(88)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle54.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle54.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle54.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle54.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle54.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSanPham.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle54;
             this.dgvSanPham.ColumnHeadersHeight = 20;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 12F);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSanPham.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle55.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle55.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle55.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle55.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle55.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle55.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle55.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSanPham.DefaultCellStyle = dataGridViewCellStyle55;
             this.dgvSanPham.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dgvSanPham.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvSanPham.Location = new System.Drawing.Point(0, 98);
             this.dgvSanPham.Name = "dgvSanPham";
             this.dgvSanPham.ReadOnly = true;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 12F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvSanPham.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle56.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle56.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle56.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle56.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle56.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle56.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle56.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvSanPham.RowHeadersDefaultCellStyle = dataGridViewCellStyle56;
             this.dgvSanPham.RowHeadersVisible = false;
             this.dgvSanPham.RowHeadersWidth = 80;
             this.dgvSanPham.RowTemplate.Height = 30;
