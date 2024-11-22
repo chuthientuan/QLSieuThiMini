@@ -13,8 +13,8 @@ namespace QLSieuThiMini.Classes
     internal class DataBaseProcess
     {
 
-        string strConnect = "Data Source=DESKTOP-15605MG\\SQLEXPRESS;" +
-                "DataBase=QuanlySieuthi;User ID=sa;" +
+        string strConnect = "Data Source=LOU1S\\SQLEXPRESS;" +
+                "DataBase=QuanlySieuthimini;User ID=sa;" +
                 "Password=abc123;Integrated Security=false";
         SqlConnection sqlConnect = null;
 
