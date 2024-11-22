@@ -124,6 +124,9 @@
   <data name="ic-menu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-menu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icons8-employee-100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-employee-100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="image_check" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image_check.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -142,11 +145,11 @@
   <data name="ic-box" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-box.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ic-print" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic-print1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bgrjpg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bgrjpg.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="backgroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\backgroup1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ic-cart" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-cart.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -178,8 +181,8 @@
   <data name="ic-employee-blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-employee-blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ic-print" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ic-print1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="icons8-admin-100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-admin-100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ic-exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -189,6 +192,9 @@
   </data>
   <data name="ic-login" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-login.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ic-search" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-search1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -208,8 +214,8 @@
   <data name="ic-product-blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-product-blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="icons8-admin-100" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-admin-100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="bgrjpg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bgrjpg.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ic-cancle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-cancle1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -223,7 +229,7 @@
   <data name="ic-invoice-white" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ic-invoice-white.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="backgroup" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\backgroup1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ic-arrow-up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic-arrow-up1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
