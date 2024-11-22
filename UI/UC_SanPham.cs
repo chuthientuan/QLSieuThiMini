@@ -24,7 +24,7 @@ namespace QLSieuThiMini.UI
         }
         private void LoadData()
         {
-            string sqlSelect = "SELECT sp.MaSP, sp.MaLH,lh.TenLH,sp.TenSP,sp.DonGiaNhap,sp.DonGiaBan,sp.SoLuong,sp.Anh,sp.HSD FROM SanPham sp INNER JOIN LoaiHang lh ON sp.MaLH = lh.MaLH";
+            string sqlSelect = "SELECT sp.MaSP, sp.MaLH, lh.TenLH,sp.TenSP,sp.DonGiaNhap,sp.DonGiaBan,sp.SoLuong,sp.Anh,sp.HSD FROM SanPham sp INNER JOIN LoaiHang lh ON sp.MaLH = lh.MaLH";
             DataTable dtSP = dtBase.DataReader(sqlSelect);
             dgvSanPham.DataSource = dtSP;
             dgvSanPham.Refresh();
@@ -168,33 +168,32 @@ namespace QLSieuThiMini.UI
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            string sqlCheckLoaiHang = $"SELECT COUNT(*) FROM LoaiHang WHERE TenLoai = N'{cbbLoaiHang.Text}'";
-            int countLoaiHang = (int)dtBase.ExecuteScalar(sqlCheckLoaiHang);
-
-            if (countLoaiHang == 0)
-            {
-                DialogResult result = MessageBox.Show(
-                    $"Loại hàng '{cbbLoaiHang.Text}' chưa tồn tại. Bạn có muốn thêm loại hàng này không?",
-                    "Xác nhận",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (result == DialogResult.Yes)
-                {
-                    string sqlInsertLoaiHang = $"INSERT INTO LoaiHang (TenLoai) VALUES (N'{cbbLoaiHang.Text}')";
-                    dtBase.DataChange(sqlInsertLoaiHang);
-                    MessageBox.Show($"Đã thêm loại hàng '{cbbLoaiHang.Text}' thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Hãy chọn loại hàng khác trước khi thêm sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
             if (Ktra())
             {
+                string sqlCheckLoaiHang = $"SELECT COUNT(*) FROM LoaiHang WHERE TenLoai = N'{cbbLoaiHang.Text}'";
+                int countLoaiHang = (int)dtBase.ExecuteScalar(sqlCheckLoaiHang);
+
+                if (countLoaiHang == 0)
+                {
+                    DialogResult result = MessageBox.Show(
+                        $"Loại hàng '{cbbLoaiHang.Text}' chưa tồn tại. Bạn có muốn thêm loại hàng này không?",
+                        "Xác nhận",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        string sqlInsertLoaiHang = $"INSERT INTO LoaiHang (TenLoai) VALUES (N'{cbbLoaiHang.Text}')";
+                        dtBase.DataChange(sqlInsertLoaiHang);
+                        MessageBox.Show($"Đã thêm loại hàng '{cbbLoaiHang.Text}' thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Hãy chọn loại hàng khác trước khi thêm sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
                 string TenSP = txtTenHang.Text;
                 double DGN = Double.Parse(txtDGN.Text);
                 double DGB = Double.Parse(txtDGB.Text);
