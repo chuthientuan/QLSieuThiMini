@@ -98,7 +98,7 @@ namespace QLSieuThiMini.UI
         }
         private void loadCbbMHD()
         {
-            DataTable dt = db.DataReader("select MaHDB from HoaDonBan");
+            DataTable dt = db.DataReader("select MaHDB from HoaDonBan where NgayBan >= DATEADD(day, -7, GETDATE())");
             cbMaHD.DataSource = dt;
             cbMaHD.DisplayMember = "MaHDB";
             cbMaHD.ValueMember = "MaHDB";
