@@ -24,7 +24,7 @@ namespace QLSieuThiMini.UI
         }
         private void LoadData()
         {
-            string sqlSelect = @"SELECT sp.MaSP, sp.MaLH,lh.TenLH,sp.TenSP,sp.DonGiaNhap,sp.DonGiaBan,sp.SoLuong,sp.Anh,sp.HSD FROM SanPham sp INNER JOIN LoaiHang lh ON sp.MaLH = lh.MaLH";
+            string sqlSelect = "SELECT sp.MaSP, sp.MaLH,lh.TenLH,sp.TenSP,sp.DonGiaNhap,sp.DonGiaBan,sp.SoLuong,sp.Anh,sp.HSD FROM SanPham sp INNER JOIN LoaiHang lh ON sp.MaLH = lh.MaLH";
             DataTable dtSP = dtBase.DataReader(sqlSelect);
             dgvSanPham.DataSource = dtSP;
             dgvSanPham.Refresh();
@@ -38,8 +38,6 @@ namespace QLSieuThiMini.UI
             dgvSanPham.Columns["MaLH"].HeaderText = "Mã Loại Hàng";
             dgvSanPham.Columns["TenLH"].HeaderText = "Tên Loại Hàng";
             dgvSanPham.Columns["Anh"].HeaderText = "Ảnh";
-            dgvSanPham.Columns["DonGiaNhap"].DefaultCellStyle.Format = "C0";
-            dgvSanPham.Columns["DonGiaBan"].DefaultCellStyle.Format = "C0";
             dgvSanPham.Columns["HSD"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
             DataTable dtLoaiHang = dtBase.DataReader("SELECT MaLH, TenLH FROM LoaiHang");
@@ -48,7 +46,7 @@ namespace QLSieuThiMini.UI
             cbbLoaiHang.ValueMember = "MaLH";
 
             cbbLoaiHang.SelectedIndex = -1;
-            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDown;
+            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDownList;
 
             DataTable dtLoc = new DataTable();
             dtLoc.Columns.Add("DisplayName", typeof(string));
@@ -60,7 +58,7 @@ namespace QLSieuThiMini.UI
             cbbLoc.DataSource = dtLoc;
             cbbLoc.DisplayMember = "DisplayName";
             cbbLoc.ValueMember = "Value";
-            cbbLoaiHang.DropDownStyle = ComboBoxStyle.DropDown;
+            cbbLoc.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         private void reset()
         {
@@ -124,8 +122,8 @@ namespace QLSieuThiMini.UI
                 maSp = int.Parse(selectedRow.Cells["MaSP"].Value.ToString());
                 txtTenHang.Text = selectedRow.Cells["TenSP"].Value.ToString();
                 cbbLoaiHang.SelectedValue = selectedRow.Cells["MaLH"].Value;
-                txtDGN.Text = selectedRow.Cells["DonGiaNhap"].Value.ToString();
-                txtDGB.Text = selectedRow.Cells["DonGiaBan"].Value.ToString();
+                txtDGN.Text = Convert.ToDecimal(dgvSanPham.CurrentRow.Cells["DonGiaNhap"].Value).ToString("N0");
+                txtDGB.Text = Convert.ToDecimal(dgvSanPham.CurrentRow.Cells["DonGiaBan"].Value).ToString("N0");
                 txtSoLuong.Text = selectedRow.Cells["SoLuong"].Value.ToString();
                 dtpHSD.Value = DateTime.Parse(selectedRow.Cells["HSD"].Value.ToString());
                 pic.Image = Image.FromFile(imagelink);
@@ -248,6 +246,11 @@ namespace QLSieuThiMini.UI
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (int.Parse(txtSoLuong.Text) > 0)
+            {
+                MessageBox.Show("Sản phẩm vẫn còn tồn kho!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa sản phẩm này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -284,7 +287,7 @@ namespace QLSieuThiMini.UI
                 titleRange.Font.Bold = true;
                 titleRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
 
-                if (maSp == 0)
+                if (txtTenHang.Text == string.Empty)
                 {
                     int rowStart = 3;
 
@@ -399,6 +402,41 @@ namespace QLSieuThiMini.UI
         private void cbbLoc_SelectedIndexChanged(object sender, EventArgs e)
         {
             Search();
+        }
+
+        private void btnAnh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog openFile = new OpenFileDialog
+                {
+                    Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif",
+                    Title = "Chọn ảnh"
+                };
+
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    string sourceFilePath = openFile.FileName;
+                    string imageFolderPath = Path.Combine(Application.StartupPath, "Images");
+
+                    if (!Directory.Exists(imageFolderPath))
+                    {
+                        Directory.CreateDirectory(imageFolderPath);
+                    }
+
+                    ImageName = Path.GetFileName(sourceFilePath);
+                    string destFilePath = Path.Combine(imageFolderPath, ImageName);
+
+                    File.Copy(sourceFilePath, destFilePath, true);
+
+                    pic.Image = Image.FromFile(destFilePath);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Có lỗi xảy ra khi chọn ảnh: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

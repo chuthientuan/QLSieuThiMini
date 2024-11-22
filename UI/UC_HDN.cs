@@ -78,14 +78,15 @@ namespace QLSieuThiMini.UI
                 number /= 1000;
                 if (group > 0)
                 {
-                    string groupText = ConvertGroupToText(group, units);
+                    string groupText = ConvertGroupToText(group, units, rank);
                     result = groupText + " " + ranks[rank] + " " + result;
                 }
                 rank++;
             }
             return result.Trim() + " đồng.";
         }
-        private static string ConvertGroupToText(int group, string[] units)
+
+        private static string ConvertGroupToText(int group, string[] units, int rank)
         {
             int hundreds = group / 100;
             int tens = (group % 100) / 10;
@@ -103,7 +104,8 @@ namespace QLSieuThiMini.UI
             {
                 result += units[tens] + " mươi ";
                 if (ones == 1) result += "mốt";
-                else if (ones == 5) result += "lăm";
+                else if (ones == 5 && rank == 0) result += "lăm"; // Use "lăm" only for units
+                else if (ones == 5) result += "năm"; // Use "năm" for larger units
                 else if (ones > 0) result += units[ones];
             }
             else if (tens == 1)
@@ -116,11 +118,13 @@ namespace QLSieuThiMini.UI
             {
                 // Chỉ thêm "lẻ" khi hàng trăm khác 0 và hàng chục là 0
                 if (hundreds > 0) result += "lẻ ";
-                if (ones == 5) result += "lăm";
+                if (ones == 5 && rank == 0) result += "lăm"; // Use "lăm" only for units
+                else if (ones == 5) result += "năm"; // Use "năm" for larger units
                 else result += units[ones];
             }
             return result.Trim();
         }
+
         //reset dữ liệu
         private void ResetTTChung()
         {
@@ -591,6 +595,8 @@ namespace QLSieuThiMini.UI
                                     MessageBox.Show("Hóa đơn đã bị hủy vì không còn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     ResetTTChung();
                                     LoadCbbMHD();
+                                    btnHuyHD.Enabled = false;
+                                    btnInHD.Enabled = false;
                                 }
                                 else
                                 {
@@ -631,6 +637,8 @@ namespace QLSieuThiMini.UI
                                     MessageBox.Show("Hóa đơn đã bị hủy vì không còn sản phẩm nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     ResetTTChung();
                                     LoadCbbMHD();
+                                    btnHuyHD.Enabled = false;
+                                    btnInHD.Enabled = false;
                                 }
                                 else
                                 {
@@ -687,6 +695,7 @@ namespace QLSieuThiMini.UI
             string newMaHD = "HDN_" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             txtMHDN.Text = newMaHD;
             LoadData();
+            btnLuuHD.Enabled = false;
         }
         private void btnHuyHD_Click(object sender, EventArgs e)
         {
@@ -733,6 +742,8 @@ namespace QLSieuThiMini.UI
                 ResetTTSP();
                 LoadData();
                 LoadCbbMHD();
+                btnHuyHD.Enabled = false;
+                btnInHD.Enabled = false;
 
                 MessageBox.Show("Hóa đơn đã được hủy thành công và số lượng sản phẩm đã được cập nhật lại!",
                                 "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -780,10 +791,9 @@ namespace QLSieuThiMini.UI
                     worksheet.Cells[8, 1] = "Tên sản phẩm";
                     worksheet.Cells[8, 2] = "Số lượng nhập";
                     worksheet.Cells[8, 3] = "Thành tiền";
-                    worksheet.Cells[8, 4] = "Tổng tiền";
 
                     // Định dạng tiêu đề bảng
-                    Excel.Range headerRange = worksheet.Range["A8", "D8"];
+                    Excel.Range headerRange = worksheet.Range["A8", "C8"];
                     headerRange.Font.Bold = true;
                     headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGray);
 
@@ -801,8 +811,8 @@ namespace QLSieuThiMini.UI
                     }
 
                     // Tổng tiền hóa đơn
-                    worksheet.Cells[rowIndex, 3] = "Tổng tiền:";
-                    worksheet.Cells[rowIndex, 4] = txtTongTien.Text;
+                    worksheet.Cells[rowIndex, 2] = "Tổng tiền:";
+                    worksheet.Cells[rowIndex, 3] = txtTongTien.Text;
 
                     // Định dạng cột
                     Excel.Range dataRange = worksheet.Range["A8", $"D{rowIndex}"];
