@@ -63,19 +63,9 @@ namespace QLSieuThiMini.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap bg {
+        internal static System.Drawing.Bitmap backgroup {
             get {
-                object obj = ResourceManager.GetObject("bg", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap bgrjpg {
-            get {
-                object obj = ResourceManager.GetObject("bgrjpg", resourceCulture);
+                object obj = ResourceManager.GetObject("backgroup", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

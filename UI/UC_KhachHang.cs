@@ -19,6 +19,7 @@ namespace QLSieuThiMini.UI
             InitializeComponent();
             cbbGioiTinh.Items.Add("Nam");
             cbbGioiTinh.Items.Add("Nữ");
+            cbbGioiTinh.Items.Add("Giới tính khác");
             tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
         }
         private void UC_KhachHang_Load(object sender, EventArgs e)
