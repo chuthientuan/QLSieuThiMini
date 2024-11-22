@@ -136,6 +136,7 @@
             // 
             // txtMK
             // 
+            this.txtMK.BackColor = System.Drawing.Color.Transparent;
             this.txtMK.BorderColor = System.Drawing.Color.Black;
             this.txtMK.BorderRadius = 6;
             this.txtMK.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -159,6 +160,7 @@
             // 
             // txtTDN
             // 
+            this.txtTDN.BackColor = System.Drawing.Color.Transparent;
             this.txtTDN.BorderColor = System.Drawing.Color.Black;
             this.txtTDN.BorderRadius = 6;
             this.txtTDN.Cursor = System.Windows.Forms.Cursors.IBeam;
