@@ -62,6 +62,8 @@ namespace QLSieuThiMini.UI
         }
         private void reset()
         {
+            ImageName = null;
+            pic.Image = null;
             txtTenHang.Text = string.Empty;
             txtSoLuong.Text = "0";
             txtDGB.Text = string.Empty;
@@ -78,7 +80,6 @@ namespace QLSieuThiMini.UI
             btnXoa.Enabled = false;
             btnAnh.Enabled = false;
             btnIn.Enabled = true;
-            pic.Image = null;
         }
         private void UC_SanPham_Load(object sender, EventArgs e)
         {
@@ -118,7 +119,8 @@ namespace QLSieuThiMini.UI
                 {
                     return;
                 }
-                string imagelink = Path.Combine(Application.StartupPath, "Images", selectedRow.Cells["Anh"].Value.ToString());
+                ImageName = selectedRow.Cells["Anh"].Value.ToString();
+                string imagelink = Path.Combine(Application.StartupPath, "Images", ImageName);
                 maSp = int.Parse(selectedRow.Cells["MaSP"].Value.ToString());
                 txtTenHang.Text = selectedRow.Cells["TenSP"].Value.ToString();
                 cbbLoaiHang.SelectedValue = selectedRow.Cells["MaLH"].Value;
@@ -131,14 +133,14 @@ namespace QLSieuThiMini.UI
         }
         private bool Ktra()
         {
-            if (cbbLoaiHang.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng chọn loại sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
             if (string.IsNullOrEmpty(txtTenHang.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            if (cbbLoaiHang.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn loại sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (string.IsNullOrEmpty(txtDGN.Text) || !double.TryParse(txtDGN.Text, out _))
@@ -156,7 +158,7 @@ namespace QLSieuThiMini.UI
                 MessageBox.Show("Vui lòng chọn hạn sử dụng thích hợp.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if (ImageName == string.Empty)
+            if (string.IsNullOrEmpty(ImageName))
             {
                 MessageBox.Show("Vui lòng thêm ảnh.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
@@ -166,6 +168,31 @@ namespace QLSieuThiMini.UI
 
         private void btnThem_Click(object sender, EventArgs e)
         {
+            string sqlCheckLoaiHang = $"SELECT COUNT(*) FROM LoaiHang WHERE TenLoai = N'{cbbLoaiHang.Text}'";
+            int countLoaiHang = (int)dtBase.ExecuteScalar(sqlCheckLoaiHang);
+
+            if (countLoaiHang == 0)
+            {
+                DialogResult result = MessageBox.Show(
+                    $"Loại hàng '{cbbLoaiHang.Text}' chưa tồn tại. Bạn có muốn thêm loại hàng này không?",
+                    "Xác nhận",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    string sqlInsertLoaiHang = $"INSERT INTO LoaiHang (TenLoai) VALUES (N'{cbbLoaiHang.Text}')";
+                    dtBase.DataChange(sqlInsertLoaiHang);
+                    MessageBox.Show($"Đã thêm loại hàng '{cbbLoaiHang.Text}' thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Hãy chọn loại hàng khác trước khi thêm sản phẩm.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
             if (Ktra())
             {
                 string TenSP = txtTenHang.Text;
@@ -174,7 +201,7 @@ namespace QLSieuThiMini.UI
                 DateTime HSD = dtpHSD.Value;
                 int MaLoai = Convert.ToInt32(cbbLoaiHang.SelectedValue);
                 string sqlInsert = "INSERT INTO SanPham (TenSP, DonGiaNhap, DonGiaBan, SoLuong, Anh, HSD, MaLH) " +
-                               $"VALUES ('{TenSP}',{DGN},{DGB},0,'{ImageName}','{HSD.ToString("yyyy-MM-dd")}',{MaLoai});";
+                               $"VALUES (N'{TenSP}',{DGN},{DGB},0,'{ImageName}','{HSD.ToString("yyyy-MM-dd")}',{MaLoai});";
                 try
                 {
                     dtBase.DataChange(sqlInsert);
@@ -225,6 +252,7 @@ namespace QLSieuThiMini.UI
             txtSoLuong.Text = "0";
             txtTenHang.Text = string.Empty;
             pic.Image = null;
+            ImageName = null;
             cbbLoaiHang.SelectedIndex = -1;
         }
 
@@ -249,6 +277,13 @@ namespace QLSieuThiMini.UI
             if (int.Parse(txtSoLuong.Text) > 0)
             {
                 MessageBox.Show("Sản phẩm vẫn còn tồn kho!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            string sqlCheck = $"SELECT COUNT(*) FROM ChiTietHDB WHERE MaSP = {maSp}";
+            int count = (int)dtBase.ExecuteScalar(sqlCheck);
+            if (count > 0)
+            {
+                MessageBox.Show("Sản phẩm đã tồn tại trong hóa đơn, không thể xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa sản phẩm này không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
