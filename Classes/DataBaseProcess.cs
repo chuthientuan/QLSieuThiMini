@@ -13,9 +13,9 @@ namespace QLSieuThiMini.Classes
     internal class DataBaseProcess
     {
 
-        string strConnect = "Data Source=TAY_ANH\\SQLEXPRESS;" +
+        string strConnect = "Data Source=V\\SQLEXPRESS;" +
                 "DataBase=QuanlySieuthi;User ID=sa;" +
-                "Password=abc123;Integrated Security=false";
+                "Password=021104;Integrated Security=false";
         SqlConnection sqlConnect = null;
 
         //Phương thức mở kết nối
