@@ -303,5 +303,20 @@ namespace QLSieuThiMini.UI
                 e.Handled = true;
             }
         }
+
+        private void btnQuayLai_Click(object sender, EventArgs e)
+        {
+            tieude.Text = "QUẢN LÝ KHÁCH HÀNG";
+            dvgKhachHang.Enabled = true;    
+            grbTimKiem.Enabled = false;
+            btnThemMoi.Enabled = true;
+            btnsearch.Enabled = true;
+            btnLuu.Enabled = false;
+            btnQuayLai.Enabled = true;
+            btnSua.Enabled = false;
+            btnNhapLai.Enabled = false;
+            btnXoa.Enabled = false;
+            Reset();
+        }
     }
 }
