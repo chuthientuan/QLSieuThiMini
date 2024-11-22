@@ -21,12 +21,9 @@ namespace QLSieuThiMini.UI
         }
         private void UC_TQ_Load(object sender, EventArgs e)
         {
-            string stock = "select sum(SoLuong) as Kho, count(*) as SoSP from SanPham";
-            DataTable dtStock = db.DataReader(stock);
-            lbTonKho.Text = dtStock.Rows[0]["Kho"].ToString();
-            lbSoSPKho.Text = dtStock.Rows[0]["SoSP"].ToString() + " sản phẩm";
             revenue();
             invoice();
+            lineGraph();
             top5Product();
         }
         private void revenue()
@@ -100,6 +97,78 @@ namespace QLSieuThiMini.UI
             DataTable dtInvoice = db.DataReader(invoice);
             lbInvoice.Text = dtInvoice.Rows[0]["SoHoaDonHomNay"].ToString();
             lbRateHD.Text = dtInvoice.Rows[0]["PhanTramThayDoi"].ToString() + "%" + " " + dtInvoice.Rows[0]["GhiChu"].ToString();
+        }
+        private void lineGraph()
+        {
+            try
+            {
+                string sql = @"SELECT 
+                        FORMAT(NgayBan, 'dd-MM-yyyy') AS Date,
+                        DATENAME(WEEKDAY, NgayBan) AS DayName,
+                        SUM(TongTien) AS Revenue,
+                        CASE 
+                            WHEN DATEDIFF(WEEK, NgayBan, GETDATE()) = 1 THEN 'LastWeek'
+                            WHEN DATEDIFF(WEEK, NgayBan, GETDATE()) = 0 THEN 'ThisWeek'
+                        END AS WeekCategory
+                    FROM 
+                        HoaDonBan
+                    WHERE 
+                        DATEDIFF(WEEK, NgayBan, GETDATE()) IN (0, 1)
+                    GROUP BY 
+                        NgayBan, 
+                        FORMAT(NgayBan, 'dd-MM-yyyy'), 
+                        DATENAME(WEEKDAY, NgayBan),
+                        CASE 
+                            WHEN DATEDIFF(WEEK, NgayBan, GETDATE()) = 1 THEN 'LastWeek'
+                            WHEN DATEDIFF(WEEK, NgayBan, GETDATE()) = 0 THEN 'ThisWeek'
+                        END
+                    ORDER BY 
+                        WeekCategory, 
+                        FORMAT(NgayBan, 'dd-MM-yyyy')";
+
+                DataTable dt = db.DataReader(sql);
+
+                lineLastWeek.DataPoints.Clear();
+                lineThisWeek.DataPoints.Clear();
+
+                // Danh sách ngày trong tuần
+                List<string> daysOfWeek = new List<string>
+                {
+                    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+                };
+
+                // Khởi tạo doanh thu mặc định là 0 cho cả tuần trước và tuần này
+                Dictionary<string, double> revenueLastWeek = daysOfWeek.ToDictionary(day => day, day => 0.0);
+                Dictionary<string, double> revenueThisWeek = daysOfWeek.ToDictionary(day => day, day => 0.0);
+
+                // Đọc dữ liệu từ cơ sở dữ liệu
+                foreach (DataRow row in dt.Rows)
+                {
+                    string dayName = row["DayName"].ToString();
+                    double revenue = double.Parse(row["Revenue"].ToString());
+                    string weekCategory = row["WeekCategory"].ToString();
+
+                    if (weekCategory == "LastWeek" && revenueLastWeek.ContainsKey(dayName))
+                    {
+                        revenueLastWeek[dayName] = revenue;
+                    }
+                    else if (weekCategory == "ThisWeek" && revenueThisWeek.ContainsKey(dayName))
+                    {
+                        revenueThisWeek[dayName] = revenue;
+                    }
+                }
+
+                // Thêm dữ liệu vào biểu đồ
+                foreach (var day in daysOfWeek)
+                {
+                    lineLastWeek.DataPoints.Add(day, revenueLastWeek[day]);
+                    lineThisWeek.DataPoints.Add(day, revenueThisWeek[day]);
+                }
+                lineChart.Update();
+            } catch(Exception ex)
+            {
+                MessageBox.Show("Lỗi khi vẽ biểu đồ: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void top5Product()
         {
