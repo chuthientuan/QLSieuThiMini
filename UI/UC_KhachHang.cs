@@ -249,7 +249,7 @@ namespace QLSieuThiMini.UI
             if (MessageBox.Show("Bạn có muốn xóa Khách Hàng này không" ,"Thông báo",
                  MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
-                dtBase.DataChange("delete KhachHang where TenKH='" + txtTenKH.Text + "'");
+                dtBase.DataChange("delete KhachHang where TenKH = N'" + txtTenKH.Text + "'");
                 dvgKhachHang.DataSource = dtBase.DataReader("Select * from KhachHang");
 
                 Reset();
@@ -272,7 +272,7 @@ namespace QLSieuThiMini.UI
             // Kiểm tra nếu có dữ liệu trong txtTimKiem
             if (txtTimKiem.Text.Trim() != "")
             {
-                sql += " AND (MaKH LIKE '%" + txtTimKiem.Text.Trim() + "%' OR TenKH LIKE '%" + txtTimKiem.Text.Trim() + "%')";
+                sql += " AND (MaKH LIKE '%" + txtTimKiem.Text.Trim() + "%' OR TenKH LIKE N'%" + txtTimKiem.Text.Trim() + "%')";
             }
             else
             {
