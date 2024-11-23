@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -37,6 +36,7 @@
             this.btnTimKiem = new Guna.UI2.WinForms.Guna2Button();
             this.txtTimKiem = new Guna.UI2.WinForms.Guna2TextBox();
             this.guna2GroupBox3 = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.btnQuayLai = new Guna.UI2.WinForms.Guna2Button();
             this.btnsearch = new Guna.UI2.WinForms.Guna2Button();
             this.btnThemMoi = new Guna.UI2.WinForms.Guna2Button();
             this.btnXoa = new Guna.UI2.WinForms.Guna2Button();
@@ -56,7 +56,6 @@
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.tieude = new Guna.UI2.WinForms.Guna2HtmlLabel();
             this.errChiTiet = new System.Windows.Forms.ErrorProvider(this.components);
-            this.btnQuayLai = new Guna.UI2.WinForms.Guna2Button();
             this.grbTimKiem.SuspendLayout();
             this.guna2GroupBox3.SuspendLayout();
             this.grbChiTiet.SuspendLayout();
@@ -116,7 +115,7 @@
             this.txtTimKiem.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.PasswordChar = '\0';
-            this.txtTimKiem.PlaceholderText = "Nhập mã hoặc tên ";
+            this.txtTimKiem.PlaceholderText = "Nhập tên hoặc sđt";
             this.txtTimKiem.SelectedText = "";
             this.txtTimKiem.Size = new System.Drawing.Size(408, 48);
             this.txtTimKiem.TabIndex = 0;
@@ -138,6 +137,24 @@
             this.guna2GroupBox3.Size = new System.Drawing.Size(236, 652);
             this.guna2GroupBox3.TabIndex = 4;
             this.guna2GroupBox3.Text = "Chức Năng";
+            // 
+            // btnQuayLai
+            // 
+            this.btnQuayLai.BorderRadius = 10;
+            this.btnQuayLai.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnQuayLai.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnQuayLai.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnQuayLai.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnQuayLai.FillColor = System.Drawing.Color.Teal;
+            this.btnQuayLai.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnQuayLai.ForeColor = System.Drawing.Color.White;
+            this.btnQuayLai.Image = global::QLSieuThiMini.Properties.Resources.ic_reload;
+            this.btnQuayLai.Location = new System.Drawing.Point(39, 581);
+            this.btnQuayLai.Name = "btnQuayLai";
+            this.btnQuayLai.Size = new System.Drawing.Size(180, 45);
+            this.btnQuayLai.TabIndex = 26;
+            this.btnQuayLai.Text = "Quay Lại";
+            this.btnQuayLai.Click += new System.EventHandler(this.btnQuayLai_Click);
             // 
             // btnsearch
             // 
@@ -485,24 +502,6 @@
             // errChiTiet
             // 
             this.errChiTiet.ContainerControl = this;
-            // 
-            // btnQuayLai
-            // 
-            this.btnQuayLai.BorderRadius = 10;
-            this.btnQuayLai.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnQuayLai.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnQuayLai.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnQuayLai.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnQuayLai.FillColor = System.Drawing.Color.Teal;
-            this.btnQuayLai.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnQuayLai.ForeColor = System.Drawing.Color.White;
-            this.btnQuayLai.Image = global::QLSieuThiMini.Properties.Resources.ic_reload;
-            this.btnQuayLai.Location = new System.Drawing.Point(39, 581);
-            this.btnQuayLai.Name = "btnQuayLai";
-            this.btnQuayLai.Size = new System.Drawing.Size(180, 45);
-            this.btnQuayLai.TabIndex = 26;
-            this.btnQuayLai.Text = "Quay Lại";
-            this.btnQuayLai.Click += new System.EventHandler(this.btnQuayLai_Click);
             // 
             // UC_KhachHang
             // 
