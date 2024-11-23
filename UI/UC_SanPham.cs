@@ -170,7 +170,7 @@ namespace QLSieuThiMini.UI
         {
             if (Ktra())
             {
-                string sqlCheckLoaiHang = $"SELECT COUNT(*) FROM LoaiHang WHERE TenLoai = N'{cbbLoaiHang.Text}'";
+                string sqlCheckLoaiHang = $"SELECT COUNT(*) FROM LoaiHang WHERE TenLH = N'{cbbLoaiHang.Text}'";
                 int countLoaiHang = (int)dtBase.ExecuteScalar(sqlCheckLoaiHang);
 
                 if (countLoaiHang == 0)
@@ -184,7 +184,7 @@ namespace QLSieuThiMini.UI
 
                     if (result == DialogResult.Yes)
                     {
-                        string sqlInsertLoaiHang = $"INSERT INTO LoaiHang (TenLoai) VALUES (N'{cbbLoaiHang.Text}')";
+                        string sqlInsertLoaiHang = $"INSERT INTO LoaiHang (TenLH) VALUES (N'{cbbLoaiHang.Text}')";
                         dtBase.DataChange(sqlInsertLoaiHang);
                         MessageBox.Show($"Đã thêm loại hàng '{cbbLoaiHang.Text}' thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
