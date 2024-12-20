@@ -61,7 +61,7 @@ namespace QLSieuThiMini.UI
             txtMaNV.Text = dvgNhanVien.CurrentRow.Cells[0].Value.ToString();
             txtTenNV.Text = dvgNhanVien.CurrentRow.Cells[1].Value.ToString();
             txtMatKhau.Text = dvgNhanVien.CurrentRow.Cells[2].Value.ToString();
-            string imageName = dvgNhanVien.CurrentRow.Cells[3].Value?.ToString();
+            string imageName = dvgNhanVien.CurrentRow.Cells["Anh"].Value?.ToString();
             if (imageName != "")
             {
                 Anh.Image = Image.FromFile(Application.StartupPath + "\\Images\\" + imageName);
@@ -70,9 +70,9 @@ namespace QLSieuThiMini.UI
             {
                 Anh.Image = null;
             }
-            cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells[4].Value.ToString();
-            dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells[5].Value.ToString();
-            txtSDT.Text = dvgNhanVien.CurrentRow.Cells[6].Value.ToString();
+            cbbGioiTinh.Text = dvgNhanVien.CurrentRow.Cells["GioiTinh"].Value.ToString();
+            dagNgaySinh.Text = dvgNhanVien.CurrentRow.Cells["NgaySinh"].Value.ToString();
+            txtSDT.Text = dvgNhanVien.CurrentRow.Cells["DienThoai"].Value.ToString();
             btnAnh.Enabled = true;
             btnTaoMoi.Enabled = true;
             btnLuu.Enabled = false;
@@ -192,7 +192,7 @@ namespace QLSieuThiMini.UI
                     MessageBox.Show("Bạn đã thêm mới Nhân Viên thành công");
 
                     // Cập nhật lại DataGridView để hiển thị thông tin mới
-                    dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien Where ChucDanh = 1");
+                    dvgNhanVien.DataSource = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
                     // Reset giá trị các ô nhập liệu sau khi lưu thành công
                     Reset();
                     btnAnh.Enabled = false;
@@ -283,15 +283,16 @@ namespace QLSieuThiMini.UI
                 // Lệnh UPDATE khách hàng 
                 dtBase.DataChange("UPDATE NhanVien SET TenNV = N'" + txtTenNV.Text +
                     "', MatKhau = N'" + txtMatKhau.Text +
+                    "', Anh = N'" + ImageName +
                   "', GioiTinh = N'" + cbbGioiTinh.Text +
                   "', NgaySinh = N'" + dagNgaySinh.Text +
                   "', DienThoai = N'" + txtSDT.Text +
                   "' WHERE MaNV = '" + txtMaNV.Text + "'");
                 //Sau khi update cần lấy lại dữ liệu để hiển thị lên lưới
-                dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien where ChucDanh = 1");
+                dvgNhanVien.DataSource = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
                 MessageBox.Show("Bạn đã sửa Nhân Viên thành công");
                 // Cập nhật lại DataGridView để hiển thị thông tin mới
-                dvgNhanVien.DataSource = dtBase.DataReader("select * from NhanVien Where ChucDanh = 1");
+                dvgNhanVien.DataSource = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
                 // Reset giá trị các ô nhập liệu sau khi lưu thành công
                 Reset();
                 btnsearch.Enabled = true;
@@ -310,7 +311,7 @@ namespace QLSieuThiMini.UI
                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
             {
                 dtBase.DataChange("delete NhanVien where MaNV='" + txtMaNV.Text + "'");
-                dvgNhanVien.DataSource = dtBase.DataReader("Select * from NhanVien");
+                dvgNhanVien.DataSource = dtBase.DataReader("Select t.MaNV,t.TenNV, t.MatKhau,t.Anh, t.GioiTinh, t.NgaySinh, t.DienThoai from NhanVien t Where ChucDanh = 1");
 
                 Reset();
                 btnAnh.Enabled = false;
@@ -373,10 +374,11 @@ namespace QLSieuThiMini.UI
             try
             {
                 string query = $@"
-            SELECT MaNV, TenNV, MatKhau, ChucDanh, Anh, GioiTinh, NgaySinh, DienThoai
-            FROM NhanVien
-            WHERE MaNV LIKE N'%{keyword}%'
-            OR TenNV LIKE N'%{keyword}%'";
+                    SELECT MaNV, TenNV, MatKhau, Anh, GioiTinh, NgaySinh, DienThoai
+                    FROM NhanVien
+                    WHERE (MaNV LIKE N'%{keyword}%' 
+                    OR TenNV LIKE N'%{keyword}%') 
+                    AND ChucDanh = 1";
 
                 // Sử dụng phương thức DataReader của DataBaseProcess
                 DataTable data = dtBase.DataReader(query);
